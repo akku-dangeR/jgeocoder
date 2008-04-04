@@ -37,7 +37,7 @@ class RegexLibrary{
   private static final String TXT_ORDINAL_1_9 = 
     "first|second|third|fourth|forth|fifth|sixth|seventh|eighth|ninth|nineth";  
   private static final String TXT_ORDINAL_10_19 = 
-    "tenth|eleventh|twelfth|twelvth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|enghteenth|nineteenth";
+    "tenth|eleventh|twelfth|twelveth|twelvth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|enghteenth|nineteenth";
   private static final String TXT_ORDINAL_DECADES = 
     "twentieth|thirtieth|fourtieth|fortieth|fiftieth|sixitieth|seventieth|eightieth|ninetieth|nintieth";
   private static final String TXT_ORDINAL_20_99 =
