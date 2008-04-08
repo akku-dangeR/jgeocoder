@@ -1,11 +1,11 @@
 package net.sourceforge.jgeocoder.us
 import static net.sourceforge.jgeocoder.us.AddressParser.*
-import org.apache.commons.lang.StringUtilsclass ParserTest extends GroovyTestCase {
+import org.apache.commons.lang.StringUtilsimport net.sourceforge.jgeocoder.us.AddressParserimport net.sourceforge.jgeocoder.us.AddressRegexLibraryimport java.util.regex.Patternimport net.sourceforge.jgeocoder.us.RegexLibraryimport net.sourceforge.jgeocoder.us.RegexLibraryimport net.sourceforge.jgeocoder.us.AddressRegexLibraryclass ParserTest extends GroovyTestCase {
   String google ="""
 Google Inc, 1600 Amphitheatre Parkway, Mountain View, CA 94043
 Google Ann Arbor, 112 S. Main St., 2nd Floor, Ann Arbor, MI 48104
-Google Atlanta,Millennium at Midtown, 10 10th Street NE, Suite 600, Atlanta, GA 30309
-Google Austin, Plaza 7000, 7000 North MoPac Expressway, 2nd Floor, Austin, TX 78731
+Millennium at Midtown, 10 10th Street NE, Suite 600, Atlanta, GA 30309
+Plaza 7000, 7000 North MoPac Expressway, 2nd Floor, Austin, TX 78731
 Google Boulder, 2590 Pearl Street, Suite 100, Boulder, CO 80302
 Google Cambridge, 5 Cambridge Center, Floors 3-6, Cambridge, MA 02142
 Google Chicago, 20 West Kinzie St., Chicago, IL 60610
@@ -26,7 +26,9 @@ Google Washington DC, 1101 New York Avenue, N.W., Second Floor, Washington, DC 2
 """
 	void testParser() {
       new StringReader(google).eachLine{
-        if(StringUtils.isNotBlank(it)) println parseAddress(it)
+        if(StringUtils.isNotBlank(it) && parseAddress(it)==null)
+            println it
       }
+      println parseAddress('123 S Main st, 2nd floor, pa, 19148')
 	}
 }
