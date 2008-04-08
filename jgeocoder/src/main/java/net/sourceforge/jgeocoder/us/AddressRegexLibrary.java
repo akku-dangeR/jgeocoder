@@ -48,7 +48,7 @@ class AddressRegexLibrary{
     "(?:[ ]*\\p{Alpha}\\b|-\\w+)?";
   private static final String LINE2A = "(?:"+ADDR_UNIT+")[s]?\\W*?(?:"+UNIT_NUMBER+")";
   private static final String LINE2B = "(?:(?:"+TXT_ORDINAL_0_99+"|"+ORDINAL_ALL+")\\W*(?:"+ADDR_UNIT+")[s]?)";
-  private static final String LINE2 = "(?:(?P<line2>"+LINE2A+"|"+LINE2B+")\\W+)?";
+  private static final String LINE2 = "(?:(?P<line2>"+LINE2A+"|"+LINE2B+"|[^,]+?)\\W+)?";
 
   private static final String ZIP = "\\d{5}(?:[- ]\\d{4})?";
   private static final String LASTLINE = 
@@ -69,9 +69,9 @@ class AddressRegexLibrary{
   "(?:" + LINE1A + "|" + LINE1B + ")" + "\\W*\\s+" + CORNER + "\\s+" +
   "(?:" + LINE1A + "|" + LINE1B + ")" + "\\W+" + LASTLINE +"\\W*";
   
-  public static final NamedGroupPattern P_STREET_ADDRESS = compile(STREET_ADDRESS);
-  public static final NamedGroupPattern P_INTERSECTION = compile(INTERSECTION);
-  public static final NamedGroupPattern P_CORNER = compile(CORNER);
+  public static final NamedGroupPattern P_STREET_ADDRESS = compile("(?i:"+STREET_ADDRESS+")");
+  public static final NamedGroupPattern P_INTERSECTION = compile("(?i:"+INTERSECTION+")");
+  public static final NamedGroupPattern P_CORNER = compile("(?i:"+CORNER+")");
   
 
 }
