@@ -22,12 +22,13 @@ Google San Francisco, 345 Spear Street, 4th Floor, San Francisco, CA 94105
 Google Santa Monica, 604 Arizona Avenue, Santa Monica, CA 90401
 Evanston Building, 501 N. 34th Street, Suite 300, Seattle, WA 98103
 Google Seattle, 651 N. 34th St., Seattle, WA 98103
-Google Washington DC, 1101 New York Avenue, N.W., Second Floor, Washington, DC 20005
+Google Washington DC, 1101 New York Avenue N.W., Second Floor, Washington, DC 20005
 """
 	void testParser() {
       new StringReader(google).eachLine{
-        if(StringUtils.isNotBlank(it) && parseAddress(it)==null)
-            println it
+        if(StringUtils.isNotBlank(it))
+          assert parseAddress(it)
       }
 	}
+
 }

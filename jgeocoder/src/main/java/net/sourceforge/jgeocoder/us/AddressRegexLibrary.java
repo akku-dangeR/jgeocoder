@@ -46,17 +46,23 @@ class AddressRegexLibrary{
     "(?:\\b\\p{Alpha}{1}\\s+|\\p{Alpha}*[-/]?)?" +
     "(?:\\d+|\\b\\p{Alpha}\\b(?=\\s|$))" +
     "(?:[ ]*\\p{Alpha}\\b|-\\w+)?";
+  private static final String ZIP = "\\d{5}(?:[- ]\\d{3,4})?";
+  private static final String NOT_STATE_OR_ZIP = "(?![^,]*\\W+(?:\\b(?:"+US_STATES+")\\b(?:\\W*$|(?:"+ZIP+")\\W*$))|(?:\\b(?:"+ZIP+")\\b\\W*$))";
   private static final String LINE2A = "(?:"+ADDR_UNIT+")[s]?\\W*?(?:"+UNIT_NUMBER+")";
   private static final String LINE2B = "(?:(?:"+TXT_ORDINAL_0_99+"|"+ORDINAL_ALL+")\\W*(?:"+ADDR_UNIT+")[s]?)";
-  private static final String LINE2 = "(?:(?P<line2>"+LINE2A+"|"+LINE2B+"|[^,]+?)\\W+)?";
-
-  private static final String ZIP = "\\d{5}(?:[- ]\\d{4})?";
+  private static final String LINE2 = "(?:(?P<line2>"+LINE2A+"|"+LINE2B+"|[^,]*?"+NOT_STATE_OR_ZIP+")\\W+)??";
+  
+  
   private static final String LASTLINE = 
     "(?:" +
-      "(?:(?P<city>[^\\d,]+?)\\W+)?" +  //city                                              
-      "(?P<state>"+US_STATES+")\\W*" + //state                                          
+      "(?P<city>[^\\d,]+?)\\W+" +  //city                                              
+      "\\b(?P<state>(?:"+US_STATES+")\\b)\\W*" + //state                                          
     ")?" +
     "(?P<zip>"+ZIP+")?";      //zip
+  
+  public static void main(String[] args) {
+    System.out.println(US_STATES);
+  }
   
   private static final String ADDR_NAME =  "\\W*(?:(?P<name>[^,]+)\\W+)??"; 
   

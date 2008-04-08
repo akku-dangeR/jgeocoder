@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//TODO: clean addresses
+//TODO: fix pobox address
 public class AddressParser{
   
   public static enum AddressComponent{
@@ -17,8 +17,14 @@ public class AddressParser{
   private static final Pattern CORNER = Pattern.compile(P_CORNER.getRegex());
   private static final Pattern STREET_ADDRESS = Pattern.compile(P_STREET_ADDRESS.getRegex());
   private static final Pattern INTERSECTION = Pattern.compile(P_INTERSECTION.getRegex());
+  private static final Pattern CLEANUP = Pattern.compile("[\\s\\p{Punct}&&[^\\)\\(#&,:;@'`-]]");
+  
+  private static String getCleanSttring(String rawAddr){
+    return CLEANUP.matcher(rawAddr).replaceAll(" ").replaceAll("\\s+", " ");
+  }
   
   public static Map<AddressComponent, String> parseAddress(String rawAddr){
+    rawAddr = getCleanSttring(rawAddr);
     Matcher m = CORNER.matcher(rawAddr);
     Map<AddressComponent, String> ret = null;
     if(m.find()){
