@@ -136,10 +136,10 @@ class RegexLibrary{
       UNIT_MAP.put("PH","PENTHOUSE");
       UNIT_MAP.put("PBOX","PO BOX");
       UNIT_MAP.put("PB","PO BOX");
-      UNIT_MAP.put("PBOX","POBOX");
-      UNIT_MAP.put("PB","POBOX");
+      UNIT_MAP.put("PBX","PO BOX");
+      UNIT_MAP.put("P O BOX","PO BOX");
       UNIT_MAP.put("POBX","PO BOX");
-      UNIT_MAP.put("POBX","POBOX");
+      UNIT_MAP.put("POBOX","PO BOX");
       UNIT_MAP.put("BX","BOX");
       UNIT_MAP.put("REAR","REAR");
       UNIT_MAP.put("RM","ROOM");
