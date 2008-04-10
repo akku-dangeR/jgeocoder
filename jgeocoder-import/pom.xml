@@ -8,6 +8,7 @@
   <name>jgeocoder-import</name>
   <build>
   	<sourceDirectory>src/main/groovy</sourceDirectory>
+  	<testSourceDirectory>src/main/groovy</testSourceDirectory>
   </build>
   <licenses>
   	<license>
