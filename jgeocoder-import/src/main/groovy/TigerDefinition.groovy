@@ -1,4 +1,4 @@
-import org.apache.commons.lang.StringUtilsclass TigerTable{  String name, ddl  List columns = []}class TigerColumn{  Range range  boolean nullable, isNum  String name}public class TigerDefinition{
+import TigerColumnimport org.apache.commons.lang.StringUtilsimport TigerTablepublic class TigerDefinition{
   
   static Map DATA_DICT = 
     ['tiger_1': '''
