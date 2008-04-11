@@ -6,32 +6,40 @@ import org.apache.commons.lang.StringUtils
 
 def cleanup = true
 
-def db = Sql.newInstance("jdbc:hsqldb:file:/home/jliang/Desktop/hsqldb/testdb;shutdown=true", 
+def db = Sql.newInstance(
+        "jdbc:hsqldb:file:/home/jliang/Desktop/hsqldb/testdb;shutdown=true;hsqldb.default_table_type=cached", 
         "sa", "", 'org.hsqldb.jdbcDriver')
 
-File f = new File(/C:\Users\jliang\workspace\jgeocoder-import\src\test.RT1/)
+File f = new File('/home/jliang/Desktop/TGR42001/')
 if(cleanup)
   cleanUp(db)
   
 init(db)
-processFile(db, f)
+
+def start = System.currentTimeMillis()
+f.eachFile{
+  processFile(db, it)  
+}
+println "total time = ${(System.currentTimeMillis() - start)/(1000*60)} minutes"
 
 db.close()
 
 void cleanUp(def db){
+  println 'dropping all tiger line tables'
   TigerDefinition.TIGER_TABLES.each{
     try{ db.execute('drop table ' +it.name)}catch(Exception e){ println e.message }
   }  
 }
 
 void init(def db){
+  println 'creating tiger line database schema'
   TigerDefinition.TIGER_TABLES.each{
     try{ db.execute(it.ddl)}catch(Exception e){ println e.message }
   }
 }
 
 void processFile(def db, File f){
-
+  println 'importing '+f.getName()
   def ext = f.getName().substring(f.getName().lastIndexOf('.')+1)
   if(ext == 'MET') return
   def tableName = 'tiger_'+ext.toLowerCase().substring(2)
@@ -48,6 +56,7 @@ void processFile(def db, File f){
     q << '?'
   }
   def insert = "insert into ${table.name} (${col.join(',')}) values (${q.join(',')});"
+  def total = 0, commit = 1000, verbose = false
   f.eachLine{line ->
     if(StringUtils.isBlank(line)) return
     
@@ -61,7 +70,17 @@ void processFile(def db, File f){
       }
     }
     db.execute(insert, colval)
+    colval = null
+    total++
+    if(total%commit == 0){
+      println "commit point reached, total = $total"
+      db.commit()
+    }else if(verbose && total%100 == 0){
+      println "$total records inserted"
+    }
+      
   }
+  println "inserted $total records to table ${table.name} from ${f.name}"
   
 }
 
