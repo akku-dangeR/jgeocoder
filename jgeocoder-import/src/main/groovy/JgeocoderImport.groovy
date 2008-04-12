@@ -1,10 +1,10 @@
-import java.util.zip.ZipFileimport java.util.zip.ZipEntryimport TigerDefinition
+import java.sql.DriverManagerimport java.sql.DriverManagerimport java.sql.DriverManagerimport java.sql.Connectionimport java.sql.Connectionimport java.util.zip.ZipFileimport java.util.zip.ZipEntryimport TigerDefinition
 import TigerTable
 import groovy.sql.Sql
 import org.apache.commons.lang.StringUtils
-class Config{  def cleanup = true  def db = Sql.newInstance(          "jdbc:h2:/home/jliang/Desktop/h2db/testdb",           "", "", 'org.h2.Driver')}
+class Config{  def cleanup = true    def db = null}//this is calling a private method of DriverManager :D //because the maven classloader does not have the driver classConnection conn = DriverManager.getConnection("jdbc:h2:/home/jliang/Desktop/h2db/testdb",     new Properties(), getClass().getClassLoader())
 Config config = new Config()
-
+config.db = new Sql(conn)
 if(config.cleanup)
   cleanUp(config.db)
   
