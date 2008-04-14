@@ -4,6 +4,7 @@ import static net.sourceforge.jgeocoder.us.RegexLibrary.DIRECTIONS;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.ORDINAL_ALL;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.STREET_DESIGNATOR;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_NUM_0_9;
+import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_NUM_10_19;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_ORDINAL_0_99;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.US_STATES;
 import static net.sourceforge.jgeocoder.us.Utils.compile;
@@ -14,7 +15,7 @@ class AddressRegexLibrary{
   private static final String NUMBER =
     "(?:\\p{Alpha})?\\d+(?:[- ][\\p{Alpha}&&[^NSEW]]" +
     "(?!\\s+(?:st|street|ave|aven|avenu|avenue|blvd|boulv|boulevard|boulv|plz|plaza|plza)))?" +
-    "|\\d+-?\\d*(?:-?\\p{Alpha})?|"+TXT_NUM_0_9; 
+    "|\\d+-?\\d*(?:-?\\p{Alpha})?|"+TXT_NUM_0_9+"|" +TXT_NUM_10_19; 
   
   private static final String FRACTION = "\\d+\\/\\d+";
   
@@ -49,9 +50,9 @@ class AddressRegexLibrary{
   private static final String ZIP = "\\d{5}(?:[- ]\\d{3,4})?";
   private static final String NOT_STATE_OR_ZIP = "(?![^,]*\\W+(?:\\b(?:"+US_STATES+")\\b(?:\\W*$|(?:"+ZIP+")\\W*$))|(?:\\b(?:"+ZIP+")\\b\\W*$))";
   private static final String LINE2A = "(?:"+ADDR_UNIT+")[s]?\\W*?(?:"+UNIT_NUMBER+")";
+  public static final String LINE2A_GROUPED = "("+ADDR_UNIT+")[s]?\\W*?("+UNIT_NUMBER+")";
   private static final String LINE2B = "(?:(?:"+TXT_ORDINAL_0_99+"|"+ORDINAL_ALL+")\\W*(?:"+ADDR_UNIT+")[s]?)";
   private static final String LINE2 = "(?:(?P<line2>"+LINE2A+"|"+LINE2B+"|[^,]*?"+NOT_STATE_OR_ZIP+")\\W+)??";
-  
   
   private static final String LASTLINE = 
     "(?:" +
@@ -59,11 +60,7 @@ class AddressRegexLibrary{
       "\\b(?P<state>(?:"+US_STATES+")\\b)\\W*" + //state                                          
     ")?" +
     "(?P<zip>"+ZIP+")?";      //zip
-  
-  public static void main(String[] args) {
-    System.out.println(US_STATES);
-  }
-  
+
   private static final String ADDR_NAME =  "\\W*(?:(?P<name>[^,]+)\\W+)??"; 
   
   private static final String STREET_ADDRESS = 

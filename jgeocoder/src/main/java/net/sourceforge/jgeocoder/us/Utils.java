@@ -37,5 +37,8 @@ class Utils{
       return _namedGroupMap;
     }
   }
+  public static <T> T nvl(T t, T tt){
+    return t == null ? tt : t;
+  }
   
 }
