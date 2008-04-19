@@ -1,11 +1,7 @@
 package net.sourceforge.jgeocoder.us
 
 import net.sourceforge.jgeocoder.us.RegexLibraryimport java.util.concurrent.ExecutorServiceimport java.util.concurrent.Executorsimport java.util.concurrent.Futureimport java.math.BigIntegerimport java.math.BigInteger
-import java.util.regex.Patternimport java.util.regex.Matcherclass Test{
-  def a, b, c
-  private def d
-}
-
+import java.util.regex.Patternimport java.util.regex.Matcher
 class Person{
   String name
   int age
