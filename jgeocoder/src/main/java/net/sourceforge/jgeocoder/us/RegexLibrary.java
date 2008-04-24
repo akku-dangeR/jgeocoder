@@ -79,7 +79,7 @@ class RegexLibrary{
   @SuppressWarnings("unchecked")
   private static class UsAddressesData{    
     public static String getDirectionRegex(){
-      String abbrv = "N|N[ ]?E|E|S[ ]?E|S|S[ ]?W|W|N[ ]?W";
+      String abbrv = "N[ ]?E|S[ ]?E|S[ ]?W|N[ ]?W|N|S|E|W";
       return join("|", getDIRECTIONAL_MAP().keySet())+"|"+abbrv;
     }
     

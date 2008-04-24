@@ -1,0 +1,39 @@
+                                    ------
+                                    About
+                                    ------
+                                    Jay Liang
+                                    ------
+                                    2008/04/24
+                                    
+About JGeocoder
+
+	Geocoding is the process of estimating a latitude and longitude for a given location. JGeocoder is a free geocoder implemented in Java. This project is loosely modeled after Geo::Coder::US, a Perl module available for download from the CPAN.
+
+	Keywords: geocoder java, address parser, geocode java, geocode java API, address standardization 
+
+Project Status
+
+	This project will consist of 3 major components:
+	
+	*   Address parser, which will be responsible for parsing an input address into a standardize format. This is necessary because the 
+address database stores address data in a certain format. In order to geocode an address, the input address must be turned into a recognizable
+format first. 
+	
+	*   Address geocoder, which takes in the parsed address as input and searches the address database for the corresponding address. If the
+address is found, the lat/lon will then be estimated using the information of the found address. 
+	
+	*   Data importing scripts. JGeocoder will be using the Tiger/Line address database from US census bureau (http://www.census.gov/geo/www/tiger/).
+This module will import the Tiger/Line data files into a relational database for the address geocoder.
+	
+	
+	I am finishing up on the address parser. The address parser was implemented in pure Java. There is an interactive client program you can download
+to try out the address parser. If you have your own address database, you can also utilize the address parser to parse addresses and geocode
+the parsed address using your address data.
+
+	
+	I had also just created some scripts for data importing.  The data importing scripts were written in groovy since performance is not a concern.  
+	
+	
+	If you are interested in helping out, send me a message at 'zl25-drexel AT gmail DOT com'. (You need to be reasonably proficient with
+Java, Maven2 and open source development in general). I don't have time to do everything by myself nor do I want to.
+ 

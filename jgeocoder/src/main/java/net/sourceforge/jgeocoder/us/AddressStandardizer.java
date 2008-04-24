@@ -1,22 +1,83 @@
 package net.sourceforge.jgeocoder.us;
 
-import static net.sourceforge.jgeocoder.us.Data.*;
-import static net.sourceforge.jgeocoder.us.RegexLibrary.*;
-import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.*;
 
+import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.LINE2A_GROUPED;
+import static net.sourceforge.jgeocoder.us.Data.getDIRECTIONAL_MAP;
+import static net.sourceforge.jgeocoder.us.Data.getNUMBER_MAP;
+import static net.sourceforge.jgeocoder.us.Data.getSTATE_CODE_MAP;
+import static net.sourceforge.jgeocoder.us.Data.getSTREET_TYPE_MAP;
+import static net.sourceforge.jgeocoder.us.Data.getUNIT_MAP;
+import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_NUM_0_99;
+import static net.sourceforge.jgeocoder.us.Utils.nvl;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.jgeocoder.us.AddressParser.AddressComponent;
-import static net.sourceforge.jgeocoder.us.Utils.*;
+import static net.sourceforge.jgeocoder.us.AddressParser.AddressComponent.*;
+import org.apache.commons.lang.StringUtils;
 public class AddressStandardizer{
-
+  /**
+   * Turn input map into one line of format
+   * 
+   * {name, num predir street type postdir, line2, city, state, zip}
+   * 
+   * @param parsedAddr
+   * @return
+   */
+  public static String toSingleLine(Map<AddressComponent, String> parsedAddr){
+    StringBuilder sb = new StringBuilder();
+    appendIfNotNull(sb, parsedAddr.get(name), ", ");
+    appendIfNotNull(sb, parsedAddr.get(number), " ");
+    appendIfNotNull(sb, parsedAddr.get(predir), " ");
+    appendIfNotNull(sb, parsedAddr.get(street), " ");
+    appendIfNotNull(sb, parsedAddr.get(type), parsedAddr.get(postdir) == null? ", " : " ");
+    appendIfNotNull(sb, parsedAddr.get(postdir), ", ");
+    appendIfNotNull(sb, parsedAddr.get(line2), ", ");
+    appendIfNotNull(sb, parsedAddr.get(city), ", ");
+    appendIfNotNull(sb, parsedAddr.get(state), " ");
+    appendIfNotNull(sb, parsedAddr.get(zip), " ");
+    return sb.toString();
+  }
+  
+  private static void appendIfNotNull(StringBuilder sb, String s, String suffix){
+    if(s != null){
+      sb.append(s).append(suffix);
+    }
+  }
+  
+  /**
+   * Normalize the input parsedAddr map into a standardize format
+   * 
+   * @param parsedAddr
+   * @return normalized address in a map
+   */
+  public static Map<AddressComponent, String>  normalizeParsedAddress(Map<AddressComponent, String> parsedAddr){
+    Map<AddressComponent, String> ret = new HashMap<AddressComponent, String>();
+    //just take the digits from the number component
+    for(Map.Entry<AddressComponent, String> e : parsedAddr.entrySet()){
+      String v = StringUtils.upperCase(e.getValue());
+      switch (e.getKey()) {
+        case predir: ret.put(AddressComponent.predir, normalizeDir(v)); break;
+        case postdir: ret.put(AddressComponent.postdir, normalizeDir(v)); break;
+        case type: ret.put(AddressComponent.type, normalizeStreetType(v)); break;
+        case number: ret.put(AddressComponent.number, normalizeNum(v)); break;
+        case state: ret.put(AddressComponent.state, normalizeState(v)); break;
+        case zip: ret.put(AddressComponent.zip, normalizeZip(v)); break;
+        case line2: ret.put(AddressComponent.line2, normalizeLine2(v)); break;                    
+        default: ret.put(e.getKey(), v); break;
+      }
+    }
+    return ret;
+  }
   //oh man... what had i got myself into...
   //XXX this class is tightly coupled with the regex library classes
   private static final Pattern TXT_NUM = Pattern.compile("^\\W*("+TXT_NUM_0_99+")\\W*");
   private static final Pattern DIGIT = Pattern.compile("(.*?\\d+)\\W*(.+)?");
   private static String normalizeNum(String num){
+    if(num == null) return null;
     Matcher m = TXT_NUM.matcher(num);
     String ret = null;
     if(m.matches()){
@@ -36,13 +97,14 @@ public class AddressStandardizer{
     }
     return nvl(ret, num) ;
   }
-//  street, name, predir, postdir, type, number, city, state, zip, line2
+
   private static String normalizeDir(String dir){
+    if(dir == null) return null;
     dir = dir.replace(" ", "");
     return dir.length() > 2 ? getDIRECTIONAL_MAP().get(dir): dir;
   }
   
-  private static String normalizeType(String type){
+  private static String normalizeStreetType(String type){
     return nvl(getSTREET_TYPE_MAP().get(type), type);
   }
   
@@ -51,24 +113,22 @@ public class AddressStandardizer{
   }
   private static final Pattern LINE2A = Pattern.compile("\\W*(?:"+LINE2A_GROUPED+")\\W*");
   private static String normalizeLine2(String line2){
+    if(line2 == null) return null;
     Matcher m = LINE2A.matcher(line2);
     if(m.matches()){
       for(Map.Entry<String, String> e : getUNIT_MAP().entrySet()){
         if(line2.startsWith(e.getKey()+" ")){
-          
+          line2 = line2.replaceFirst(e.getKey()+" ", e.getValue()+" ");
+          break;
         }
       }
     }
     return line2;
   }
   
-  public static void main(String[] args) {
-    System.out.println(normalizeDir(" S  W"));
+  private static String normalizeZip(String zip){
+    return StringUtils.length(zip) > 5 ? zip.substring(0, 5) : zip;
   }
   
-  public static Map<AddressComponent, String>  normalizeParsedAddress(Map<AddressComponent, String> parsedAddr){
-    //just take the digits from the number component
-    
-    return null;
-  }
+
 }

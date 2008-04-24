@@ -1,0 +1,124 @@
+                                    ------
+                                    Installation
+                                    ------
+                                    Jay Liang
+                                    ------
+                                    2007/08/15
+
+Download from Maven2 repository
+
+   If you are using maven 2 (good for you), you can add geo-google as a dependency to your maven2 pom.xml.
+Maven2's recursive dependency resolver should automatically pull in all the necessary third party dependencies.
+   
++----------------------------------------------------------------------------------------------------+
+  	
+  <dependency>
+  		<groupId>geoGoogle</groupId>
+  		<artifactId>geoGoogle</artifactId>
+  		<version><!-- the version you want --></version> 
+  </dependency>
+  
+  <repositories>
+  	<repository>
+  		<releases>
+  			<updatePolicy>never</updatePolicy>
+  			<checksumPolicy>warn</checksumPolicy>
+  			<enabled>true</enabled>
+  		</releases>
+  		<id>geogoogle</id>
+  		<name>geogoogle repo</name>
+  		<url>http://www.cs.drexel.edu/~zl25/maven2/repo</url>
+  	</repository>
+  </repositories>	
+  
++----------------------------------------------------------------------------------------------------+   
+   
+   Observe that the above repository is a private one, in case it's down or you don't want to trust a private repository, 
+follow the instructions below to manually install the jar to your local repository.
+
+Manually install to your local Maven2 repository
+
+   *	Go to {{{http://sourceforge.net/projects/geo-google}sourceforge.net}} and download the binary distro. 
+   *	install geoGoogle-(version).jar to your local repository
+   
++----------------------------------------------------------------------------------------------------+
+
+	mvn install:install-file  -DgroupId=geoGoogle -DartifactId=geoGoogle -Dpackaging=jar -Dversion=<version> -Dfile="path to the jar file"
+
++----------------------------------------------------------------------------------------------------+
+   
+   The jar package already contain the some meta data for maven 2 to pull down the necessary third party dependencies.
+In case it didn't work, add the following third party dependencies to your project if you don't already have them.
+   		
++----------------------------------------------------------------------------------------------------+
+
+  	<dependency>
+  		<groupId>geoGoogle</groupId>
+  		<artifactId>geoGoogle</artifactId>
+  		<version><!-- the version you want --></version>
+  	</dependency>
+  	   
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.3.1</version>
+    </dependency>    
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1-beta1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>2.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.1</version>
+    </dependency>
+   
++----------------------------------------------------------------------------------------------------+      
+
+
+Non Maven2 users
+
+   If you are not using Maven2 for your project, take a look at the lib directory in the binary distro and add all those jars to your projects.
+   
++----------------------------------------------------------------------------------------------------+   
+
+activation-1.1.jar
+commons-codec-1.2.jar
+commons-collections-3.2.jar
+commons-httpclient-3.1-beta1.jar
+commons-io-1.3.1.jar
+commons-lang-2.3.jar
+commons-logging-1.0.4.jar
+jaxb-api-2.1.jar
+jaxb-impl-2.0.3.jar
+jsr173_api-1.0.jar
+stax-api-1.0-2.jar
+
++----------------------------------------------------------------------------------------------------+   
+
+Building from source
+
+	*	Building from source is easy if you already have maven 2 install. If not, download and install maven 2 ( {{http://maven.apache.org/}} )
+	
+	*	After maven 2 is installed and working correctly, go to the source code directory and type 'mvn package' and get the binary build in the 'target' sub directory.
