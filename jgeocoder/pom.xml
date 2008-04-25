@@ -9,7 +9,7 @@
   <groupId>net.sourceforge.jgeocoder</groupId>
   <artifactId>jgeocoder</artifactId>
   <packaging>jar</packaging>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <licenses>
   	<license>
   		<name>Apache License 2.0</name>
