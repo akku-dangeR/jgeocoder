@@ -38,9 +38,28 @@ class AddressRegexLibrary{
        "(?:[^\\w,]+(?P<postdir>"+DIRECTIONS+")\\b)?" +       
     ")";
   
+  private static final String LINE1A2 = 
+    "(?P<street2>"+DIRECTIONS+")\\W+" + 
+    "(?P<type2>"+STREET_DESIGNATOR+")\\b";
+  
+  private static final String LINE1B2 = 
+    "(?:(?P<predir2>"+DIRECTIONS+")\\W+)?" +
+    "(?:" +
+      "(?P<street2>[^,]+)" +
+      "(?:[^\\w,]+(?P<type2>"+STREET_DESIGNATOR+")\\b)" +
+      "(?:[^\\w,]+(?P<postdir2>"+DIRECTIONS+")\\b)?" +
+     "|" +
+       "(?P<street2>[^,]*\\d)" +
+       "(?:(?P<postdir2>"+DIRECTIONS+")\\b)" +
+     "|" +
+       "(?P<street2>[^,]+?)" +
+       "(?:[^\\w,]+(?P<type2>"+STREET_DESIGNATOR+")\\b)?" +
+       "(?:[^\\w,]+(?P<postdir2>"+DIRECTIONS+")\\b)?" +       
+    ")";
+  
   private static final String LINE1 =
     "(?P<number>(?:" + NUMBER + ")(?:\\W+"+FRACTION+")?)\\W+" + 
-    "(?:" + LINE1A + "|" + LINE1B + ")";
+    "(?:" + LINE1B + "|" + LINE1A + ")";
   
   //A, 2A, 22, A2, 2-a, 2/a, etc...
   private static final String UNIT_NUMBER = 
@@ -70,7 +89,7 @@ class AddressRegexLibrary{
 
   private static final String INTERSECTION = ADDR_NAME +
   "(?:" + LINE1A + "|" + LINE1B + ")" + "\\W*\\s+" + CORNER + "\\s+" +
-  "(?:" + LINE1A + "|" + LINE1B + ")" + "\\W+" + LASTLINE +"\\W*";
+  "(?:" + LINE1A2 + "|" + LINE1B2 + ")" + "\\W+" + LASTLINE +"\\W*";
   
   public static final NamedGroupPattern P_STREET_ADDRESS = compile("(?i:"+STREET_ADDRESS+")");
   public static final NamedGroupPattern P_INTERSECTION = compile("(?i:"+INTERSECTION+")");

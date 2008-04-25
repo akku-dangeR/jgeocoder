@@ -18,15 +18,15 @@
 		</script>
     </head>
       
-    <menu name="GeoGoogle">
+    <menu name="JGeocoder">
 	  <item name="About"    href="index.html" />    
-      <item name="Usage"    href="usage.html" />
-      <item name="Examples"    href="examples.html" />      
+      <item name="Address Parser"    href="parser.html" />
+      <item name="Data Import"    href="import.html" />      
       <item name="Installation"    href="installation.html" />            
     </menu>    
     <menu ref="reports"/>
     <menu name="Links">
-      <item name="Source Codes"    href="http://sourceforge.net/projects/jgeocoder" />
+      <item name="Project Page"    href="http://sourceforge.net/projects/jgeocoder" />
       <item name="Tiger/Line"    href="http://www.census.gov/geo/www/tiger/" />
       <item name="Groovy"    href="http://groovy.codehaus.org" />
     </menu>    

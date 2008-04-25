@@ -33,13 +33,21 @@ public class AddressStandardizer{
     appendIfNotNull(sb, parsedAddr.get(number), " ");
     appendIfNotNull(sb, parsedAddr.get(predir), " ");
     appendIfNotNull(sb, parsedAddr.get(street), " ");
-    appendIfNotNull(sb, parsedAddr.get(type), parsedAddr.get(postdir) == null? ", " : " ");
-    appendIfNotNull(sb, parsedAddr.get(postdir), ", ");
+    if(parsedAddr.get(street2) != null){
+      appendIfNotNull(sb, parsedAddr.get(type2), " ");
+      appendIfNotNull(sb, parsedAddr.get(postdir2), " ");
+      sb.append("& ");
+      appendIfNotNull(sb, parsedAddr.get(predir2), " ");
+      appendIfNotNull(sb, parsedAddr.get(street2), " ");
+    }
+    appendIfNotNull(sb, parsedAddr.get(type), " ");
+    appendIfNotNull(sb, parsedAddr.get(postdir), " ");
+    sb.append(", ");
     appendIfNotNull(sb, parsedAddr.get(line2), ", ");
     appendIfNotNull(sb, parsedAddr.get(city), ", ");
     appendIfNotNull(sb, parsedAddr.get(state), " ");
     appendIfNotNull(sb, parsedAddr.get(zip), " ");
-    return sb.toString();
+    return sb.toString().replaceAll(" ,", ",");
   }
   
   private static void appendIfNotNull(StringBuilder sb, String s, String suffix){
@@ -63,6 +71,9 @@ public class AddressStandardizer{
         case predir: ret.put(AddressComponent.predir, normalizeDir(v)); break;
         case postdir: ret.put(AddressComponent.postdir, normalizeDir(v)); break;
         case type: ret.put(AddressComponent.type, normalizeStreetType(v)); break;
+        case predir2: ret.put(AddressComponent.predir2, normalizeDir(v)); break;
+        case postdir2: ret.put(AddressComponent.postdir2, normalizeDir(v)); break;
+        case type2: ret.put(AddressComponent.type2, normalizeStreetType(v)); break;
         case number: ret.put(AddressComponent.number, normalizeNum(v)); break;
         case state: ret.put(AddressComponent.state, normalizeState(v)); break;
         case zip: ret.put(AddressComponent.zip, normalizeZip(v)); break;

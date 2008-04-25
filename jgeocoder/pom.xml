@@ -186,18 +186,14 @@
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>jdepend-maven-plugin</artifactId>
 		</plugin>
-		  <plugin>
-		    <groupId>org.codehaus.mojo</groupId>
-		    <artifactId>findbugs-maven-plugin</artifactId>
-		    <configuration>
-		      <threshold>Exp</threshold>
-		      <effort>Max</effort>
-		      <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-		      <includeFilterFile>findbugs-include.xml</includeFilterFile>
-		      <visitors>FindDeadLocalStores,UnreadFields</visitors>
-		      <omitVisitors>FindDeadLocalStores,UnreadFields</omitVisitors>
-		    </configuration>
-		  </plugin>				
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <threshold>Normal</threshold>
+          <effort>Default</effort>
+        </configuration>
+      </plugin>			
 		<plugin>
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>jxr-maven-plugin</artifactId>
@@ -220,7 +216,6 @@
           <reportSet>
             <reports>
               <report>dependencies</report>
-              <report>project-team</report>
               <report>index</report>
 			  <report>maven-changes-plugin</report>              
               <report>summary</report>

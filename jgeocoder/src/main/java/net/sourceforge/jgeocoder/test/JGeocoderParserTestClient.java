@@ -10,13 +10,6 @@ import net.sourceforge.jgeocoder.us.AddressParser.AddressComponent;
 
 public class JGeocoderParserTestClient {
   public static void main(String[] args) throws Exception{
-
-    Map<AddressComponent, String> parsedAddr  = AddressParser.parseAddress("Google Inc, 1600 Amphitheatre Parkway, Mountain View, CA 94043");
-    System.out.println(parsedAddr);
-    
-    Map<AddressComponent, String> normalizedAddr  = AddressStandardizer.normalizeParsedAddress(parsedAddr); 
-    System.out.println(normalizedAddr);
-    
     String in;
     if(args.length != 0){
       in = args[0];
@@ -24,6 +17,7 @@ public class JGeocoderParserTestClient {
       Map<AddressComponent, String> m  = AddressParser.parseAddress(in);
       if(m == null){
         System.out.println("Unable to parse input, please try again");
+        return;
       }
       printMap(m);
       
