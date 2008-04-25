@@ -1,0 +1,84 @@
+                                    ------
+                                    Installation
+                                    ------
+                                    Jay Liang
+                                    ------
+                                    2008/04/25
+
+Download from Maven2 repository
+
+   If you are using maven 2 (good for you), you can add jgeocoder as a dependency to your maven2 pom.xml.
+Maven2's recursive dependency resolver should automatically pull in all the necessary third party dependencies.
+   
++----------------------------------------------------------------------------------------------------+
+  	
+  <dependency>
+  		<groupId>net.sourceforge.jgeocoder</groupId>
+  		<artifactId>jgeocoder</artifactId>
+  		<version><!-- the version you want --></version> 
+  </dependency>
+  
+  <repositories>
+  	<repository>
+  		<releases>
+  			<updatePolicy>never</updatePolicy>
+  			<checksumPolicy>warn</checksumPolicy>
+  			<enabled>true</enabled>
+  		</releases>
+  		<id>jgeocoder</id>
+  		<name>jgeocoder repo</name>
+  		<url>http://www.cs.drexel.edu/~zl25/maven2/repo</url>
+  	</repository>
+  </repositories>	
+  
++----------------------------------------------------------------------------------------------------+   
+   
+   Observe that the above repository is a private one, in case it's down or you don't want to trust a private repository, 
+follow the instructions below to manually install the jar to your local repository.
+
+Manually install to your local Maven2 repository
+
+   *	Go to {{{http://sourceforge.net/projects/jgeocoder}sourceforge.net}} and download the binary distro. 
+   *	install jgeocoder-(version).jar to your local repository
+   
++----------------------------------------------------------------------------------------------------+
+
+	mvn install:install-file  -DgroupId=net.sourceforge.jgeocoder -DartifactId=jgeocoder -Dpackaging=jar -Dversion=<version> -Dfile="path to the jar file"
+
++----------------------------------------------------------------------------------------------------+
+   
+   The jar package already contain the some meta data for maven 2 to pull down the necessary third party dependencies.
+In case it didn't work, add the following third party dependencies to your project if you don't already have them.
+   		
++----------------------------------------------------------------------------------------------------+
+
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.4</version>
+    </dependency>
+   
++----------------------------------------------------------------------------------------------------+      
+
+
+Non Maven2 users
+
+   You will need to download the apache commons jars, or you can use the self-contained jar which has all the dependencies packaged. 
+   
++----------------------------------------------------------------------------------------------------+   
+
+commons-collections-3.2.jar
+commons-lang-2.4.jar
+
++----------------------------------------------------------------------------------------------------+   
+
+Building from source
+
+	*	Building from source is easy if you already have maven 2 install. If not, download and install maven 2 ( {{http://maven.apache.org/}} )
+	
+	*	After maven 2 is installed and working correctly, go to the source code directory and type 'mvn package' and get the binary build in the 'target' sub directory.
