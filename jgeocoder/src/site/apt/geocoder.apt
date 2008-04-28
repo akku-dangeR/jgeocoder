@@ -1,0 +1,44 @@
+                                    ------
+                                    Examples
+                                    ------
+                                    Jay Liang
+                                    ------
+                                     2008/04/28
+
++---------------------------------------------------------------------------------------------------------------+
+Under construction, I am really busy recently and will probably stay busy for the next month or so. So I can only
+write about the development but not able to do any real development work. If this sounds interesting to you please
+contact me. I believe a java based geocoder will have a usecase in many applications. 
++---------------------------------------------------------------------------------------------------------------+     
+
+Simple Geocoding
+
+	Once the Tiger/Line data is loaded into a relational database, it's actually not hard to estimate the lat/lon
+of a parsed and normalized address. Given the schema that was described in {{{import.html}Data import module}}, the 
+geocoding query will look something like the following:
+
++---------------------------------------------------------------------------------------------------------------+
+  select t1.tlid, t1.fraddr, t1.fraddl, t1.toaddr, t1.toaddl, 
+  t1.zipL, t1.zipR, t1.tolat, t1.tolong, t1.frlong, t1.frlat,  
+  t2.long1, t2.lat1, t2.long2, t2.lat2, t2.long3, t2.lat3, t2.long4, t2.lat4,
+  t2.long5, t2.lat5, t2.long6, t2.lat6, t2.long7, t2.lat7, t2.long8, t2.lat8,
+  t2.long9, t2.lat9, t2.long10, t2.lat10
+  from tiger_1 t1 left outer join tiger_2 t2 on t1.tlid = t2.tlid where
+  ( 
+       (fraddL <= $num and toaddL >= $num) or (fraddL >= $num and toaddL <= $num)
+    or (fraddR <= $num and toaddR >= $num) or (fraddR >= $num and toaddR <= $num)
+  ) and
+  t1.fename = $street and
+  and ( t1.fedirs = $postdir ) and ( t1.fedirp = $predir ) and  ( t1.fetype = $type) 
+  and (t1.zipL = $zip or t1.zipR = $zip) 
++---------------------------------------------------------------------------------------------------------------+
+
+	The above query will return a lat/lon range of which can be used to geocode the input address.
+	
+Filling in missing information
+
+	It's very common that an input address will be missing some information. Since we have a address database,
+we can definitely fill in the blanks. For example, given a zip code, we can fill in city, state if they are missing.
+Given just the city and state, we can figure out the zip code. 
++---------------------------------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------+

@@ -10,7 +10,7 @@ Usage (Java 1.6 or higher is required)
       
       Yes, you read it correctly, this project requires Java 1.6 (at least for the time being). The address parser relies heavily on 
 many complex regular expressions. The regex engine in JDK 1.6 is optimized while JDK 1.5 is not fast enough to run these regex. Therefore,
-you need java 1.6 to run the address parser. (You are free download the source codes are tried to compile them with JDK 1.5, it's possible
+you need java 1.6 to run the address parser. (You are free download the source codes and try to compile them with JDK 1.5, it's possible
 that future JDK 1.5 releases will have fixed its problems with regex).
 
 	If you are already using 1.5, you should consider moving to 1.6 anyways because there are some significant performance improvements.  
