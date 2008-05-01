@@ -21,7 +21,8 @@
     <menu name="JGeocoder">
 	  <item name="About"    href="index.html" />    
       <item name="Address Parser"    href="parser.html" />
-      <item name="Data Import"    href="import.html" />      
+      <item name="Data Import"    href="import.html" />
+      <item name="Geocoder"    href="geocoder.html" />      
       <item name="Installation"    href="installation.html" />            
     </menu>    
     <menu ref="reports"/>
