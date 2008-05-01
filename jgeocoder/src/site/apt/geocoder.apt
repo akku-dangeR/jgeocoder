@@ -7,7 +7,7 @@
 
 +---------------------------------------------------------------------------------------------------------------+
 Under construction, I am really busy recently and will probably stay busy for the next month or so. So I can only
-write about the development but not able to do any real development work. If this sounds interesting to you please
+write about the development plan but not able to do any real development work. If this sounds interesting to you please
 contact me. I believe a java based geocoder will have a usecase in many applications. 
 +---------------------------------------------------------------------------------------------------------------+     
 
@@ -35,10 +35,31 @@ geocoding query will look something like the following:
 
 	The above query will return a lat/lon range of which can be used to geocode the input address.
 	
+	Of course, we can improve the efficiency of the above query by adding indexes to the querying columns and/or
+create a denormalize join view (using either materialized views or just a flat table) of table t1 and t2 so that
+the query does not need to join every time.  
+	
 Filling in missing information
 
 	It's very common that an input address will be missing some information. Since we have a address database,
 we can definitely fill in the blanks. For example, given a zip code, we can fill in city, state if they are missing.
-Given just the city and state, we can figure out the zip code. 
+Given just the city and state, we can figure out the zip code. The street types ('Street', 'Road', etc) and directions
+can be filled in also if they are missing.
+	
+	For example:
+	
 +---------------------------------------------------------------------------------------------------------------+
+123 South Main, Monkey Town, 19147  -> 123 S MAIN AVE, MONKEY TOWN, PA 19147 
 +---------------------------------------------------------------------------------------------------------------+
+
+Adding fuzziness to the search
+
+	 While the above query works, it however requires the inputs street name matches exactly to what is stored in the
+address database. For example, if there is a street named 'Petersons Street', then inputs of {'Peterson', 'Street'} and
+{'Petreson', 'Street'} (spelling) will not find a match. Therefore, it would be a good idea to allow some errors in the
+inputs by using fuzzy search/match techniques. 
+
+	 Many commercial quality geocoders have some form of fuzzy match feature (google map for instance). If you are interested in how to
+implement something similar, you can take a look at this article about {{{http://norvig.com/spell-correct.html}spell-corrector}} from Peter Norvig.
+
+ 
