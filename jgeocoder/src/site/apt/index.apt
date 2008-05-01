@@ -19,7 +19,7 @@ Project Status
 address database stores address data in a certain format. In order to geocode an address, the input address must be turned into a recognizable
 format first. 
 	
-	*   Address geocoder, which takes in the parsed address as input and searches the address database for the corresponding address. If the
+	*   {{{geocoder.html}Address geocoder}}, which takes in the parsed address as input and searches the address database for the corresponding address. If the
 address is found, the lat/lon will then be estimated using the information of the found address. 
 	
 	*   {{{import.html}Data importing scripts}}. JGeocoder will be using the {{{http://www.census.gov/geo/www/tiger/}Tiger/Line}} address database from US census bureau.
