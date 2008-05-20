@@ -1,6 +1,9 @@
 package net.sourceforge.jgeocoder.us
-import static net.sourceforge.jgeocoder.us.AddressParser.*
-import org.apache.commons.lang.StringUtilsimport net.sourceforge.jgeocoder.us.AddressParserimport net.sourceforge.jgeocoder.us.AddressRegexLibraryimport java.util.regex.Patternimport net.sourceforge.jgeocoder.us.RegexLibraryimport net.sourceforge.jgeocoder.us.RegexLibraryimport net.sourceforge.jgeocoder.us.AddressRegexLibraryclass ParserTest extends GroovyTestCase {
+
+import static net.sourceforge.jgeocoder.us.AddressParser.parseAddress
+import org.apache.commons.lang.StringUtils
+
+class ParserTest extends GroovyTestCase {
   String google ="""
 Google Inc, 1600 Amphitheatre Parkway, Mountain View, CA 94043
 Google Ann Arbor, 112 S. Main St., 2nd Floor, Ann Arbor, MI 48104

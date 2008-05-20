@@ -1,8 +1,10 @@
 package net.sourceforge.jgeocoder.us
 
-import net.sourceforge.jgeocoder.us.RegexLibraryimport java.util.concurrent.ExecutorServiceimport java.util.concurrent.Executorsimport java.util.concurrent.Futureimport java.math.BigIntegerimport java.math.BigInteger
-import java.util.regex.Patternimport java.util.regex.Matcherimport org.apache.commons.lang.StringUtils
-import net.sourceforge.jgeocoder.us.AddressParserimport net.sourceforge.jgeocoder.us.AddressRegexLibraryimport net.sourceforge.jgeocoder.us.Utilsimport org.apache.commons.lang.StringUtilsimport net.sourceforge.jgeocoder.us.AddressStandardizerclass QuickTest extends GroovyTestCase {
+import net.sourceforge.jgeocoder.us.AddressParser
+import net.sourceforge.jgeocoder.us.AddressStandardizer
+import org.apache.commons.lang.StringUtils
+
+class QuickTest extends GroovyTestCase {
 
 	void testGroovy() {
 	  def input = '2417 MUZZY DRIVE, New Castle, PA, 16101- 000'
