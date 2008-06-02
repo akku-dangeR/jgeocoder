@@ -5,7 +5,13 @@ import java.io.File;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
+import com.sleepycat.persist.EntityStore;
+import com.sleepycat.persist.PrimaryIndex;
+import com.sleepycat.persist.SecondaryIndex;
+import com.sleepycat.persist.StoreConfig;
 import com.sleepycat.persist.model.Entity;
+import com.sleepycat.persist.model.KeyField;
+import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
@@ -60,11 +66,11 @@ class ZipCode{
   
   
 }
-@Entity
-class Location{
-  @PrimaryKey(sequence="")
-  long myPrimaryKey; 
+@Persistent
+class Location{ 
+  @KeyField(1)
   private String _city;
+  @KeyField(2)
   private String _state;
   public String getCity() {
     return _city;
@@ -81,23 +87,50 @@ class Location{
   
 }
 
+class ZipCodeDAO{
+  private PrimaryIndex<String, ZipCode> _zipCodeByZip;
+  private SecondaryIndex<Location, String, ZipCode> _zipCodeByLocation;
+  public ZipCodeDAO(EntityStore store) throws DatabaseException{
+    _zipCodeByZip = store.getPrimaryIndex(String.class, ZipCode.class);
+    _zipCodeByLocation = store.getSecondaryIndex(_zipCodeByZip, Location.class, "_location");
+  }
+  public SecondaryIndex<Location, String, ZipCode> getZipCodeByLocation() {
+    return _zipCodeByLocation;
+  }
+  public PrimaryIndex<String, ZipCode> getZipCodeByZip() {
+    return _zipCodeByZip;
+  }
+}
+
 class ZipCodesDb{
   private Environment _env = null;
-  
+  private EntityStore _store = null;
   public Environment getEnv() {
     return _env;
   }
+  public EntityStore getStore() {
+    return _store;
+  }
   
-  public void init(File envHome, boolean readOnly) throws DatabaseException{
+  public void init(File envHome, boolean readOnly, boolean transactional) throws DatabaseException{
     EnvironmentConfig config = new EnvironmentConfig();
     config.setAllowCreate(!readOnly);
     config.setReadOnly(readOnly);
+    config.setTransactional(transactional);
     _env = new Environment(envHome, config);
+    StoreConfig config2 = new StoreConfig();
+    config2.setAllowCreate(!readOnly);
+    config2.setReadOnly(readOnly);
+    config2.setTransactional(transactional);
+    _store = new EntityStore(_env, "ZipCodeEntityStore", config2);
   }
   
   public void shutdown() throws DatabaseException{
+    if(_store != null){
+      _store.close();
+    }
     if(_env != null){
-      _env.cleanLog(); _env.close();
+      _env.close();
     }
   }
   
