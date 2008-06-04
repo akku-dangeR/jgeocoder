@@ -2,6 +2,10 @@ package net.sourceforge.jgeocoder.tiger;
 
 import java.io.File;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
@@ -15,6 +19,43 @@ import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+@Entity
+class CityStateGeo{
+  @PrimaryKey
+  private Location _location;
+  private float _lat;
+  private float _lon;
+  public Location getLocation() {
+    return _location;
+  }
+  public void setLocation(Location location) {
+    _location = location;
+  }
+  public float getLat() {
+    return _lat;
+  }
+  public void setLat(float lat) {
+    _lat = lat;
+  }
+  public float getLon() {
+    return _lon;
+  }
+  public void setLon(float lon) {
+    _lon = lon;
+  }
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+  @Override
+  public boolean equals(Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
+  }
+}
 
 @Entity
 class ZipCode{
@@ -63,7 +104,18 @@ class ZipCode{
   public void setZipClass(String zipClass) {
     _zipClass = zipClass;
   }
-  
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+  @Override
+  public boolean equals(Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
+  }
   
 }
 @Persistent
@@ -84,15 +136,31 @@ class Location{
   public void setState(String state) {
     _state = state;
   }
-  
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+  @Override
+  public boolean equals(Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
+  }
 }
 
 class ZipCodeDAO{
   private PrimaryIndex<String, ZipCode> _zipCodeByZip;
   private SecondaryIndex<Location, String, ZipCode> _zipCodeByLocation;
+  private PrimaryIndex<Location, CityStateGeo> _cityStateGeoByLocation;
   public ZipCodeDAO(EntityStore store) throws DatabaseException{
     _zipCodeByZip = store.getPrimaryIndex(String.class, ZipCode.class);
     _zipCodeByLocation = store.getSecondaryIndex(_zipCodeByZip, Location.class, "_location");
+    _cityStateGeoByLocation = store.getPrimaryIndex(Location.class, CityStateGeo.class);
+  }
+  public PrimaryIndex<Location, CityStateGeo> getCityStateGeoByLocation() {
+    return _cityStateGeoByLocation;
   }
   public SecondaryIndex<Location, String, ZipCode> getZipCodeByLocation() {
     return _zipCodeByLocation;
