@@ -1,4 +1,10 @@
 package net.sourceforge.jgeocoder.us;
+import static net.sourceforge.jgeocoder.AddressComponent.LINE2;
+import static net.sourceforge.jgeocoder.AddressComponent.PREDIR;
+import static net.sourceforge.jgeocoder.AddressComponent.STATE;
+import static net.sourceforge.jgeocoder.AddressComponent.STREET;
+import static net.sourceforge.jgeocoder.AddressComponent.TYPE;
+import static net.sourceforge.jgeocoder.AddressComponent.valueOf;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_CORNER;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_CSZ;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_INTERSECTION;
@@ -57,23 +63,23 @@ public class AddressParser{
   
   private static void postProcess(Map<AddressComponent, String> m){
     //these are (temporary?) hacks...
-    if(m.get(AddressComponent.TYPE) == null && m.get(AddressComponent.STREET)!= null 
-            && STREET_TYPES.matcher(m.get(AddressComponent.STREET).toUpperCase()).matches()){
-      m.put(AddressComponent.TYPE, m.get(AddressComponent.STREET));
-      m.put(AddressComponent.STREET, m.get(AddressComponent.PREDIR));
-      m.put(AddressComponent.PREDIR, null);
+    if(m.get(TYPE) == null && m.get(STREET)!= null 
+            && STREET_TYPES.matcher(m.get(STREET).toUpperCase()).matches()){
+      m.put(TYPE, m.get(STREET));
+      m.put(STREET, m.get(PREDIR));
+      m.put(PREDIR, null);
     }
-    if(m.get(AddressComponent.STATE) == null && m.get(AddressComponent.LINE2)!= null 
-            && STATES.matcher(m.get(AddressComponent.LINE2).toUpperCase()).matches()){
-      m.put(AddressComponent.STATE, m.get(AddressComponent.LINE2));
-      m.put(AddressComponent.LINE2, null);
+    if(m.get(STATE) == null && m.get(LINE2)!= null 
+            && STATES.matcher(m.get(LINE2).toUpperCase()).matches()){
+      m.put(STATE, m.get(LINE2));
+      m.put(LINE2, null);
     }
   }
   
   private static Map<AddressComponent, String> getAddrMap(Matcher m, Map<Integer, String> groupMap){
     Map<AddressComponent, String> ret = new HashMap<AddressComponent, String>();
     for(int i=1; i<= m.groupCount(); i++){
-      AddressComponent comp = AddressComponent.valueOf(groupMap.get(i));
+      AddressComponent comp = valueOf(groupMap.get(i));
       if(ret.get(comp) == null){
         putIfNotNull(ret, comp, m.group(i));
       }

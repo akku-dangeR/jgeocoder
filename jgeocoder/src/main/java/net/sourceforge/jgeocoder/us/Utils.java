@@ -17,7 +17,7 @@ class Utils{
     Map<Integer, String> namedGroupMap = new HashMap<Integer, String>();
     int i =1;
     while(m.find()){
-      namedGroupMap.put(i, m.group(1));
+      namedGroupMap.put(i, m.group(1).toUpperCase());
       i++;
     }
     return new NamedGroupPattern(m.replaceAll("("), namedGroupMap);

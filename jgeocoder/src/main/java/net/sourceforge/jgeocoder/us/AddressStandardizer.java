@@ -1,6 +1,19 @@
 package net.sourceforge.jgeocoder.us;
 
-import static net.sourceforge.jgeocoder.AddressComponent.*;
+import static net.sourceforge.jgeocoder.AddressComponent.CITY;
+import static net.sourceforge.jgeocoder.AddressComponent.LINE2;
+import static net.sourceforge.jgeocoder.AddressComponent.NAME;
+import static net.sourceforge.jgeocoder.AddressComponent.NUMBER;
+import static net.sourceforge.jgeocoder.AddressComponent.POSTDIR;
+import static net.sourceforge.jgeocoder.AddressComponent.POSTDIR2;
+import static net.sourceforge.jgeocoder.AddressComponent.PREDIR;
+import static net.sourceforge.jgeocoder.AddressComponent.PREDIR2;
+import static net.sourceforge.jgeocoder.AddressComponent.STATE;
+import static net.sourceforge.jgeocoder.AddressComponent.STREET;
+import static net.sourceforge.jgeocoder.AddressComponent.STREET2;
+import static net.sourceforge.jgeocoder.AddressComponent.TYPE;
+import static net.sourceforge.jgeocoder.AddressComponent.TYPE2;
+import static net.sourceforge.jgeocoder.AddressComponent.ZIP;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.LINE2A_GROUPED;
 import static net.sourceforge.jgeocoder.us.Data.getDIRECTIONAL_MAP;
 import static net.sourceforge.jgeocoder.us.Data.getNUMBER_MAP;
