@@ -91,6 +91,7 @@ class AddressRegexLibrary{
   "(?:" + LINE1A + "|" + LINE1B + ")" + "\\W*\\s+" + CORNER + "\\s+" +
   "(?:" + LINE1A2 + "|" + LINE1B2 + ")" + "\\W+" + LASTLINE +"\\W*";
   
+  public static final NamedGroupPattern P_CSZ = compile("(?i:"+LASTLINE+")");
   public static final NamedGroupPattern P_STREET_ADDRESS = compile("(?i:"+STREET_ADDRESS+")");
   public static final NamedGroupPattern P_INTERSECTION = compile("(?i:"+INTERSECTION+")");
   public static final NamedGroupPattern P_CORNER = compile("(?i:"+CORNER+")");

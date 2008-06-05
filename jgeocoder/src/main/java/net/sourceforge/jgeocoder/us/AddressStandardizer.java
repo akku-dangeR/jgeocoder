@@ -42,7 +42,9 @@ public class AddressStandardizer{
     }
     appendIfNotNull(sb, parsedAddr.get(type), " ");
     appendIfNotNull(sb, parsedAddr.get(postdir), " ");
-    sb.append(", ");
+    if(StringUtils.isNotBlank(sb.toString())){
+      sb.append(", ");
+    }
     appendIfNotNull(sb, parsedAddr.get(line2), ", ");
     appendIfNotNull(sb, parsedAddr.get(city), ", ");
     appendIfNotNull(sb, parsedAddr.get(state), " ");

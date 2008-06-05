@@ -1,5 +1,6 @@
 package net.sourceforge.jgeocoder.us;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_CORNER;
+import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_CSZ;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_INTERSECTION;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_STREET_ADDRESS;
 
@@ -21,6 +22,7 @@ public class AddressParser{
   }
   private static final Pattern CORNER = Pattern.compile(P_CORNER.getRegex());
   private static final Pattern STREET_ADDRESS = Pattern.compile(P_STREET_ADDRESS.getRegex());
+  private static final Pattern CSZ = Pattern.compile(P_CSZ.getRegex());
   private static final Pattern INTERSECTION = Pattern.compile(P_INTERSECTION.getRegex());
   private static final Pattern CLEANUP = Pattern.compile("[\\s\\p{Punct}&&[^\\)\\(#&,:;@'`-]]");
   private static final Pattern STREET_TYPES = Pattern.compile(RegexLibrary.STREET_DESIGNATOR);
@@ -45,6 +47,12 @@ public class AddressParser{
       if(m.matches()){
         ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
         postProcess(ret);
+      }
+    }
+    if(ret == null){
+      m = CSZ.matcher(rawAddr);
+      if(m.matches()){
+        ret = getAddrMap(m, P_CSZ.getNamedGroupMap());
       }
     }
     return ret;
