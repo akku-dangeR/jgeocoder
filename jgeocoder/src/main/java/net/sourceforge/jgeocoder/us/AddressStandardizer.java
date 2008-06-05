@@ -1,6 +1,6 @@
 package net.sourceforge.jgeocoder.us;
 
-
+import static net.sourceforge.jgeocoder.AddressComponent.*;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.LINE2A_GROUPED;
 import static net.sourceforge.jgeocoder.us.Data.getDIRECTIONAL_MAP;
 import static net.sourceforge.jgeocoder.us.Data.getNUMBER_MAP;
@@ -15,8 +15,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.jgeocoder.us.AddressParser.AddressComponent;
-import static net.sourceforge.jgeocoder.us.AddressParser.AddressComponent.*;
+import net.sourceforge.jgeocoder.AddressComponent;
+
 import org.apache.commons.lang.StringUtils;
 public class AddressStandardizer{
   /**
@@ -29,26 +29,26 @@ public class AddressStandardizer{
    */
   public static String toSingleLine(Map<AddressComponent, String> parsedAddr){
     StringBuilder sb = new StringBuilder();
-    appendIfNotNull(sb, parsedAddr.get(name), ", ");
-    appendIfNotNull(sb, parsedAddr.get(number), " ");
-    appendIfNotNull(sb, parsedAddr.get(predir), " ");
-    appendIfNotNull(sb, parsedAddr.get(street), " ");
-    if(parsedAddr.get(street2) != null){
-      appendIfNotNull(sb, parsedAddr.get(type2), " ");
-      appendIfNotNull(sb, parsedAddr.get(postdir2), " ");
+    appendIfNotNull(sb, parsedAddr.get(NAME), ", ");
+    appendIfNotNull(sb, parsedAddr.get(NUMBER), " ");
+    appendIfNotNull(sb, parsedAddr.get(PREDIR), " ");
+    appendIfNotNull(sb, parsedAddr.get(STREET), " ");
+    if(parsedAddr.get(STREET2) != null){
+      appendIfNotNull(sb, parsedAddr.get(TYPE2), " ");
+      appendIfNotNull(sb, parsedAddr.get(POSTDIR2), " ");
       sb.append("& ");
-      appendIfNotNull(sb, parsedAddr.get(predir2), " ");
-      appendIfNotNull(sb, parsedAddr.get(street2), " ");
+      appendIfNotNull(sb, parsedAddr.get(PREDIR2), " ");
+      appendIfNotNull(sb, parsedAddr.get(STREET2), " ");
     }
-    appendIfNotNull(sb, parsedAddr.get(type), " ");
-    appendIfNotNull(sb, parsedAddr.get(postdir), " ");
+    appendIfNotNull(sb, parsedAddr.get(TYPE), " ");
+    appendIfNotNull(sb, parsedAddr.get(POSTDIR), " ");
     if(StringUtils.isNotBlank(sb.toString())){
       sb.append(", ");
     }
-    appendIfNotNull(sb, parsedAddr.get(line2), ", ");
-    appendIfNotNull(sb, parsedAddr.get(city), ", ");
-    appendIfNotNull(sb, parsedAddr.get(state), " ");
-    appendIfNotNull(sb, parsedAddr.get(zip), " ");
+    appendIfNotNull(sb, parsedAddr.get(LINE2), ", ");
+    appendIfNotNull(sb, parsedAddr.get(CITY), ", ");
+    appendIfNotNull(sb, parsedAddr.get(STATE), " ");
+    appendIfNotNull(sb, parsedAddr.get(ZIP), " ");
     return sb.toString().replaceAll(" ,", ",");
   }
   
@@ -70,16 +70,16 @@ public class AddressStandardizer{
     for(Map.Entry<AddressComponent, String> e : parsedAddr.entrySet()){
       String v = StringUtils.upperCase(e.getValue());
       switch (e.getKey()) {
-        case predir: ret.put(AddressComponent.predir, normalizeDir(v)); break;
-        case postdir: ret.put(AddressComponent.postdir, normalizeDir(v)); break;
-        case type: ret.put(AddressComponent.type, normalizeStreetType(v)); break;
-        case predir2: ret.put(AddressComponent.predir2, normalizeDir(v)); break;
-        case postdir2: ret.put(AddressComponent.postdir2, normalizeDir(v)); break;
-        case type2: ret.put(AddressComponent.type2, normalizeStreetType(v)); break;
-        case number: ret.put(AddressComponent.number, normalizeNum(v)); break;
-        case state: ret.put(AddressComponent.state, normalizeState(v)); break;
-        case zip: ret.put(AddressComponent.zip, normalizeZip(v)); break;
-        case line2: ret.put(AddressComponent.line2, normalizeLine2(v)); break;                    
+        case PREDIR: ret.put(AddressComponent.PREDIR, normalizeDir(v)); break;
+        case POSTDIR: ret.put(AddressComponent.POSTDIR, normalizeDir(v)); break;
+        case TYPE: ret.put(AddressComponent.TYPE, normalizeStreetType(v)); break;
+        case PREDIR2: ret.put(AddressComponent.PREDIR2, normalizeDir(v)); break;
+        case POSTDIR2: ret.put(AddressComponent.POSTDIR2, normalizeDir(v)); break;
+        case TYPE2: ret.put(AddressComponent.TYPE2, normalizeStreetType(v)); break;
+        case NUMBER: ret.put(AddressComponent.NUMBER, normalizeNum(v)); break;
+        case STATE: ret.put(AddressComponent.STATE, normalizeState(v)); break;
+        case ZIP: ret.put(AddressComponent.ZIP, normalizeZip(v)); break;
+        case LINE2: ret.put(AddressComponent.LINE2, normalizeLine2(v)); break;                    
         default: ret.put(e.getKey(), v); break;
       }
     }

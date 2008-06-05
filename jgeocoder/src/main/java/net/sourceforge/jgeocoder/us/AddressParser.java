@@ -9,17 +9,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.jgeocoder.AddressComponent;
+
 //TODO: support theses
 //123 Avenue of art, philadelphia pa 12345
 //PO box 123, abc city, ca 24656
 //123 Route 29 South, new jersey, 12323  
 public class AddressParser{
-  
-  public static enum AddressComponent{
-    street, name, predir, postdir, type, number, city, state, zip, line2, 
-    //intersections
-    street2, predir2, postdir2, type2, lat, lon
-  }
+
   private static final Pattern CORNER = Pattern.compile(P_CORNER.getRegex());
   private static final Pattern STREET_ADDRESS = Pattern.compile(P_STREET_ADDRESS.getRegex());
   private static final Pattern CSZ = Pattern.compile(P_CSZ.getRegex());
@@ -60,16 +57,16 @@ public class AddressParser{
   
   private static void postProcess(Map<AddressComponent, String> m){
     //these are (temporary?) hacks...
-    if(m.get(AddressComponent.type) == null && m.get(AddressComponent.street)!= null 
-            && STREET_TYPES.matcher(m.get(AddressComponent.street).toUpperCase()).matches()){
-      m.put(AddressComponent.type, m.get(AddressComponent.street));
-      m.put(AddressComponent.street, m.get(AddressComponent.predir));
-      m.put(AddressComponent.predir, null);
+    if(m.get(AddressComponent.TYPE) == null && m.get(AddressComponent.STREET)!= null 
+            && STREET_TYPES.matcher(m.get(AddressComponent.STREET).toUpperCase()).matches()){
+      m.put(AddressComponent.TYPE, m.get(AddressComponent.STREET));
+      m.put(AddressComponent.STREET, m.get(AddressComponent.PREDIR));
+      m.put(AddressComponent.PREDIR, null);
     }
-    if(m.get(AddressComponent.state) == null && m.get(AddressComponent.line2)!= null 
-            && STATES.matcher(m.get(AddressComponent.line2).toUpperCase()).matches()){
-      m.put(AddressComponent.state, m.get(AddressComponent.line2));
-      m.put(AddressComponent.line2, null);
+    if(m.get(AddressComponent.STATE) == null && m.get(AddressComponent.LINE2)!= null 
+            && STATES.matcher(m.get(AddressComponent.LINE2).toUpperCase()).matches()){
+      m.put(AddressComponent.STATE, m.get(AddressComponent.LINE2));
+      m.put(AddressComponent.LINE2, null);
     }
   }
   

@@ -3,21 +3,15 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.jgeocoder.AddressComponent;
 import net.sourceforge.jgeocoder.us.AddressParser;
 import net.sourceforge.jgeocoder.us.AddressStandardizer;
-import net.sourceforge.jgeocoder.us.AddressParser.AddressComponent;
 
 import com.sleepycat.je.DatabaseException;
 
 public class JGeocoder{
   private ZipCodesDb _zipDb;
   private ZipCodeDAO _zipDao;
-  
-  public static void main(String[] args) {
-    JGeocoder geocoder = new JGeocoder();
-    System.out.println(geocoder.geocode("622 mcclellan street, philadelphia, pa 19406"));
-    geocoder.cleanup();
-  }
   
   public JGeocoder(){
     this(JGeocoderConfig.DEFAULT);

@@ -3,10 +3,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Map;
 
+import net.sourceforge.jgeocoder.AddressComponent;
 import net.sourceforge.jgeocoder.tiger.JGeocoder;
 import net.sourceforge.jgeocoder.us.AddressParser;
 import net.sourceforge.jgeocoder.us.AddressStandardizer;
-import net.sourceforge.jgeocoder.us.AddressParser.AddressComponent;
 
 
 public class JGeocoderParserTestClient {
@@ -28,6 +28,7 @@ public class JGeocoderParserTestClient {
       printMap(m);
       System.out.println("Geocoding normalized address (Only zip and {city, state} geocoding are supported currently)...");
       printMap(jg.geocode(m));
+      jg.cleanup();
       return;
     }
     
@@ -52,6 +53,7 @@ public class JGeocoderParserTestClient {
       System.out.println("Geocoding normalized address (Only zip and {city, state} geocoding are supported currently)...");
       printMap(jg.geocode(m));
     }
+    jg.cleanup();
   }
   
   private static void printMap(Map<AddressComponent, String> m){

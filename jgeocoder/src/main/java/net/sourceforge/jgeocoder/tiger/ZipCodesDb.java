@@ -3,7 +3,7 @@ package net.sourceforge.jgeocoder.tiger;
 import java.io.File;
 import java.util.Map;
 
-import net.sourceforge.jgeocoder.us.AddressParser.AddressComponent;
+import net.sourceforge.jgeocoder.AddressComponent;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -178,7 +178,7 @@ class ZipCodeDAO{
   }
   
   public boolean geocodeByCityState(Map<AddressComponent, String> m){
-    String city = m.get(AddressComponent.city), state = m.get(AddressComponent.state);
+    String city = m.get(AddressComponent.CITY), state = m.get(AddressComponent.STATE);
     if(StringUtils.isBlank(city)||StringUtils.isBlank(state)){
       return false;
     }
@@ -188,8 +188,8 @@ class ZipCodeDAO{
       loc.setCity(city); loc.setState(state);
       CityStateGeo geo = _cityStateGeoByLocation.get(loc);
       if(geo!= null){
-        m.put(AddressComponent.lat, String.valueOf(geo.getLat()));
-        m.put(AddressComponent.lon, String.valueOf(geo.getLon()));
+        m.put(AddressComponent.LAT, String.valueOf(geo.getLat()));
+        m.put(AddressComponent.LON, String.valueOf(geo.getLon()));
         return true;
       }
     } catch (DatabaseException e) {
@@ -202,15 +202,15 @@ class ZipCodeDAO{
   }
   
   public boolean geocodeByZip(Map<AddressComponent, String> m){
-    String zip = m.get(AddressComponent.zip);
+    String zip = m.get(AddressComponent.ZIP);
     if(StringUtils.isBlank(zip)){
       return false;
     }
     try {
       ZipCode zipcode = _zipCodeByZip.get(zip);
       if(zipcode != null){
-        m.put(AddressComponent.lat, String.valueOf(zipcode.getLat()));
-        m.put(AddressComponent.lon, String.valueOf(zipcode.getLon()));
+        m.put(AddressComponent.LAT, String.valueOf(zipcode.getLat()));
+        m.put(AddressComponent.LON, String.valueOf(zipcode.getLon()));
         return true;
       }
     } catch (Exception e) {
