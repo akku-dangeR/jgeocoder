@@ -19,7 +19,9 @@ public class JGeocoder{
   
   public Map<AddressComponent, String> geocode(String addrLine){
     Map<AddressComponent, String> m  = AddressParser.parseAddress(addrLine);
+    if(m == null) return null;  //FIXME: throw exception instead
     m = AddressStandardizer.normalizeParsedAddress(m);
+    if(m == null) return null;
     return geocode(m);
   }
 

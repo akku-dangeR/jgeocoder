@@ -76,7 +76,7 @@ class AddressRegexLibrary{
   private static final String LASTLINE = 
     "(?:" +
       "(?P<city>[^\\d,]+?)\\W+" +  //city                                              
-      "\\b(?P<state>(?:"+US_STATES+")\\b)\\W*" + //state                                          
+      "\\b(?P<state>(?:"+US_STATES+")\\b)?\\W*" + //state                                          
     ")?" +
     "(?P<zip>"+ZIP+")?";      //zip
 
