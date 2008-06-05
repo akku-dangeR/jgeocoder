@@ -83,16 +83,16 @@ public class AddressStandardizer{
     for(Map.Entry<AddressComponent, String> e : parsedAddr.entrySet()){
       String v = StringUtils.upperCase(e.getValue());
       switch (e.getKey()) {
-        case PREDIR: ret.put(AddressComponent.PREDIR, normalizeDir(v)); break;
-        case POSTDIR: ret.put(AddressComponent.POSTDIR, normalizeDir(v)); break;
-        case TYPE: ret.put(AddressComponent.TYPE, normalizeStreetType(v)); break;
-        case PREDIR2: ret.put(AddressComponent.PREDIR2, normalizeDir(v)); break;
-        case POSTDIR2: ret.put(AddressComponent.POSTDIR2, normalizeDir(v)); break;
-        case TYPE2: ret.put(AddressComponent.TYPE2, normalizeStreetType(v)); break;
-        case NUMBER: ret.put(AddressComponent.NUMBER, normalizeNum(v)); break;
-        case STATE: ret.put(AddressComponent.STATE, normalizeState(v)); break;
-        case ZIP: ret.put(AddressComponent.ZIP, normalizeZip(v)); break;
-        case LINE2: ret.put(AddressComponent.LINE2, normalizeLine2(v)); break;                    
+        case PREDIR: ret.put(PREDIR, normalizeDir(v)); break;
+        case POSTDIR: ret.put(POSTDIR, normalizeDir(v)); break;
+        case TYPE: ret.put(TYPE, normalizeStreetType(v)); break;
+        case PREDIR2: ret.put(PREDIR2, normalizeDir(v)); break;
+        case POSTDIR2: ret.put(POSTDIR2, normalizeDir(v)); break;
+        case TYPE2: ret.put(TYPE2, normalizeStreetType(v)); break;
+        case NUMBER: ret.put(NUMBER, normalizeNum(v)); break;
+        case STATE: ret.put(STATE, normalizeState(v)); break;
+        case ZIP: ret.put(ZIP, normalizeZip(v)); break;
+        case LINE2: ret.put(LINE2, normalizeLine2(v)); break;                    
         default: ret.put(e.getKey(), v); break;
       }
     }
