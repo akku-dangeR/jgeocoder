@@ -2,7 +2,7 @@ package net.sourceforge.jgeocoder.us
 import net.sourceforge.jgeocoder.us.AddressParser.*
 import net.sourceforge.jgeocoder.us.AddressStandardizer
 import org.apache.commons.lang.StringUtils
-import net.sourceforge.jgeocoder.AddressComponent
+import static net.sourceforge.jgeocoder.AddressComponent.*
 class QuickTest extends GroovyTestCase {
 
 	void testGroovy() {
