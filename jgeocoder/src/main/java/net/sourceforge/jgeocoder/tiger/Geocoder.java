@@ -1,5 +1,6 @@
 package net.sourceforge.jgeocoder.tiger;
 
+
 /*
  * geocoding estimation functions are ported from sql codes found on 
  * http://www.johnsample.com/
@@ -25,8 +26,7 @@ class Distance{
   public float totalLat=0f, totalLon=0f;
 }
 
-public class Geocoder {
-
+class Geocoder {
   static Geo geocode(int streetnum, String tlid, int fraddr, int fraddl, int toaddr, int toaddl, 
     int zipL, int zipR, float tolat, float tolong, float frlong, float frlat,  
     float long1, float lat1, float long2, float lat2, float long3, float lat3, float long4, float lat4,

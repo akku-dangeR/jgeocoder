@@ -1,10 +1,16 @@
 package net.sourceforge.jgeocoder.tiger;
 
 import java.io.File;
+import java.util.Map;
 
+import net.sourceforge.jgeocoder.us.AddressParser.AddressComponent;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
@@ -124,6 +130,7 @@ class Location{
   private String _city;
   @KeyField(2)
   private String _state;
+
   public String getCity() {
     return _city;
   }
@@ -151,6 +158,7 @@ class Location{
 }
 
 class ZipCodeDAO{
+  private static final Log LOGGER = LogFactory.getLog(ZipCodeDAO.class);
   private PrimaryIndex<String, ZipCode> _zipCodeByZip;
   private SecondaryIndex<Location, String, ZipCode> _zipCodeByLocation;
   private PrimaryIndex<Location, CityStateGeo> _cityStateGeoByLocation;
@@ -167,6 +175,51 @@ class ZipCodeDAO{
   }
   public PrimaryIndex<String, ZipCode> getZipCodeByZip() {
     return _zipCodeByZip;
+  }
+  
+  public boolean geocodeByCityState(Map<AddressComponent, String> m){
+    String city = m.get(AddressComponent.city), state = m.get(AddressComponent.state);
+    if(StringUtils.isBlank(city)||StringUtils.isBlank(state)){
+      return false;
+    }
+    city = city.replaceAll("\\s+", "");
+    try {
+      Location loc = new Location();
+      loc.setCity(city); loc.setState(state);
+      CityStateGeo geo = _cityStateGeoByLocation.get(loc);
+      if(geo!= null){
+        m.put(AddressComponent.lat, String.valueOf(geo.getLat()));
+        m.put(AddressComponent.lon, String.valueOf(geo.getLon()));
+        return true;
+      }
+    } catch (DatabaseException e) {
+      if(LOGGER.isDebugEnabled()){
+        LOGGER.debug("Unable to geocode with city state", e);
+      }
+      return false;
+    }
+    return false;
+  }
+  
+  public boolean geocodeByZip(Map<AddressComponent, String> m){
+    String zip = m.get(AddressComponent.zip);
+    if(StringUtils.isBlank(zip)){
+      return false;
+    }
+    try {
+      ZipCode zipcode = _zipCodeByZip.get(zip);
+      if(zipcode != null){
+        m.put(AddressComponent.lat, String.valueOf(zipcode.getLat()));
+        m.put(AddressComponent.lon, String.valueOf(zipcode.getLon()));
+        return true;
+      }
+    } catch (Exception e) {
+      if(LOGGER.isDebugEnabled()){
+        LOGGER.debug("Unable to geocode with zip", e);
+      }
+      return false;
+    }
+    return false;
   }
 }
 

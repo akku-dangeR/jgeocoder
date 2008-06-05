@@ -17,7 +17,7 @@ public class AddressParser{
   public static enum AddressComponent{
     street, name, predir, postdir, type, number, city, state, zip, line2, 
     //intersections
-    street2, predir2, postdir2, type2
+    street2, predir2, postdir2, type2, lat, lon
   }
   private static final Pattern CORNER = Pattern.compile(P_CORNER.getRegex());
   private static final Pattern STREET_ADDRESS = Pattern.compile(P_STREET_ADDRESS.getRegex());
