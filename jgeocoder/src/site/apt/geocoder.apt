@@ -3,11 +3,47 @@
                                     ------
                                     Jay Liang
                                     ------
-                                     2008/04/28
+                                     2008/06/05
+
+City, State and Zip code geocoding are now working
+
+	In release 0.2, support for geocoding city, state or zip were added. You need first to download a zip code database
+from JGeocoder's sourceforge project site (see {{{installation.html}Installation}} for details). After the zip code 
+database is setup, call JGeocoder to geocode an address.  
 
 +---------------------------------------------------------------------------------------------------------------+
-Under construction, I am really busy recently and will probably stay busy for the next month or so. So I can only
-write about the development plan but not able to do any real development work. If this sounds interesting to you please
+JGeocoder jg = new JGeocoder();
+System.out.println(jg.geocode("philadelphia pa "));
+System.out.println(jg.geocode("19148"));
+System.out.println(jg.geocode("philadelphia 19148"));
+//****please note that ONLY city,state and zip geocoding are supported currently***
+//****address data is ignored*****
+//the following will return the lat/lon of the input zip and the lat/lon of the centroid
+//of the input city,state (when zip is not present)
+System.out.println(jg.geocode("123 main street, 19148"));
+System.out.println(jg.geocode("123 blah ave, philadelphia pa"));
+
+//this shuts down the Geocoder's connection to the zip code database
+jg.cleanup();
++---------------------------------------------------------------------------------------------------------------+
+
+	The output of the above are
+	
++---------------------------------------------------------------------------------------------------------------+	
+{CITY=PHILADELPHIA, LAT=39.951637, STATE=PA, LON=-75.16381}
+{LAT=39.950363, LON=-75.15537, ZIP=19148}
+{CITY=PHILADELPHIA, LAT=39.950363, LON=-75.15537, ZIP=19148}
+{TYPE=ST, NUMBER=123, STREET=MAIN, LAT=39.950363, LON=-75.15537, ZIP=19148}
+{TYPE=AVE, CITY=PHILADELPHIA, NUMBER=123, STREET=BLAH, LAT=39.951637, STATE=PA, LON=-75.16381}
++---------------------------------------------------------------------------------------------------------------+
+
+	<<Also see {{{Parser.html}Parser}} for information an interactive test client>>
+	
+Development Plan
+
++---------------------------------------------------------------------------------------------------------------+
+Under construction, I am really busy recently. So I can only
+write about the development plan but not able to do much real development work. If this sounds interesting to you please
 contact me. I believe a java based geocoder will have a usecase in many applications. 
 +---------------------------------------------------------------------------------------------------------------+     
 

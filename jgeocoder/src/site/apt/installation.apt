@@ -5,6 +5,38 @@
                                     ------
                                     2008/06/04
 
+Download an Install the JGeocoder database
+
+	If you wish to use JGeocoder's geocoding capability, you will need to first download and install/create
+a compatible address database first. (Alternatively, you can use JGeocoder's parsing capability alone and 
+perform geocoding with your own address data). 
+
+	In release 0.2, only geocoding of city, state and zip are being supported. Therefore, you only need address
+data related to city, state centroid and zip centroid. You can download such a database from JGecooder's sourceforge
+website. It's a berkleleyDb database pre-loaded with zip and city state data. You need to download and unpack its
+data files and point the system property 'jgeocoder.data.home' to its data directory. For example, if you extract its
+data to /usr/local/, then you should point 'jgeocoder.data.home' to /usr/local/jgeocoder/data . /usr/local/jgeocoder/data
+is also the default jgeocoder data directory by the way, so if you do unpack the data to this location, there's no need 
+to setup the system property.  
+  
+   Your data directory should look like:
+  
++----------------------------------------------------------------------------------------------------+
+$>ls  /usr/local/jgeocoder/data                                                                                      [16:33 08-06-05]
+total 21M
+9.6M Jun  5 13:05 00000000.jdb
+9.6M Jun  5 13:05 00000001.jdb
+1.1M Jun  5 13:59 00000002.jdb
+   0 Jun  5 13:05 je.lck
++----------------------------------------------------------------------------------------------------+
+
+	If you are interested in seeing what data is loaded in this database, you can download the raw data
+files of jgeocoder-import project from the svn repository (the raw data files are named city_state.zip 
+and zip_codes.zip). Also in the jgeocoder-import project, you will find a groovy script that shows you 
+how the data is loaded into berkeleyDb. 
+
+	http://jgeocoder.svn.sourceforge.net/viewvc/jgeocoder/jgeocoder-import/src/main/groovy/
+
 Download from Maven2 repository
 
    If you are using maven 2 (good for you), you can add jgeocoder as a dependency to your maven2 pom.xml.

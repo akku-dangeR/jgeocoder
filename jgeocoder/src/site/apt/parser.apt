@@ -3,7 +3,7 @@
                                     ------
                                     Jay Liang
                                     ------
-                                     2008/04/24
+                                     2008/06/05
 
 
 Usage (Java 1.6 or higher is required)
@@ -146,6 +146,8 @@ KING AVE & WARREN ST, MALVERN, PA 19355
 	
 Quick test with command line client
   
+   <<Update: release 0.2 supports geocoding of city, state and zip>>, see {{{geocoder.html}Geocoder}} for details.
+  
    Download the self-contained uber jar named jgeocoder-*jar-with-dependencies.jar from sourceforge's download page. This jar file contains all the 
 third party libraries dependencies and also a simple command line client for you to test the address parser. 
 
@@ -156,32 +158,46 @@ $> java -jar target/jgeocoder-0.1-SNAPSHOT-jar-with-dependencies.jar "Google Inc
 Parsing input...
 
 Address: Google Inc, 1600 Amphitheatre Parkway N W, Mountain View, CA 94043
-type : Parkway
-city : Mountain View
-zip : 94043
-state : CA
-street : Amphitheatre
-number : 1600
-postdir : N W
-name : Google Inc
+POSTDIR : N W
+STREET : Amphitheatre
+ZIP : 94043
+TYPE : Parkway
+NUMBER : 1600
+NAME : Google Inc
+STATE : CA
+CITY : Mountain View
 
 Normalizing parsed address...
 
 Address: GOOGLE INC, 1600 AMPHITHEATRE PKWY NW, MOUNTAIN VIEW, CA 94043
-type : PKWY
-city : MOUNTAIN VIEW
-zip : 94043
-state : CA
-number : 1600
-street : AMPHITHEATRE
-name : GOOGLE INC
-postdir : NW
+POSTDIR : NW
+STREET : AMPHITHEATRE
+ZIP : 94043
+TYPE : PKWY
+NUMBER : 1600
+NAME : GOOGLE INC
+CITY : MOUNTAIN VIEW
+STATE : CA
+
+Geocoding normalized address (Only zip and {city, state} geocoding are supported currently)...
+
+Address: GOOGLE INC, 1600 AMPHITHEATRE PKWY NW, MOUNTAIN VIEW, CA 94043
+LON : -121.70533
+POSTDIR : NW
+STREET : AMPHITHEATRE
+ZIP : 94043
+LAT : 37.189396
+TYPE : PKWY
+NUMBER : 1600
+NAME : GOOGLE INC
+STATE : CA
+CITY : MOUNTAIN VIEW
 +---------------------------------------------------------------------------------------------------------------+
 
 	If you do not put in any command line arguments, the test client will start an interactive session
 	
 +---------------------------------------------------------------------------------------------------------------+	
-$> java -jar target/jgeocoder-0.1-SNAPSHOT-jar-with-dependencies.jar                                                  [13:30 08-04-25]
+$> java -jar target/jgeocoder-0.2-SNAPSHOT-jar-with-dependencies.jar                                                  [13:30 08-04-25]
 Input raw address as a single line
 Enter blank line to end session
 
@@ -210,6 +226,21 @@ city : LOS ANGELES
 predir : W
 type : DR
 
+Geocoding normalized address (Only zip and {city, state} geocoding are supported currently)...
+
+Address: 1210 W VALLEY DR, APT 3, LOS ANGELES, CA 91742
+LON : -118.24342
+TYPE : DR
+LAT : 34.05219
+PREDIR : W
+NUMBER : 1210
+STATE : CA
+STREET : VALLEY
+ZIP : 91742
+CITY : LOS ANGELES
+LINE2 : APT 3
+
+
 18th and south board philadelphia pa 13245
 Parsing input...
 
@@ -230,6 +261,19 @@ zip : 13245
 street2 : BOARD
 predir2 : S
 city : PHILADELPHIA
+
+Geocoding normalized address (Only zip and {city, state} geocoding are supported currently)...
+
+Address: 18TH & S BOARD, PHILADELPHIA, PA 13245
+LON : -75.16381
+STREET2 : BOARD
+LAT : 39.951637
+STATE : PA
+STREET : 18TH
+ZIP : 13245
+PREDIR2 : S
+CITY : PHILADELPHIA
+
 +---------------------------------------------------------------------------------------------------------------+	    
 
 There will be  unrecognizable addresses
