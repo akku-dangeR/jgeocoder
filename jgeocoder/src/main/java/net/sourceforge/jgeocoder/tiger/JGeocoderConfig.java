@@ -2,6 +2,8 @@ package net.sourceforge.jgeocoder.tiger;
 
 import java.io.Serializable;
 
+import net.sourceforge.jgeocoder.CommonUtils;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -9,12 +11,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class JGeocoderConfig implements Serializable{
   private static final long serialVersionUID = 20080604L;
   public static final JGeocoderConfig DEFAULT = new JGeocoderConfig();
-  private String _zipDbHome = Thread.currentThread().getContextClassLoader().getResource("zipdb").getFile();
-  public String getZipDbHome() {
-    return _zipDbHome;
+  private String _jgeocoderDataHome = 
+    CommonUtils.nvl(System.getProperty("jgeocoder.data.home"), "/usr/local/jgeocoder/data");
+  public String getJgeocoderDataHome() {
+    return _jgeocoderDataHome;
   }
-  public void setZipDbHome(String zipDbHome) {
-    _zipDbHome = zipDbHome;
+  public void setJgeocoderDataHome(String jgeocoderDataHome) {
+    _jgeocoderDataHome = jgeocoderDataHome;
   }
   
   @Override
@@ -29,4 +32,7 @@ public class JGeocoderConfig implements Serializable{
   public boolean equals(Object obj) {
     return EqualsBuilder.reflectionEquals(this, obj);
   }
+  
+  
+  
 }

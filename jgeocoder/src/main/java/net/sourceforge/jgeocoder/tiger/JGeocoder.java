@@ -36,7 +36,7 @@ public class JGeocoder{
   public JGeocoder(JGeocoderConfig config){
     _zipDb = new ZipCodesDb();
     try {
-      _zipDb.init(new File(config.getZipDbHome()), false, false);
+      _zipDb.init(new File(config.getJgeocoderDataHome()), false, false);
       _zipDao = new ZipCodeDAO(_zipDb.getStore());
     } catch (DatabaseException e) {
       throw new RuntimeException("Unable to create zip db, "+e.getMessage());
