@@ -1,0 +1,127 @@
+                                    ------
+                                    Installation
+                                    ------
+                                    Jay Liang
+                                    ------
+                                    2008/06/04
+
+Download an Install the JGeocoder database
+
+	If you wish to use JGeocoder's geocoding capability, you will need to first download and install/create
+a compatible address database first. (Alternatively, you can use JGeocoder's parsing capability alone and 
+perform geocoding with your own address data). 
+
+	In release 0.2, only geocoding of city, state and zip are being supported. Therefore, you only need address
+data related to city, state centroid and zip centroid. You can download such a database from JGecooder's sourceforge
+website. It's a berkleleyDb database pre-loaded with zip and city state data. You need to download and unpack its
+data files and point the system property 'jgeocoder.data.home' to its data directory. For example, if you extract its
+data to /usr/local/, then you should point 'jgeocoder.data.home' to /usr/local/jgeocoder/data . /usr/local/jgeocoder/data
+is also the default jgeocoder data directory by the way, so if you do unpack the data to this location, there's no need 
+to setup the system property.  
+  
+   Your data directory should look like:
+  
++----------------------------------------------------------------------------------------------------+
+$>ls  /usr/local/jgeocoder/data                                                                                      [16:33 08-06-05]
+total 21M
+9.6M Jun  5 13:05 00000000.jdb
+9.6M Jun  5 13:05 00000001.jdb
+1.1M Jun  5 13:59 00000002.jdb
+   0 Jun  5 13:05 je.lck
++----------------------------------------------------------------------------------------------------+
+
+	If you are interested in seeing what data is loaded in this database, you can download the raw data
+files of jgeocoder-import project from the svn repository (the raw data files are named city_state.zip 
+and zip_codes.zip). Also in the jgeocoder-import project, you will find a groovy script that shows you 
+how the data is loaded into berkeleyDb. 
+
+	{{http://jgeocoder.svn.sourceforge.net/viewvc/jgeocoder/jgeocoder-import/src/main/groovy/}}
+
+Download from Maven2 repository
+
+   If you are using maven 2 (good for you), you can add jgeocoder as a dependency to your maven2 pom.xml.
+Maven2's recursive dependency resolver should automatically pull in all the necessary third party dependencies.
+   
++----------------------------------------------------------------------------------------------------+
+  	
+  <dependency>
+  		<groupId>net.sourceforge.jgeocoder</groupId>
+  		<artifactId>jgeocoder</artifactId>
+  		<version><!-- the version you want --></version> 
+  </dependency>
+  
+  <repositories>
+  	<repository>
+  		<releases>
+  			<updatePolicy>never</updatePolicy>
+  			<checksumPolicy>warn</checksumPolicy>
+  			<enabled>true</enabled>
+  		</releases>
+  		<id>jgeocoder</id>
+  		<name>jgeocoder repo</name>
+  		<url>http://www.cs.drexel.edu/~zl25/maven2/repo</url>
+  	</repository>
+  </repositories>	
+  
++----------------------------------------------------------------------------------------------------+   
+   
+   Observe that the above repository is a private one, in case it's down or you don't want to trust a private repository, 
+follow the instructions below to manually install the jar to your local repository.
+
+Manually install to your local Maven2 repository
+
+   *	Go to {{{http://sourceforge.net/projects/jgeocoder}sourceforge.net}} and download the binary distro. 
+   *	install jgeocoder-(version).jar to your local repository
+   
++----------------------------------------------------------------------------------------------------+
+
+	mvn install:install-file  -DgroupId=net.sourceforge.jgeocoder -DartifactId=jgeocoder -Dpackaging=jar -Dversion=<version> -Dfile="path to the jar file"
+
++----------------------------------------------------------------------------------------------------+
+   
+   The jar package already contain the some meta data for maven 2 to pull down the necessary third party dependencies.
+In case it didn't work, add the following third party dependencies to your project if you don't already have them.
+   		
++----------------------------------------------------------------------------------------------------+
+
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+    </dependency>    
+	<dependency>
+	    <groupId>berkeleydb</groupId>
+	    <artifactId>je</artifactId>
+	    <version>3.2.44</version>
+	</dependency>    
+   
++----------------------------------------------------------------------------------------------------+      
+
+
+Non Maven2 users
+
+   You will need to download the apache commons jars, or you can use the self-contained jar which has all the dependencies packaged. 
+   
++----------------------------------------------------------------------------------------------------+   
+
+commons-collections-3.2.jar
+commons-lang-2.4.jar
+commons-logging-1.0.4.jar
+berkeleydb-je-3.2.44.jar
++----------------------------------------------------------------------------------------------------+   
+
+Building from source
+
+	*	Building from source is easy if you already have maven 2 install. If not, download and install maven 2 ( {{http://maven.apache.org/}} )
+	
+	*	After maven 2 is installed and working correctly, go to the source code directory and type 'mvn package' and get the binary build in the 'target' sub directory.
