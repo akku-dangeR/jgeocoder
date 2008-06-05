@@ -1,0 +1,101 @@
+                                    ------
+                                    Examples
+                                    ------
+                                    Jay Liang
+                                    ------
+                                     2008/06/05
+
+City, State and Zip code geocoding are now working
+
+	In release 0.2, support for geocoding city, state or zip were added. You need first to download a zip code database
+from JGeocoder's sourceforge project site (see {{{installation.html}Installation}} for details). After the zip code 
+database is setup, call JGeocoder to geocode an address.  
+
++---------------------------------------------------------------------------------------------------------------+
+JGeocoder jg = new JGeocoder();
+System.out.println(jg.geocode("philadelphia pa "));
+System.out.println(jg.geocode("19148"));
+System.out.println(jg.geocode("philadelphia 19148"));
+//****please note that ONLY city,state and zip geocoding are supported currently***
+//****address data is ignored*****
+//the following will return the lat/lon of the input zip and the lat/lon of the centroid
+//of the input city,state (when zip is not present)
+System.out.println(jg.geocode("123 main street, 19148"));
+System.out.println(jg.geocode("123 blah ave, philadelphia pa"));
+
+//this shuts down the Geocoder's connection to the zip code database
+jg.cleanup();
++---------------------------------------------------------------------------------------------------------------+
+
+	The output of the above are
+	
++---------------------------------------------------------------------------------------------------------------+	
+{CITY=PHILADELPHIA, LAT=39.951637, STATE=PA, LON=-75.16381}
+{LAT=39.950363, LON=-75.15537, ZIP=19148}
+{CITY=PHILADELPHIA, LAT=39.950363, LON=-75.15537, ZIP=19148}
+{TYPE=ST, NUMBER=123, STREET=MAIN, LAT=39.950363, LON=-75.15537, ZIP=19148}
+{TYPE=AVE, CITY=PHILADELPHIA, NUMBER=123, STREET=BLAH, LAT=39.951637, STATE=PA, LON=-75.16381}
++---------------------------------------------------------------------------------------------------------------+
+
+	<<Also see {{{Parser.html}Parser}} for information an interactive test client>>
+	
+Development Plan
+
++---------------------------------------------------------------------------------------------------------------+
+Under construction, I am really busy recently. So I can only
+write about the development plan but not able to do much real development work. If this sounds interesting to you please
+contact me. I believe a java based geocoder will have a usecase in many applications. 
++---------------------------------------------------------------------------------------------------------------+     
+
+Simple Geocoding
+
+	Once the Tiger/Line data is loaded into a relational database, it's actually not hard to estimate the lat/lon
+of a parsed and normalized address. Given the schema that was described in {{{import.html}Data import module}}, the 
+geocoding query will look something like the following:
+
++---------------------------------------------------------------------------------------------------------------+
+  select t1.tlid, t1.fraddr, t1.fraddl, t1.toaddr, t1.toaddl, 
+  t1.zipL, t1.zipR, t1.tolat, t1.tolong, t1.frlong, t1.frlat,  
+  t2.long1, t2.lat1, t2.long2, t2.lat2, t2.long3, t2.lat3, t2.long4, t2.lat4,
+  t2.long5, t2.lat5, t2.long6, t2.lat6, t2.long7, t2.lat7, t2.long8, t2.lat8,
+  t2.long9, t2.lat9, t2.long10, t2.lat10
+  from tiger_1 t1 left outer join tiger_2 t2 on t1.tlid = t2.tlid where
+  ( 
+       (fraddL <= $num and toaddL >= $num) or (fraddL >= $num and toaddL <= $num)
+    or (fraddR <= $num and toaddR >= $num) or (fraddR >= $num and toaddR <= $num)
+  ) and
+  t1.fename = $street and
+  and ( t1.fedirs = $postdir ) and ( t1.fedirp = $predir ) and  ( t1.fetype = $type) 
+  and (t1.zipL = $zip or t1.zipR = $zip) 
++---------------------------------------------------------------------------------------------------------------+
+
+	The above query will return a lat/lon range of which can be used to geocode the input address.
+	
+	Of course, we can improve the efficiency of the above query by adding indexes to the querying columns and/or
+create a denormalize join view (using either materialized views or just a flat table) of table t1 and t2 so that
+the query does not need to join every time.  
+	
+Filling in missing information
+
+	It's very common that an input address will be missing some information. Since we have a address database,
+we can definitely fill in the blanks. For example, given a zip code, we can fill in city, state if they are missing.
+Given just the city and state, we can figure out the zip code. The street types ('Street', 'Road', etc) and directions
+can be filled in also if they are missing.
+	
+	For example:
+	
++---------------------------------------------------------------------------------------------------------------+
+123 South Main, Monkey Town, 19147  -> 123 S MAIN AVE, MONKEY TOWN, PA 19147 
++---------------------------------------------------------------------------------------------------------------+
+
+Adding fuzziness to the search
+
+	 While the above query works, it however requires the inputs street name matches exactly to what is stored in the
+address database. For example, if there is a street named 'Petersons Street', then inputs of {'Peterson', 'Street'} and
+{'Petreson', 'Street'} (spelling) will not find a match. Therefore, it would be a good idea to allow some errors in the
+inputs by using fuzzy search/match techniques. 
+
+	 Many commercial quality geocoders have some form of fuzzy match feature (google map for instance). If you are interested in how to
+implement something similar, you can take a look at this article about {{{http://norvig.com/spell-correct.html}spell-corrector}} from Peter Norvig.
+
+ 
