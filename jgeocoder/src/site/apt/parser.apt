@@ -154,7 +154,7 @@ third party libraries dependencies and also a simple command line client for you
    For example, type
    
 +---------------------------------------------------------------------------------------------------------------+
-$> java -jar target/jgeocoder-0.1-SNAPSHOT-jar-with-dependencies.jar "Google Inc, 1600 Amphitheatre Parkway N.W., Mountain View, CA 94043"
+$> java -jar -Djgeocoder.data.home=/usr/local/jgeocoder/data target/jgeocoder-0.1-SNAPSHOT-jar-with-dependencies.jar "Google Inc, 1600 Amphitheatre Parkway N.W., Mountain View, CA 94043"
 Parsing input...
 
 Address: Google Inc, 1600 Amphitheatre Parkway N W, Mountain View, CA 94043
@@ -197,7 +197,7 @@ CITY : MOUNTAIN VIEW
 	If you do not put in any command line arguments, the test client will start an interactive session
 	
 +---------------------------------------------------------------------------------------------------------------+	
-$> java -jar target/jgeocoder-0.2-SNAPSHOT-jar-with-dependencies.jar                                                  [13:30 08-04-25]
+$> java -jar -Djgeocoder.data.home=/usr/local/jgeocoder/data target/jgeocoder-0.2-SNAPSHOT-jar-with-dependencies.jar                                                  [13:30 08-04-25]
 Input raw address as a single line
 Enter blank line to end session
 
