@@ -26,7 +26,7 @@ public class JGeocoderParserTestClient {
       System.out.println("Normalizing parsed address...");
       m = AddressStandardizer.normalizeParsedAddress(m);
       printMap(m);
-      System.out.println("Geocoding normalized address (Only zip and {city, state} geocoding is supported currently)...");
+      System.out.println("Geocoding normalized address (Only zip and {city, state} geocoding are supported currently)...");
       printMap(jg.geocode(m));
       return;
     }
@@ -49,7 +49,7 @@ public class JGeocoderParserTestClient {
       System.out.println("Normalizing parsed address...");
       m = AddressStandardizer.normalizeParsedAddress(m);
       printMap(m);
-      System.out.println("Geocoding normalized address (Only zip and {city, state} geocoding is supported currently)...");
+      System.out.println("Geocoding normalized address (Only zip and {city, state} geocoding are supported currently)...");
       printMap(jg.geocode(m));
     }
   }
