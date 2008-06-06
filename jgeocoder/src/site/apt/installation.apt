@@ -15,7 +15,7 @@ perform geocoding with your own address data).
 data related to city, state centroid and zip centroid. You can download such a database from JGecooder's sourceforge
 website. It's a berkleleyDb database pre-loaded with zip and city state data. You need to download and unpack its
 data files and point the system property 'jgeocoder.data.home' to its data directory. For example, if you extract its
-data to /usr/local/, then you should point 'jgeocoder.data.home' to /usr/local/jgeocoder/data . /usr/local/jgeocoder/data
+data to /usr/local/, then you should point 'jgeocoder.data.home' (<<System.getProperty("jgeocoder.data.home")>>) to /usr/local/jgeocoder/data . /usr/local/jgeocoder/data
 is also the default jgeocoder data directory by the way, so if you do unpack the data to this location, there's no need 
 to setup the system property.  
   
