@@ -82,6 +82,18 @@
 		</dependency>
   	</dependencies>
   </dependencyManagement>
+  <repositories>
+  	<repository>
+  		<releases>
+  			<updatePolicy>never</updatePolicy>
+  			<checksumPolicy>warn</checksumPolicy>
+  			<enabled>true</enabled>
+  		</releases>
+  		<id>jgeocoder</id>
+  		<name>jgeocoder repo</name>
+  		<url>http://www.cs.drexel.edu/~zl25/maven2/repo</url>
+  	</repository>
+  </repositories>	  
   <dependencies>
   	<dependency>
 	  	<groupId>net.sourceforge.jgeocoder</groupId>
