@@ -21,7 +21,18 @@
   	</license>
   </licenses>
   <mailingLists>
-    <!-- TODO -->    
+    <mailingList>
+      <name>Developer List</name>
+      <subscribe>http://groups.google.com/group/jgeocoder-devel</subscribe>
+      <unsubscribe>http://groups.google.com/group/jgeocoder-devel</unsubscribe>
+      <post>jgeocoder-devel@googlegroups.com</post>
+    </mailingList>
+    <mailingList>
+      <name>Commit List</name>
+      <subscribe>http://groups.google.com/group/jgeocoder-commit</subscribe>
+      <unsubscribe>http://groups.google.com/group/jgeocoder-commit</unsubscribe>
+      <post>jgeocoder-commit@googlegroups.com</post>
+    </mailingList>
   </mailingLists>
   <distributionManagement>
 	<snapshotRepository>
