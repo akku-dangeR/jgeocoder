@@ -104,7 +104,7 @@ class RegexLibrary{
       List<String> lst = Arrays.asList(union.toArray(set));
       Collections.sort(lst, new Comparator<String>(){
         public int compare(String o1, String o2) {
-          return new Integer(o2.length()).compareTo(o1.length());
+          return Integer.valueOf(o2.length()).compareTo(o1.length());
         }
       });
       return StringUtils.join(lst, separator);
