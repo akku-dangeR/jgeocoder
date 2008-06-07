@@ -103,3 +103,17 @@ Performance
 	I have no ideas what the performance will ending up to be, but 200/sec without fuzzy search and 100/sec with fuzzy search will be good
 targets to aim for. 
  
+Making geocoding available online
+
+	It will be nice if I can put up a web accessible interface for this project. I am not looking to make money off this project so
+I can't really afford any hosting fees. Luckily google has some free hosting solutions thru its app engine service. I really want to
+port this project to python so that I can host it on google.
+
+	There are a few challenges about this:
+	
+	*	I don't know python at all, so I need to either find sometime to learn it or get some python developers to help me with this.
+	
+	*	Google's app engine only offers 500MB of free storage, that's probably not gonna be enough to host the entire tiger/line database
+so I need to figure something out. I don't really want to spend any money, but $0.15 - $0.18 per GB-month of storage is very affordable.
+
+	{{http://www.google.com/intl/en/press/annc/20080527_google_io.html}}
