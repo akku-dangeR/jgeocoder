@@ -1,5 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+    <!-- TODO: 
+  	sync with ibiblio
+  	add ant task to auto upload release to sourceforge
+  	get goodies that are available to opened source projects (jira, hosting, etc)    
+  -->
   <name>JGeocoder - Free Java Geocoder</name>
   <description>
   	Geocoding is the process of estimating a latitude and longitude for a given location. JGeocoder is a free Java geocoder. This project is loosely modeled after Geo::Coder::US, a Perl module available for download from the CPAN.
