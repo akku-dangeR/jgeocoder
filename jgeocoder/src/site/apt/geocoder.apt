@@ -98,4 +98,8 @@ inputs by using fuzzy search/match techniques.
 	 Many commercial quality geocoders have some form of fuzzy match feature (google map for instance). If you are interested in how to
 implement something similar, you can take a look at this article about {{{http://norvig.com/spell-correct.html}spell-corrector}} from Peter Norvig.
 
+Performance 
+
+	I have no ideas what the performance will ending up to be, but 200/sec without fuzzy search and 100/sec with fuzzy search will be good
+targets to aim for. 
  
