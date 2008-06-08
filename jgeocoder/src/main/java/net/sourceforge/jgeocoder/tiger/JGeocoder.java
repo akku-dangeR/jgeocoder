@@ -41,7 +41,8 @@ public class JGeocoder{
       _zipDb.init(new File(config.getJgeocoderDataHome()), false, false);
       _zipDao = new ZipCodeDAO(_zipDb.getStore());
     } catch (DatabaseException e) {
-      throw new RuntimeException("Unable to create zip db, "+e.getMessage());
+      throw new RuntimeException("Unable to create zip db, make sure your system property 'jgeocoder.data.home' is correct"
+          +e.getMessage());
     }
     
   }
