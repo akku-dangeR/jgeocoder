@@ -1,5 +1,5 @@
 package net.sourceforge.jgeocoder.tiger;
-import static net.sourceforge.jgeocoder.AddressComponent.LAT;
+import static net.sourceforge.jgeocoder.AddressComponent.*;
 import static net.sourceforge.jgeocoder.AddressComponent.LON;
 import static net.sourceforge.jgeocoder.AddressComponent.ZIP;
 
@@ -28,6 +28,38 @@ import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+@Entity
+class CityWithSpaces{
+  @PrimaryKey
+  private String _noSpace;
+  private String _withSpace;
+  public String getNoSpace() {
+    return _noSpace;
+  }
+  public String getWithSpace() {
+    return _withSpace;
+  }
+  public void setNoSpace(String noSpace) {
+    _noSpace = noSpace;
+  }
+  public void setWithSpace(String withSpace) {
+    _withSpace = withSpace;
+  }
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+  @Override
+  public boolean equals(Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
+  }
+}
+
 @Entity
 class CityStateGeo{
   @PrimaryKey
@@ -165,11 +197,18 @@ class ZipCodeDAO{
   private PrimaryIndex<String, ZipCode> _zipCodeByZip;
   private SecondaryIndex<Location, String, ZipCode> _zipCodeByLocation;
   private PrimaryIndex<Location, CityStateGeo> _cityStateGeoByLocation;
+  private PrimaryIndex<String, CityWithSpaces> _cityWithSpaceByNoSpace;
   public ZipCodeDAO(EntityStore store) throws DatabaseException{
     _zipCodeByZip = store.getPrimaryIndex(String.class, ZipCode.class);
     _zipCodeByLocation = store.getSecondaryIndex(_zipCodeByZip, Location.class, "_location");
     _cityStateGeoByLocation = store.getPrimaryIndex(Location.class, CityStateGeo.class);
+    _cityWithSpaceByNoSpace = store.getPrimaryIndex(String.class, CityWithSpaces.class);
   }
+  
+  public PrimaryIndex<String, CityWithSpaces> getCityWithSpaceByNoSpace() {
+    return _cityWithSpaceByNoSpace;
+  }
+  
   public PrimaryIndex<Location, CityStateGeo> getCityStateGeoByLocation() {
     return _cityStateGeoByLocation;
   }
@@ -212,8 +251,27 @@ class ZipCodeDAO{
     try {
       ZipCode zipcode = _zipCodeByZip.get(zip);
       if(zipcode != null){
-        m.put(LAT, String.valueOf(zipcode.getLat()));
-        m.put(LON, String.valueOf(zipcode.getLon()));
+        if(m.get(LAT) == null){
+          m.put(LAT, String.valueOf(zipcode.getLat()));
+        }
+        if(m.get(LON) == null){
+          m.put(LON, String.valueOf(zipcode.getLon()));
+        }
+        if(m.get(CITY)==null){
+          String city = zipcode.getLocation().getCity();
+          CityWithSpaces cws = getCityWithSpaceByNoSpace().get(city);
+          if(cws != null){
+            m.put(CITY, cws.getWithSpace());
+          }else{
+            m.put(CITY, city);
+          }
+        }
+        if(m.get(COUNTY)==null){
+          m.put(COUNTY, zipcode.getCounty());
+        }
+        if(m.get(STATE)==null){
+          m.put(STATE, zipcode.getLocation().getState());
+        }
         return true;
       }
     } catch (Exception e) {
@@ -236,17 +294,30 @@ class ZipCodesDb{
     return _store;
   }
   
-  public void init(File envHome, boolean readOnly, boolean transactional) throws DatabaseException{
+  public void init(JGeocoderConfig jgconfig, File envHome, boolean readOnly, boolean transactional) throws DatabaseException{
+    
     EnvironmentConfig config = new EnvironmentConfig();
     config.setAllowCreate(!readOnly);
     config.setReadOnly(readOnly);
     config.setTransactional(transactional);
+    if(jgconfig != null){
+      if(jgconfig.getBerkeleyDbCachePercent() >= 0 ){
+        config.setCacheSize(jgconfig.getBerkeleyDbCacheSize());
+      }
+      if(jgconfig.getBerkeleyDbCachePercent() >= 0){
+        config.setCachePercent(jgconfig.getBerkeleyDbCachePercent());
+      }
+    }
     _env = new Environment(envHome, config);
     StoreConfig config2 = new StoreConfig();
     config2.setAllowCreate(!readOnly);
     config2.setReadOnly(readOnly);
     config2.setTransactional(transactional);
     _store = new EntityStore(_env, "ZipCodeEntityStore", config2);
+  }
+  
+  public void init(File envHome, boolean readOnly, boolean transactional) throws DatabaseException{
+    init(null, envHome, readOnly, transactional);
   }
   
   public void shutdown() throws DatabaseException{
