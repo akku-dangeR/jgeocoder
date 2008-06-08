@@ -37,7 +37,7 @@ jg.cleanup();
 {TYPE=AVE, CITY=PHILADELPHIA, NUMBER=123, STREET=BLAH, LAT=39.951637, STATE=PA, LON=-75.16381}
 +---------------------------------------------------------------------------------------------------------------+
 
-	<<Also see {{{Parser.html}Parser}} for information of an interactive test client>>
+	<<Also see {{{parser.html}Parser}} for information of an interactive test client>>
 	
 Development Plan
 
