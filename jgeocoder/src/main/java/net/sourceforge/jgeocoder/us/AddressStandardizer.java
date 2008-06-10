@@ -160,7 +160,7 @@ public class AddressStandardizer{
   private static String normalizeZip(String zip){
     return StringUtils.length(zip) > 5 ? zip.substring(0, 5) : zip;
   }
-    
+  //TODO: document this craziness  
   private static String saintAbbrExpansion(String city){
     String exp = null;
     if((exp = Data.getSAINT_NAME_MAP().get(city))!=null){
