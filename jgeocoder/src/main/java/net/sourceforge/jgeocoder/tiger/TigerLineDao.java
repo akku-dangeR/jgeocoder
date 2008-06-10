@@ -48,6 +48,10 @@ class TigerLineHit{
   float lat8;
   float lat9;
   float lat10;
+  String fedirp; //pre dir
+  String fetype;
+  String fedirs; //suffix dir
+  
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this);
@@ -55,13 +59,23 @@ class TigerLineHit{
 }
 
 class TigerLineDao{
-
+  
+//  public static void main(String[] args) {
+//    JGeocoderConfig config = new JGeocoderConfig();
+//    config.setJgeocoderDataHome("C:\\Users\\jliang\\Desktop\\jgeocoder\\data");
+//    JGeocoder jg = new JGeocoder(config);
+//    Map<AddressComponent, String> map =  jg.geocode("123 mcclellan st google inc., philadelphia 19148");
+//    TigerLineDao dao = new TigerLineDao(H2DbDataSourceFactory.getH2DbDataSource("jdbc:h2:C:\\Users\\jliang\\Desktop\\jgeocoder\\tiger\\tiger"));
+//    System.out.println(dao.getTigerLineHit(map));
+//    jg.cleanup();
+//  }
+  
   private static final Log LOGGER = LogFactory.getLog(TigerLineDao.class);
   private static final String TIGER_QUERY = "select t.tlid, t.fraddr, t.fraddl, t.toaddr, t.toaddl,"+ 
 " t.zipL, t.zipR, t.tolat, t.tolong, t.frlong, t.frlat,"+  
 " t.long1, t.lat1, t.long2, t.lat2, t.long3, t.lat3, t.long4, t.lat4,"+
 " t.long5, t.lat5, t.long6, t.lat6, t.long7, t.lat7, t.long8, t.lat8,"+
-" t.long9, t.lat9, t.long10, t.lat10 from tiger_main t where t.fename = ? and "+
+" t.long9, t.lat9, t.long10, t.lat10, t.fedirp, t.fetype, t.fedirs from tiger_main t where t.fename = ? and "+
 "(" + 
 "       (t.fraddL <= ? and t.toaddL >= ?) or (t.fraddL >= ? and t.toaddL <= ?) "+
 "    or (t.fraddR <= ? and t.toaddR >= ?) or (t.fraddR >= ? and t.toaddR <= ?) "+
@@ -71,7 +85,11 @@ class TigerLineDao{
   public TigerLineDao(DataSource tigerDs){
     _tigerDs = tigerDs;
   }
-  
+  /**
+   * Searches the tiger/line database using ZIP, NUMBER, and STREET
+   * @param normalizedAddr
+   * @return null or a list of search hits 
+   */
   public List<TigerLineHit> getTigerLineHit(Map<AddressComponent, String> normalizedAddr){
     if(normalizedAddr.get(AddressComponent.ZIP) == null 
         || normalizedAddr.get(AddressComponent.NUMBER) == null
@@ -131,6 +149,9 @@ class TigerLineDao{
         hit.lon8 = rs.getFloat("long8");
         hit.lon9 = rs.getFloat("long9");
         hit.lon10 = rs.getFloat("long10");
+        hit.fedirp = rs.getString("fedirp");
+        hit.fetype = rs.getString("fetype");
+        hit.fedirs = rs.getString("fedirs");
         ret.add(hit);
       }
     } catch (Exception e) {

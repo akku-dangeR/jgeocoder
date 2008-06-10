@@ -12,7 +12,7 @@ import com.sleepycat.je.DatabaseException;
 public class JGeocoder{
   private ZipCodesDb _zipDb;
   private ZipCodeDAO _zipDao;
-  
+//  private TigerLineDao _tigerDao;
   public JGeocoder(){
     this(JGeocoderConfig.DEFAULT);
   }
@@ -37,6 +37,7 @@ public class JGeocoder{
   
   public JGeocoder(JGeocoderConfig config){
     _zipDb = new ZipCodesDb();
+//    _tigerDao = new TigerLineDao(config.getTigerDataSource());
     try {
       _zipDb.init(new File(config.getJgeocoderDataHome()), false, false);
       _zipDao = new ZipCodeDAO(_zipDb.getStore());
