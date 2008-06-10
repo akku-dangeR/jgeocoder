@@ -8,7 +8,8 @@ import net.sourceforge.jgeocoder.us.AddressParser;
 import net.sourceforge.jgeocoder.us.AddressStandardizer;
 
 import com.sleepycat.je.DatabaseException;
-
+//TODO: the address database does not have ST LOUIS, ST JOHN, it only has
+//SAINT JOHN, SAINT LOUIS, need to expand ST if zip is missing before searching
 public class JGeocoder{
   private ZipCodesDb _zipDb;
   private ZipCodeDAO _zipDao;
