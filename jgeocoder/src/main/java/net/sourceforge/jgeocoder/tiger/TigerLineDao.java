@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -47,20 +48,25 @@ class TigerLineHit{
   float lat8;
   float lat9;
   float lat10;
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
 }
 
 class TigerLineDao{
+
   private static final Log LOGGER = LogFactory.getLog(TigerLineDao.class);
-  private static final String TIGER_QUERY = "select t.tlid, t.1.fraddr, t.fraddl, t.toaddr, t.toaddl,"+ 
+  private static final String TIGER_QUERY = "select t.tlid, t.fraddr, t.fraddl, t.toaddr, t.toaddl,"+ 
 " t.zipL, t.zipR, t.tolat, t.tolong, t.frlong, t.frlat,"+  
 " t.long1, t.lat1, t.long2, t.lat2, t.long3, t.lat3, t.long4, t.lat4,"+
 " t.long5, t.lat5, t.long6, t.lat6, t.long7, t.lat7, t.long8, t.lat8,"+
 " t.long9, t.lat9, t.long10, t.lat10 from tiger_main t where t.fename = ? and "+
 "(" + 
-"       (t.fraddL <= ? and toaddL >= ?) or (fraddL >= ? and toaddL <= ?) "+
-"    or (fraddR <= ? and toaddR >= ?) or (fraddR >= ? and toaddR <= ?) "+
+"       (t.fraddL <= ? and t.toaddL >= ?) or (t.fraddL >= ? and t.toaddL <= ?) "+
+"    or (t.fraddR <= ? and t.toaddR >= ?) or (t.fraddR >= ? and t.toaddR <= ?) "+
 ")" +  
-"  and (t1.zipL = ? or t1.zipR = ?)";
+"  and (t.zipL = ? or t.zipR = ?)";
   private DataSource _tigerDs;
   public TigerLineDao(DataSource tigerDs){
     _tigerDs = tigerDs;
@@ -81,6 +87,10 @@ class TigerLineDao{
       ps = conn.prepareStatement(TIGER_QUERY);
       int i=1;
       ps.setString(i++, normalizedAddr.get(AddressComponent.STREET));
+      ps.setString(i++, normalizedAddr.get(AddressComponent.NUMBER));
+      ps.setString(i++, normalizedAddr.get(AddressComponent.NUMBER));
+      ps.setString(i++, normalizedAddr.get(AddressComponent.NUMBER));
+      ps.setString(i++, normalizedAddr.get(AddressComponent.NUMBER));
       ps.setString(i++, normalizedAddr.get(AddressComponent.NUMBER));
       ps.setString(i++, normalizedAddr.get(AddressComponent.NUMBER));
       ps.setString(i++, normalizedAddr.get(AddressComponent.NUMBER));
