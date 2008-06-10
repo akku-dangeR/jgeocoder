@@ -21,6 +21,12 @@ import net.sourceforge.jgeocoder.AddressComponent;
 //123 Avenue of art, philadelphia pa 12345
 //PO box 123, abc city, ca 24656
 //123 Route 29 South, new jersey, 12323  
+//FIXME:
+//when encountering address like 
+//123 street street st louis 12345 
+//the parser will interpret st as the street designator rather than part of the city
+//we might want to do some semantic validations to reduce this problem (i.e. if the addr
+//ends with 2 designators, consider giving the last one back to the city)
 public class AddressParser{
 
   private static final Pattern CORNER = Pattern.compile(P_CORNER.getRegex());
