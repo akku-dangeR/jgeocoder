@@ -32,6 +32,7 @@ import net.sourceforge.jgeocoder.AddressComponent;
 
 import org.apache.commons.lang.StringUtils;
 public class AddressStandardizer{
+  
   /**
    * Turn input map into one line of format
    * 
@@ -92,7 +93,10 @@ public class AddressStandardizer{
         case NUMBER: ret.put(NUMBER, normalizeNum(v)); break;
         case STATE: ret.put(STATE, normalizeState(v)); break;
         case ZIP: ret.put(ZIP, normalizeZip(v)); break;
-        case LINE2: ret.put(LINE2, normalizeLine2(v)); break;                    
+        case LINE2: ret.put(LINE2, normalizeLine2(v)); break;
+        case CITY: ret.put(CITY, saintAbbrExpansion(v)); break;
+        case STREET: ret.put(STREET, saintAbbrExpansion(v)); break;
+        case STREET2: ret.put(STREET2, saintAbbrExpansion(v)); break;
         default: ret.put(e.getKey(), v); break;
       }
     }
@@ -152,8 +156,17 @@ public class AddressStandardizer{
     return line2;
   }
   
+  
   private static String normalizeZip(String zip){
     return StringUtils.length(zip) > 5 ? zip.substring(0, 5) : zip;
+  }
+    
+  private static String saintAbbrExpansion(String city){
+    String exp = null;
+    if((exp = Data.getSAINT_NAME_MAP().get(city))!=null){
+      return exp;
+    }
+    return city;
   }
   
 

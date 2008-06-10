@@ -21,4 +21,17 @@ public class AddressParserTest
       assertEquals("pa", addressComponents.get(AddressComponent.STATE));
       assertEquals("123", addressComponents.get(AddressComponent.NUMBER));
    }
+   
+   @org.junit.Test
+   public void saintNameExpansionTest(){
+     String addr1 = "St. louis Missouri";
+     Map<AddressComponent, String> m = AddressStandardizer.normalizeParsedAddress(AddressParser.parseAddress(addr1));
+     assertEquals("SAINT LOUIS", m.get(AddressComponent.CITY));
+     assertEquals("MO", m.get(AddressComponent.STATE));
+     addr1 = "123 St peters ave, St. louis Missouri";
+     m = AddressStandardizer.normalizeParsedAddress(AddressParser.parseAddress(addr1));
+     assertEquals("SAINT LOUIS", m.get(AddressComponent.CITY));
+     assertEquals("SAINT PETERS", m.get(AddressComponent.STREET));
+     assertEquals("MO", m.get(AddressComponent.STATE));
+   }
 }

@@ -21,6 +21,10 @@ class Data{
     return NUMBER_MAP;
   }
   
+  public static Map<String, String> getSAINT_NAME_MAP() {
+    return SAINT_NAME_MAP;
+  }
+  
   private static final Map<String, String> NUMBER_MAP = new HashMap<String, String>();
   private static final Map<String, String> DIRECTIONAL_MAP = new HashMap<String, String>();
   private static final Map<String, String> STREET_TYPE_MAP = new HashMap<String, String>();
