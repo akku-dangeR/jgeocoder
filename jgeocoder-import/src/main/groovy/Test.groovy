@@ -3,7 +3,7 @@ import java.sql.Connection
 import groovy.sql.Sql
 import org.apache.commons.lang.StringUtils
 import java.sql.Driver
-
+/* no longer valid 
 DriverManager.registerDriver((Driver)getClass().getClassLoader().loadClass('org.h2.Driver').newInstance())
 Connection conn = DriverManager.getConnection("jdbc:h2:/home/jliang/Desktop/h2db/testdb", 
     new Properties(), getClass().getClassLoader())
@@ -24,4 +24,4 @@ def testQuery(Sql db,def num, def street, def type, def predir, def postdir, def
   println criterias  println sql
   db.eachRow(sql, criterias){    println it
   }
-}
+}*/
