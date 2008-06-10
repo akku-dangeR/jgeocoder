@@ -2,6 +2,8 @@ package net.sourceforge.jgeocoder.tiger;
 
 import java.io.Serializable;
 
+import javax.sql.DataSource;
+
 import net.sourceforge.jgeocoder.CommonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -14,12 +16,26 @@ public class JGeocoderConfig implements Serializable{
   private String _jgeocoderDataHome = 
     CommonUtils.nvl(System.getProperty("jgeocoder.data.home"), "/usr/local/jgeocoder/data");
 
+  private DataSource _tigerDataSource = null; 
+   
   private long _berkeleyDbCacheSize = -1;
   private int _berkeleyDbCachePercent = -1;
-
-  public int getBerkeleyDbCachePercent() {
-    return _berkeleyDbCachePercent;
+  
+  /**
+   * get the {@link DataSource} to the tiger/line address database
+   * @return
+   */
+  public synchronized DataSource getTigerDataSource() {
+    if(_tigerDataSource == null){
+      _tigerDataSource = H2DbDataSourceFactory.getH2DbDataSource();
+    }
+    return _tigerDataSource;
   }
+  
+  public synchronized void setTigerDataSource(DataSource tigerDataSource) {
+    _tigerDataSource = tigerDataSource;
+  }
+  
   /**
    *  <p>By default, JE sets its cache size proportionally to the JVM
      memory. This formula is used:</p>
@@ -42,6 +58,10 @@ public class JGeocoderConfig implements Serializable{
      parameters will change the size of the shared cache.</p>
    * @param berkeleyDbCachePercent berkeleyDb default will be used if set to negative
    */
+  public int getBerkeleyDbCachePercent() {
+    return _berkeleyDbCachePercent;
+  }
+  
   public void setBerkeleyDbCachePercent(int berkeleyDbCachePercent) {
     _berkeleyDbCachePercent = berkeleyDbCachePercent;
   }
