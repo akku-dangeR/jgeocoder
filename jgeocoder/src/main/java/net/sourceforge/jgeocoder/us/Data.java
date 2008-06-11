@@ -734,6 +734,8 @@ class Data{
     SAINT_NAME_MAP.put("ST LUKE", "SAINT LUKE");
     SAINT_NAME_MAP.put("ST MARKS", "SAINT MARKS");
     SAINT_NAME_MAP.put("ST PAUL", "SAINT PAUL");
+    SAINT_NAME_MAP.put("ST COLUMBANS", "SAINT COLUMBANS");
+    
     
     
   }
