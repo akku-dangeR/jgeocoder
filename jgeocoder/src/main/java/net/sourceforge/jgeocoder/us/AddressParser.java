@@ -21,12 +21,6 @@ import net.sourceforge.jgeocoder.AddressComponent;
 //123 Avenue of art, philadelphia pa 12345
 //PO box 123, abc city, ca 24656
 //123 Route 29 South, new jersey, 12323  
-//FIXME:
-//when encountering address like 
-//123 street street st louis 12345 
-//the parser will interpret st as the street designator rather than part of the city
-//we might want to do some semantic validations to reduce this problem (i.e. if the addr
-//ends with 2 designators, consider giving the last one back to the city)
 public class AddressParser{
 
   private static final Pattern CORNER = Pattern.compile(P_CORNER.getRegex());
@@ -56,6 +50,14 @@ public class AddressParser{
       if(m.matches()){
         ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
         postProcess(ret);
+        String splitRawAddr = null;
+        if((splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr))!=null){
+          m = STREET_ADDRESS.matcher(splitRawAddr);
+          if(m.matches()){
+            ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
+            return ret;
+          }
+        }
       }
     }
     if(ret == null){
@@ -98,4 +100,30 @@ public class AddressParser{
       m.put(ac, v);
   }
 
+  //TODO: document this craziness
+  private static Pattern STREET_DESIGNATOR_CHECK = Pattern.compile("\\b(?i:(?:"+RegexLibrary.STREET_DESIGNATOR+"))\\b");
+  private static String designatorConfusingCitiesCorrection(Map<AddressComponent, String> m, String input){
+    String street = m.get(AddressComponent.STREET);
+    String type = m.get(AddressComponent.TYPE);
+    if(street == null || type == null || street.split(" ").length < 2){ return null;}
+    
+    int start = street.indexOf(' ')+1;
+    Matcher matcher = STREET_DESIGNATOR_CHECK.matcher(street);
+    if(matcher.find(start)){ //if the street itself also contains some designator
+      String inputUpper = input.toUpperCase();
+      for(String s : Data.DESIGNATOR_CONFUSING_CITIES_SET){ 
+        int idx = -1;
+        if((idx =inputUpper.indexOf(s))!=-1){ //and the input has one of the city names that can confuse the parser
+          //this almost guaranteed to break the parser, help the parser by putting a comma separator before the city
+          return input.substring(0, idx)+","+input.substring(idx);
+        }
+      }
+    }
+    
+    return null;
+    
+    
+    
+    
+  }  
 }
