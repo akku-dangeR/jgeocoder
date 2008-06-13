@@ -64,9 +64,13 @@ class TigerLineDao{
 //    JGeocoderConfig config = new JGeocoderConfig();
 //    config.setJgeocoderDataHome("C:\\Users\\jliang\\Desktop\\jgeocoder\\data");
 //    JGeocoder jg = new JGeocoder(config);
-//    Map<AddressComponent, String> map =  jg.geocode("123 mcclellan st google inc., philadelphia 19148");
+//    Map<AddressComponent, String> map =  jg.geocode("2000 South 12th St, Philadelphia, 19148");
 //    TigerLineDao dao = new TigerLineDao(H2DbDataSourceFactory.getH2DbDataSource("jdbc:h2:C:\\Users\\jliang\\Desktop\\jgeocoder\\tiger\\tiger"));
-//    System.out.println(dao.getTigerLineHit(map));
+//    List<TigerLineHit> hits = dao.getTigerLineHit(map);
+//    for(TigerLineHit hit : hits){
+//      System.out.println(hit);
+//      System.out.println(Geocoder.geocodeFromHit(Integer.parseInt(map.get(AddressComponent.NUMBER)), hit));
+//    }
 //    jg.cleanup();
 //  }
   
@@ -85,6 +89,7 @@ class TigerLineDao{
   public TigerLineDao(DataSource tigerDs){
     _tigerDs = tigerDs;
   }
+  
   /**
    * Searches the tiger/line database using ZIP, NUMBER, and STREET
    * @param normalizedAddr
