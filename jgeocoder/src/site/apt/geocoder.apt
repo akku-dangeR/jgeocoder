@@ -43,7 +43,7 @@ jg.cleanup();
     JGeocoderConfig config = new JGeocoderConfig();
     config.setJgeocoderDataHome("C:\\Users\\username\\jgeocoder\\data");
     JGeocoder jg = new JGeocoder(config);
-    Map<AddressComponent, String> map =  jg.geocode("Mozilla Corporation, 1981 Landings Drive Bldg. Kd Mountain View CA 94043-0801");
+    Map<AddressComponent, String> map =  jg.geocode("Mozilla Corporation, 1981 Landings Drive Bldg. K Mountain View CA 94043-0801");
     System.out.println(map);
     jg.cleanup();
 +---------------------------------------------------------------------------------------------------------------+
