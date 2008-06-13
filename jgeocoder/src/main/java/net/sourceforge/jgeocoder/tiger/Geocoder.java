@@ -1,5 +1,9 @@
 package net.sourceforge.jgeocoder.tiger;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 
 /*
  * geocoding estimation functions are ported from sql codes found on 
@@ -12,13 +16,25 @@ package net.sourceforge.jgeocoder.tiger;
 class Geo{
   public float lat, lon;
   public int zip;
-  public String tlid;
+  public long tlid;
   public Geo(){}
-  public Geo(float lat, float lon, int zip, String tlid) {
+  public Geo(float lat, float lon, int zip, long tlid) {
     this.lat = lat;
     this.lon = lon;
     this.zip = zip;
     this.tlid = tlid;
+  }
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+  @Override
+  public boolean equals(Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
   }
 }
 
@@ -27,7 +43,16 @@ class Distance{
 }
 
 class Geocoder {
-  static Geo geocode(int streetnum, String tlid, int fraddr, int fraddl, int toaddr, int toaddl, 
+  
+  static Geo geocodeFromHit(int streetnum, TigerLineHit hit){
+    return geocode(streetnum, hit.tlid, Integer.valueOf(hit.frAddR), Integer.valueOf(hit.frAddL), 
+        Integer.valueOf(hit.toAddR), Integer.valueOf(hit.toAddL), 
+        Integer.valueOf(hit.zipL), Integer.valueOf(hit.zipR), hit.toLat, hit.toLon, hit.frLon, hit.frLat, 
+        hit.lon1, hit.lat1, hit.lon2, hit.lat2, hit.lon3, hit.lat3, hit.lon4, hit.lat4, hit.lon5, hit.lat5,
+        hit.lon6, hit.lat6, hit.lon7, hit.lat7, hit.lon8, hit.lat8, hit.lon9, hit.lat9, hit.lon10, hit.lat10);
+  }
+  
+  static Geo geocode(int streetnum, long tlid, int fraddr, int fraddl, int toaddr, int toaddl, 
     int zipL, int zipR, float tolat, float tolong, float frlong, float frlat,  
     float long1, float lat1, float long2, float lat2, float long3, float lat3, float long4, float lat4,
     float long5, float lat5, float long6, float lat6, float long7, float lat7, float long8, float lat8,
