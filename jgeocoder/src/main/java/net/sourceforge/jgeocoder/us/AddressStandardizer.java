@@ -31,6 +31,11 @@ import java.util.regex.Pattern;
 import net.sourceforge.jgeocoder.AddressComponent;
 
 import org.apache.commons.lang.StringUtils;
+
+//TODO synonym resolutions: need to resolve commons synonyms such as 11th/eleventh, 1st/first, etc
+//the standardized form of ordinal street name should be in ordinal number form (1st, 2nd etc)
+
+//TODO might want to consider synonym resolutions for common city names
 public class AddressStandardizer{
   
   /**
