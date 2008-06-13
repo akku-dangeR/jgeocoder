@@ -37,6 +37,17 @@ jg.cleanup();
 {TYPE=AVE, CITY=PHILADELPHIA, NUMBER=123, STREET=BLAH, LAT=39.951637, STATE=PA, LON=-75.16381}
 +---------------------------------------------------------------------------------------------------------------+
 
+	You can also pass in a config object to JGeocoder
+
++---------------------------------------------------------------------------------------------------------------+
+    JGeocoderConfig config = new JGeocoderConfig();
+    config.setJgeocoderDataHome("C:\\Users\\username\\jgeocoder\\data");
+    JGeocoder jg = new JGeocoder(config);
+    Map<AddressComponent, String> map =  jg.geocode("Mozilla Corporation, 1981 Landings Drive Bldg. Kd Mountain View CA 94043-0801");
+    System.out.println(map);
+    jg.cleanup();
++---------------------------------------------------------------------------------------------------------------+
+
 	<<Also see {{{parser.html}Parser}} for information of an interactive test client>>
 	
 Development Plan
