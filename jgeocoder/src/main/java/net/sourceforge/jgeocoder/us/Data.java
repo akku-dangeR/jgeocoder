@@ -27,15 +27,46 @@ class Data{
     return SAINT_NAME_MAP;
   }
   
+  public static Map<String, String> getORDINAL_MAP() {
+    return ORDINAL_MAP;
+  }
+  
   private static final Map<String, String> NUMBER_MAP = new HashMap<String, String>();
   private static final Map<String, String> DIRECTIONAL_MAP = new HashMap<String, String>();
   private static final Map<String, String> STREET_TYPE_MAP = new HashMap<String, String>();
   private static final Map<String, String> STATE_CODE_MAP = new HashMap<String, String>();
   private static final Map<String, String> UNIT_MAP = new HashMap<String, String>();
   private static final Map<String, String> SAINT_NAME_MAP = new HashMap<String, String>();
+  private static final Map<String, String> ORDINAL_MAP = new HashMap<String, String>();
   public static final Set<String> DESIGNATOR_CONFUSING_CITIES_SET = new HashSet<String>();
 
   static{
+    ORDINAL_MAP.put("ZEROTH", "0TH");
+    ORDINAL_MAP.put("FIRST", "1ST");
+    ORDINAL_MAP.put("SECOND", "2ND");
+    ORDINAL_MAP.put("THIRD", "3RD");
+    ORDINAL_MAP.put("FORTH", "4TH");
+    ORDINAL_MAP.put("FOURTH", "4TH");
+    ORDINAL_MAP.put("FIFTH", "5TH");
+    ORDINAL_MAP.put("SIXTH", "6TH");
+    ORDINAL_MAP.put("SEVENTH", "7TH");
+    ORDINAL_MAP.put("EIGHTH", "8TH");
+    ORDINAL_MAP.put("NINTH", "9TH");
+    ORDINAL_MAP.put("NINETH", "9TH");
+    ORDINAL_MAP.put("TENTH", "10TH");
+    ORDINAL_MAP.put("ELEVENTH", "11TH");
+    ORDINAL_MAP.put("TWELFTH", "12TH");
+    ORDINAL_MAP.put("TWELVETH", "12TH");
+    ORDINAL_MAP.put("THIRTEENTH", "13TH");
+    ORDINAL_MAP.put("FOURTEENTH", "14TH");
+    ORDINAL_MAP.put("FIFTEENTH", "15TH");
+    ORDINAL_MAP.put("SIXTEENTH", "16TH");
+    ORDINAL_MAP.put("SEVENTEENTH", "17TH");
+    ORDINAL_MAP.put("EIGHTEENTH", "18TH");
+    ORDINAL_MAP.put("NINETEENTH", "19TH");
+    ORDINAL_MAP.put("NINTEENTH", "19TH");
+
+    
     NUMBER_MAP.put("ZERO", "0");
     NUMBER_MAP.put("ONE", "1");
     NUMBER_MAP.put("TWO", "2");

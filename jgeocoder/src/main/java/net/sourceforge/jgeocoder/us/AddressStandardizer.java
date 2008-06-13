@@ -32,9 +32,6 @@ import net.sourceforge.jgeocoder.AddressComponent;
 
 import org.apache.commons.lang.StringUtils;
 
-//TODO synonym resolutions: need to resolve commons synonyms such as 11th/eleventh, 1st/first, etc
-//the standardized form of ordinal street name should be in ordinal number form (1st, 2nd etc)
-
 //TODO might want to consider synonym resolutions for common city names
 public class AddressStandardizer{
   
@@ -100,8 +97,8 @@ public class AddressStandardizer{
         case ZIP: ret.put(ZIP, normalizeZip(v)); break;
         case LINE2: ret.put(LINE2, normalizeLine2(v)); break;
         case CITY: ret.put(CITY, saintAbbrExpansion(v)); break;
-        case STREET: ret.put(STREET, saintAbbrExpansion(v)); break;
-        case STREET2: ret.put(STREET2, saintAbbrExpansion(v)); break;
+        case STREET: ret.put(STREET, normalizeOrdinal(saintAbbrExpansion(v))); break;
+        case STREET2: ret.put(STREET2, normalizeOrdinal(saintAbbrExpansion(v))); break;
         default: ret.put(e.getKey(), v); break;
       }
     }
@@ -165,6 +162,9 @@ public class AddressStandardizer{
   private static String normalizeZip(String zip){
     return StringUtils.length(zip) > 5 ? zip.substring(0, 5) : zip;
   }
+  
+  
+  
   //TODO: document this craziness  
   private static String saintAbbrExpansion(String city){
     String exp = null;
@@ -172,6 +172,14 @@ public class AddressStandardizer{
       return exp;
     }
     return city;
+  }
+  
+  private static String normalizeOrdinal(String street){
+    String ordinal = null;
+    if((ordinal = Data.getORDINAL_MAP().get(street))!=null){
+      return ordinal;
+    }
+    return street;
   }
   
 

@@ -23,7 +23,7 @@ public class AddressParserTest
    }
    
    @org.junit.Test
-   public void saintNameExpansionTest(){
+   public void testSaintNameExpansion(){
      String addr1 = "St. louis Missouri";
      Map<AddressComponent, String> m = AddressStandardizer.normalizeParsedAddress(AddressParser.parseAddress(addr1));
      assertEquals("SAINT LOUIS", m.get(AddressComponent.CITY));
@@ -34,6 +34,17 @@ public class AddressParserTest
      assertEquals("SAINT PETERS", m.get(AddressComponent.STREET));
      assertEquals("MO", m.get(AddressComponent.STATE));
    }
+   
+   @org.junit.Test
+   public void testOrdinalNormalization(){
+     String addr1 = "Mozilla Corporation, 1981 second street building K Mountain View CA 94043-0801";
+     Map<AddressComponent, String> m = AddressStandardizer.normalizeParsedAddress(AddressParser.parseAddress(addr1));
+     assertEquals("MOUNTAIN VIEW", m.get(AddressComponent.CITY));
+     assertEquals("CA", m.get(AddressComponent.STATE));
+     assertEquals("2ND", m.get(AddressComponent.STREET));
+     assertEquals("BLDG K", m.get(AddressComponent.LINE2));
+   }
+   
    @org.junit.Test
    public void testDesignatorConfusingCitiesParsing(){
      String addr1 = "123 main street St. louis Missouri";
@@ -49,5 +60,8 @@ public class AddressParserTest
      assertEquals("LAKE", m.get(AddressComponent.STREET));
      assertEquals("PARK", m.get(AddressComponent.TYPE));
      assertEquals("UT", m.get(AddressComponent.STATE));
+     addr1 = "123 south lake park apt 200 Fort Duchesne Utah";
+     m = AddressStandardizer.normalizeParsedAddress(AddressParser.parseAddress(addr1));
+     System.out.println(m);
    }
 }
