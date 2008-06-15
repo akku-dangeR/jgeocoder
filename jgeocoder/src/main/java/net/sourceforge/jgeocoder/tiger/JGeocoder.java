@@ -56,6 +56,7 @@ public class JGeocoder{
     try{
       zips = _zipDao.getZipCodeByLocation().subIndex(loc).entities();
       for(ZipCode zip : zips){
+        //WARNING: this might put a bad zip in the addr map, need to either remove it or correct it
         normalizedAddr.put(AddressComponent.ZIP, zip.getZip());
         List<TigerLineHit> zipHits;
         try {
@@ -104,6 +105,7 @@ public class JGeocoder{
     if(hit != null){
       acuracy = GeocodeAcuracy.STREET;
       Geo geo = Geocoder.geocodeFromHit(Integer.parseInt(hit.streetNum), hit);
+      m.put(AddressComponent.ZIP, String.valueOf(geo.zip));
       m.put(AddressComponent.PREDIR, hit.fedirp);
       m.put(AddressComponent.POSTDIR, hit.fedirs);
       m.put(AddressComponent.TYPE, hit.fetype);
