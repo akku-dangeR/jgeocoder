@@ -1,49 +1,147 @@
 package net.sourceforge.jgeocoder.tiger;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.jgeocoder.AddressComponent;
+import net.sourceforge.jgeocoder.GeocodeAcuracy;
+import net.sourceforge.jgeocoder.JGeocodeAddress;
 import net.sourceforge.jgeocoder.us.AddressParser;
 import net.sourceforge.jgeocoder.us.AddressStandardizer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.sleepycat.je.DatabaseException;
-
-
-
+import com.sleepycat.persist.EntityCursor;
+/**
+ * TODO javadocs me
+ * @author jliang
+ *
+ */
 public class JGeocoder{
+  private static final Log LOGGER = LogFactory.getLog(JGeocoder.class);
   private ZipCodesDb _zipDb;
   private ZipCodeDAO _zipDao;
-//  private TigerLineDao _tigerDao;
+  private TigerLineDao _tigerDao;
   public JGeocoder(){
     this(JGeocoderConfig.DEFAULT);
   }
-  
-  public Map<AddressComponent, String> geocode(String addrLine){
-    Map<AddressComponent, String> m  = AddressParser.parseAddress(addrLine);
-    if(m == null) return null;  //FIXME: throw exception instead
-    m = AddressStandardizer.normalizeParsedAddress(m);
-    if(m == null) return null;
-    return geocode(m);
-  }
 
-  public Map<AddressComponent, String> geocode(Map<AddressComponent, String> normalizedAddr){
-    Map<AddressComponent, String> m = new HashMap<AddressComponent, String>(normalizedAddr);
-    if(_zipDao.geocodeByZip(m)){
-      return m;
-    }else if(_zipDao.geocodeByCityState(m)){
-      return m;
+  private TigerLineHit getTigerLineHit(Map<AddressComponent, String> normalizedAddr) throws DatabaseException{
+    //FIXME: remove me once the data files are uploaded
+    if(_tigerDao == null){
+      return null;
     }
-    return m;
+    if(normalizedAddr.get(AddressComponent.ZIP) != null){
+      try {
+        _zipDao.fillInCSByZip(normalizedAddr, normalizedAddr.get(AddressComponent.ZIP));
+      } catch (DatabaseException e) {
+        LOGGER.warn("Unable to query zip code", e);
+      }
+      try {
+        return _tigerDao.getTigerLineHit(normalizedAddr);
+      } catch (TigerQueryFailedException e) {
+        LOGGER.debug("Tiger query failed", e);
+        return null;
+      }
+    }
+    Location loc = new Location();
+    loc.setCity(normalizedAddr.get(AddressComponent.CITY).replaceAll("\\s+", ""));
+    loc.setState(normalizedAddr.get(AddressComponent.STATE));
+    EntityCursor<ZipCode> zips = null;
+    List<TigerLineHit> hits = new ArrayList<TigerLineHit>();
+    try{
+      zips = _zipDao.getZipCodeByLocation().subIndex(loc).entities();
+      for(ZipCode zip : zips){
+        normalizedAddr.put(AddressComponent.ZIP, zip.getZip());
+        List<TigerLineHit> zipHits;
+        try {
+          zipHits = _tigerDao.getTigerLineHits(normalizedAddr);
+        } catch (TigerQueryFailedException e) {
+          LOGGER.debug("Tiger query failed", e);
+          normalizedAddr.remove(AddressComponent.ZIP);
+          return null;
+        } 
+        hits.addAll(zipHits);
+      }
+    }finally{
+      if(zips != null){
+        zips.close();
+      }
+    }
+    if(hits.size() > 0){
+      return TigerLineDao.findBest(normalizedAddr, hits);
+    }
+    normalizedAddr.remove(AddressComponent.ZIP);
+    return null;
+  }
+  
+  public JGeocodeAddress geocodeAddress(String addrLine){
+    JGeocodeAddress ret = new JGeocodeAddress();
+    Map<AddressComponent, String> m  = AddressParser.parseAddress(addrLine);
+    ret.setParsedAddr(m);
+    if(m == null) return ret;//FIXME: throw exception instead
+    
+    m = AddressStandardizer.normalizeParsedAddress(m);
+    ret.setNormalizedAddr(m);
+    
+    if(m.get(AddressComponent.ZIP) == null &&  //if zip is missing
+        (m.get(AddressComponent.STATE) == null || m.get(AddressComponent.CITY)==null)){ //city or state is missing 
+      return ret;
+    }
+    
+    GeocodeAcuracy acuracy = GeocodeAcuracy.STREET;
+    m = new HashMap<AddressComponent, String>(m);
+    TigerLineHit hit = null;
+    try {
+      hit = getTigerLineHit(m);
+    } catch (DatabaseException e) {
+      throw new RuntimeException("Unable to query tiger/line database "+e.getMessage());
+    }
+    if(hit != null){
+      acuracy = GeocodeAcuracy.STREET;
+      Geo geo = Geocoder.geocodeFromHit(Integer.parseInt(hit.streetNum), hit);
+      m.put(AddressComponent.PREDIR, hit.fedirp);
+      m.put(AddressComponent.POSTDIR, hit.fedirs);
+      m.put(AddressComponent.TYPE, hit.fetype);
+      m.put(AddressComponent.LAT, String.valueOf(geo.lat));
+      m.put(AddressComponent.LON, String.valueOf(geo.lon));
+      ret.setGeocodedAddr(m);
+    }else if(_zipDao.geocodeByZip(m)){
+      acuracy = GeocodeAcuracy.ZIP;
+      ret.setGeocodedAddr(m);
+    }else if(_zipDao.geocodeByCityState(m)){
+      acuracy = GeocodeAcuracy.CITY_STATE;
+      ret.setGeocodedAddr(m);
+    }else{
+      return ret;
+    }
+    
+    if(ret.getGeocodedAddr()!=null && 
+       ret.getGeocodedAddr().get(AddressComponent.COUNTY) == null &&
+       ret.getGeocodedAddr().get(AddressComponent.ZIP) != null){
+      try {
+        _zipDao.fillInCSByZip(ret.getGeocodedAddr(), ret.getGeocodedAddr().get(AddressComponent.ZIP));
+      } catch (DatabaseException e) {
+        LOGGER.warn("Unable to query zip code", e);
+      }
+    }
+    
+    ret.setAcuracy(acuracy);
+    return ret;
   }
   
   public JGeocoder(JGeocoderConfig config){
     _zipDb = new ZipCodesDb();
+  //FIXME: remove me once the data files are uploaded
 //    _tigerDao = new TigerLineDao(config.getTigerDataSource());
     try {
       _zipDb.init(new File(config.getJgeocoderDataHome()), false, false);
       _zipDao = new ZipCodeDAO(_zipDb.getStore());
-    } catch (DatabaseException e) {
+    } catch (Exception e) {
       throw new RuntimeException("Unable to create zip db, make sure your system property 'jgeocoder.data.home' is correct"
           +e.getMessage());
     }
