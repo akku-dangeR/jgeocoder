@@ -9,7 +9,11 @@ import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_ORDINAL_0_99;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.US_STATES;
 import static net.sourceforge.jgeocoder.us.Utils.compile;
 import net.sourceforge.jgeocoder.us.Utils.NamedGroupPattern;
-
+/**
+ * TODO javadocs me
+ * @author jliang
+ *
+ */
 class AddressRegexLibrary{
   
   private static final String NUMBER =

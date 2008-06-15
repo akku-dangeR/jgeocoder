@@ -21,6 +21,11 @@ import net.sourceforge.jgeocoder.AddressComponent;
 //123 Avenue of art, philadelphia pa 12345
 //PO box 123, abc city, ca 24656
 //123 Route 29 South, new jersey, 12323  
+/**
+ * TODO javadocs me
+ * @author jliang
+ *
+ */
 public class AddressParser{
 
   private static final Pattern CORNER = Pattern.compile(P_CORNER.getRegex());
@@ -37,29 +42,28 @@ public class AddressParser{
   
   public static Map<AddressComponent, String> parseAddress(String rawAddr){
     rawAddr = getCleanSttring(rawAddr);
-    Matcher m = CORNER.matcher(rawAddr);
+    Matcher m = STREET_ADDRESS.matcher(rawAddr);
     Map<AddressComponent, String> ret = null;
-    if(m.find()){
+    if(m.matches()){
+      ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
+      postProcess(ret);
+      String splitRawAddr = null;
+      if((splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr))!=null){
+        m = STREET_ADDRESS.matcher(splitRawAddr);
+        if(m.matches()){
+          ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
+          return ret;
+        }
+      }
+    }
+    m = CORNER.matcher(rawAddr);
+    if(ret == null && m.find()){
       m = INTERSECTION.matcher(rawAddr);
       if(m.matches()){
         ret = getAddrMap(m, P_INTERSECTION.getNamedGroupMap());
       }
     }
-    if(ret == null){
-      m = STREET_ADDRESS.matcher(rawAddr);
-      if(m.matches()){
-        ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
-        postProcess(ret);
-        String splitRawAddr = null;
-        if((splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr))!=null){
-          m = STREET_ADDRESS.matcher(splitRawAddr);
-          if(m.matches()){
-            ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
-            return ret;
-          }
-        }
-      }
-    }
+    
     if(ret == null){
       m = CSZ.matcher(rawAddr);
       if(m.matches()){

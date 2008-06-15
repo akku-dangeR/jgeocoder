@@ -33,6 +33,11 @@ import net.sourceforge.jgeocoder.AddressComponent;
 import org.apache.commons.lang.StringUtils;
 
 //TODO might want to consider synonym resolutions for common city names
+/**
+ * TODO javadocs me
+ * @author jliang
+ *
+ */
 public class AddressStandardizer{
   
   /**
@@ -44,6 +49,9 @@ public class AddressStandardizer{
    * @return
    */
   public static String toSingleLine(Map<AddressComponent, String> parsedAddr){
+    if(parsedAddr == null){
+      return null;
+    }
     StringBuilder sb = new StringBuilder();
     appendIfNotNull(sb, parsedAddr.get(NAME), ", ");
     appendIfNotNull(sb, parsedAddr.get(NUMBER), " ");
