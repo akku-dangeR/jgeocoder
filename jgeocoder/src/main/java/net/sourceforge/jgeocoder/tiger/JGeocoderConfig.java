@@ -9,7 +9,11 @@ import net.sourceforge.jgeocoder.CommonUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-
+/**
+ * TODO javadocs me
+ * @author jliang
+ *
+ */
 public class JGeocoderConfig implements Serializable{
   private static final long serialVersionUID = 20080604L;
   public static final JGeocoderConfig DEFAULT = new JGeocoderConfig();
