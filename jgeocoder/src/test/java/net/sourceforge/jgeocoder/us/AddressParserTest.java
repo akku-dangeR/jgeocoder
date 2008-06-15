@@ -14,14 +14,29 @@ public class AddressParserTest
    {
       String addr1 = "123 Avenue of art, philadelphia pa 12345";
       Map<AddressComponent, String> addressComponents = AddressParser.parseAddress(addr1);
-      System.out.println("addressComponents: " + addressComponents);
+      //System.out.println("addressComponents: " + addressComponents);
 
       assertEquals("12345", addressComponents.get(AddressComponent.ZIP));
       assertEquals("philadelphia", addressComponents.get(AddressComponent.CITY));
       assertEquals("pa", addressComponents.get(AddressComponent.STATE));
       assertEquals("123", addressComponents.get(AddressComponent.NUMBER));
    }
-   
+
+   @org.junit.Test
+   public void testParseAddress2()
+   {
+      String addr1 = " 14625 County Road 672, Wimauma, FL 33598";
+      Map<AddressComponent, String> addressComponents = AddressParser.parseAddress(addr1);
+      System.out.println("addressComponents: " + addressComponents);
+      // {CITY=Wimauma, ZIP=33598, STREET=County, STATE=FL, LINE2=672, TYPE=Road, NUMBER=14625}
+      assertEquals("14625", addressComponents.get(AddressComponent.NUMBER));
+
+      //      assertEquals("12345", addressComponents.get(AddressComponent.ZIP));
+      //      assertEquals("philadelphia", addressComponents.get(AddressComponent.CITY));
+      //      assertEquals("pa", addressComponents.get(AddressComponent.STATE));
+      //      assertEquals("123", addressComponents.get(AddressComponent.NUMBER));
+   }
+
    @org.junit.Test
    public void testSaintNameExpansion(){
      String addr1 = "St. louis Missouri";
