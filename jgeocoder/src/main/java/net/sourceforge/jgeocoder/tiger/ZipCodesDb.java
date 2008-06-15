@@ -1,6 +1,9 @@
 package net.sourceforge.jgeocoder.tiger;
-import static net.sourceforge.jgeocoder.AddressComponent.*;
+import static net.sourceforge.jgeocoder.AddressComponent.CITY;
+import static net.sourceforge.jgeocoder.AddressComponent.COUNTY;
+import static net.sourceforge.jgeocoder.AddressComponent.LAT;
 import static net.sourceforge.jgeocoder.AddressComponent.LON;
+import static net.sourceforge.jgeocoder.AddressComponent.STATE;
 import static net.sourceforge.jgeocoder.AddressComponent.ZIP;
 
 import java.io.File;
@@ -191,7 +194,11 @@ class Location{
     return EqualsBuilder.reflectionEquals(this, obj);
   }
 }
-
+/**
+ * TODO javadocs me
+ * @author jliang
+ *
+ */
 class ZipCodeDAO{
   private static final Log LOGGER = LogFactory.getLog(ZipCodeDAO.class);
   private PrimaryIndex<String, ZipCode> _zipCodeByZip;
@@ -217,6 +224,23 @@ class ZipCodeDAO{
   }
   public PrimaryIndex<String, ZipCode> getZipCodeByZip() {
     return _zipCodeByZip;
+  }
+  
+  public void fillInCSByZip(Map<AddressComponent, String> m, String zip) throws DatabaseException{
+    fillInCSByZip(m, _zipCodeByZip.get(zip));
+  }
+  
+  private void fillInCSByZip(Map<AddressComponent, String> m, ZipCode zipcode) throws DatabaseException{
+    String city = zipcode.getLocation().getCity();
+    CityWithSpaces cws = getCityWithSpaceByNoSpace().get(city);
+    if(cws != null){
+      m.put(CITY, cws.getWithSpace());
+    }else{
+      m.put(CITY, city);
+    }
+    m.put(COUNTY, zipcode.getCounty());
+    m.put(STATE, zipcode.getLocation().getState());
+
   }
   
   public boolean geocodeByCityState(Map<AddressComponent, String> m){
@@ -256,21 +280,6 @@ class ZipCodeDAO{
         }
         if(m.get(LON) == null){
           m.put(LON, String.valueOf(zipcode.getLon()));
-        }
-        if(m.get(CITY)==null){
-          String city = zipcode.getLocation().getCity();
-          CityWithSpaces cws = getCityWithSpaceByNoSpace().get(city);
-          if(cws != null){
-            m.put(CITY, cws.getWithSpace());
-          }else{
-            m.put(CITY, city);
-          }
-        }
-        if(m.get(COUNTY)==null){
-          m.put(COUNTY, zipcode.getCounty());
-        }
-        if(m.get(STATE)==null){
-          m.put(STATE, zipcode.getLocation().getState());
         }
         return true;
       }
