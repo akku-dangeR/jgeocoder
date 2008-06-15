@@ -14,12 +14,17 @@ public class AddressParserTest
    {
       String addr1 = "123 Avenue of art, philadelphia pa 12345";
       Map<AddressComponent, String> addressComponents = AddressParser.parseAddress(addr1);
-      //System.out.println("addressComponents: " + addressComponents);
-
       assertEquals("12345", addressComponents.get(AddressComponent.ZIP));
       assertEquals("philadelphia", addressComponents.get(AddressComponent.CITY));
       assertEquals("pa", addressComponents.get(AddressComponent.STATE));
       assertEquals("123", addressComponents.get(AddressComponent.NUMBER));
+      addressComponents = AddressParser.parseAddress("123 FISH AND GAME rd philadelphia pa 12345");
+      assertEquals("12345", addressComponents.get(AddressComponent.ZIP));
+      assertEquals("philadelphia", addressComponents.get(AddressComponent.CITY));
+      assertEquals("pa", addressComponents.get(AddressComponent.STATE));
+      assertEquals("123", addressComponents.get(AddressComponent.NUMBER));
+      assertEquals("FISH AND GAME", addressComponents.get(AddressComponent.STREET));
+      assertEquals("rd", addressComponents.get(AddressComponent.TYPE));
    }
 
    @org.junit.Test
@@ -77,6 +82,10 @@ public class AddressParserTest
      assertEquals("UT", m.get(AddressComponent.STATE));
      addr1 = "123 south lake park apt 200 Fort Duchesne Utah";
      m = AddressStandardizer.normalizeParsedAddress(AddressParser.parseAddress(addr1));
-     System.out.println(m);
+     assertEquals("FORT DUCHESNE", m.get(AddressComponent.CITY));
+     assertEquals("LAKE", m.get(AddressComponent.STREET));
+     assertEquals("PARK", m.get(AddressComponent.TYPE));
+     assertEquals("UT", m.get(AddressComponent.STATE));
+     assertEquals("APT 200", m.get(AddressComponent.LINE2));
    }
 }
