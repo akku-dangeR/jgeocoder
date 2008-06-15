@@ -41,7 +41,11 @@ class Geo{
 class Distance{
   public float totalLat=0f, totalLon=0f;
 }
-
+/**
+ * TODO javadocs me
+ * @author jliang
+ *
+ */
 class Geocoder {
   
   static Geo geocodeFromHit(int streetnum, TigerLineHit hit){
