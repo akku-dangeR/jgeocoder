@@ -40,7 +40,7 @@ public class JGeocoder{
       try {
         return _tigerDao.getTigerLineHit(normalizedAddr);
       } catch (TigerQueryFailedException e) {
-    	  LOGGER.error("Tiger/Line DB query failed, street level geocoding will be skipped: "+e.getMessage());
+    	  LOGGER.warn("Tiger/Line DB query failed, street level geocoding will be skipped: "+e.getMessage());
           if(LOGGER.isDebugEnabled()){
         	  LOGGER.debug("", e);
           }
@@ -61,7 +61,7 @@ public class JGeocoder{
         try {
           zipHits = _tigerDao.getTigerLineHits(normalizedAddr);
         } catch (TigerQueryFailedException e) {
-        	LOGGER.error("Tiger/Line DB query failed, street level geocoding will be skipped: "+e.getMessage());
+        	LOGGER.warn("Tiger/Line DB query failed, street level geocoding will be skipped: "+e.getMessage());
           if(LOGGER.isDebugEnabled()){
         	  LOGGER.debug("", e);
           }
