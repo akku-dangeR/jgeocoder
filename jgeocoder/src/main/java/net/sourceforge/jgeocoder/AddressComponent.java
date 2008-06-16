@@ -9,5 +9,5 @@ public enum AddressComponent{
     //intersections
     STREET2, PREDIR2, POSTDIR2, TYPE2, 
     //geocode populated
-    LAT, LON, COUNTY
+    LAT, LON, COUNTY, TLID
 }

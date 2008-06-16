@@ -31,10 +31,6 @@ public class JGeocoder{
   }
 
   private TigerLineHit getTigerLineHit(Map<AddressComponent, String> normalizedAddr) throws DatabaseException{
-    //FIXME: remove me once the data files are uploaded
-    if(_tigerDao == null){
-      return null;
-    }
     if(normalizedAddr.get(AddressComponent.ZIP) != null){
       try {
         _zipDao.fillInCSByZip(normalizedAddr, normalizedAddr.get(AddressComponent.ZIP));
@@ -109,6 +105,7 @@ public class JGeocoder{
       m.put(AddressComponent.PREDIR, hit.fedirp);
       m.put(AddressComponent.POSTDIR, hit.fedirs);
       m.put(AddressComponent.TYPE, hit.fetype);
+      m.put(AddressComponent.TLID, String.valueOf(hit.tlid));
       m.put(AddressComponent.LAT, String.valueOf(geo.lat));
       m.put(AddressComponent.LON, String.valueOf(geo.lon));
       ret.setGeocodedAddr(m);
@@ -138,8 +135,7 @@ public class JGeocoder{
   
   public JGeocoder(JGeocoderConfig config){
     _zipDb = new ZipCodesDb();
-  //FIXME: remove me once the data files are uploaded
-//    _tigerDao = new TigerLineDao(config.getTigerDataSource());
+    _tigerDao = new TigerLineDao(config.getTigerDataSource());
     try {
       _zipDb.init(new File(config.getJgeocoderDataHome()), false, false);
       _zipDao = new ZipCodeDAO(_zipDb.getStore());

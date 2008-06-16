@@ -21,7 +21,7 @@ public class JGeocoderParserTestClient {
       System.out.println("Parsed: "+ CommonUtils.nvl(AddressStandardizer.toSingleLine(ret.getParsedAddr()), "null"));
       System.out.println("Normalized: "+ CommonUtils.nvl(AddressStandardizer.toSingleLine(ret.getNormalizedAddr()), "null"));
       System.out.println("Geocoded: "+ CommonUtils.nvl(AddressStandardizer.toSingleLine(ret.getGeocodedAddr()), "null"));
-      System.out.println(ret);
+      System.out.println(ret.toStringMultiLine());
       CommonUtils.printElapsed(start, TimeUnit.SECONDS);
       jg.cleanup();
       return;
@@ -40,7 +40,7 @@ public class JGeocoderParserTestClient {
       System.out.println("Parsed: "+ CommonUtils.nvl(AddressStandardizer.toSingleLine(ret.getParsedAddr()), "null"));
       System.out.println("Normalized: "+ CommonUtils.nvl(AddressStandardizer.toSingleLine(ret.getNormalizedAddr()), "null"));
       System.out.println("Geocoded: "+ CommonUtils.nvl(AddressStandardizer.toSingleLine(ret.getGeocodedAddr()), "null"));
-      System.out.println(ret);
+      System.out.println(ret.toStringMultiLine());
       CommonUtils.printElapsed(start, TimeUnit.SECONDS);
       System.out.println();
     }
