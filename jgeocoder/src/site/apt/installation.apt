@@ -7,6 +7,8 @@
 
 Download an Install the JGeocoder database
 
+	<<This MUST be done first and done correctly otherwise JGeocoder will not work.>>
+
 	If you wish to use JGeocoder's geocoding capability, you will need to first download and install/create
 a compatible address database first. (Alternatively, you can use JGeocoder's parsing capability alone and 
 perform geocoding with your own address data). 
@@ -36,6 +38,18 @@ and zip_codes.zip). Also in the jgeocoder-import project, you will find a groovy
 how the data is loaded into berkeleyDb. 
 
 	{{http://jgeocoder.svn.sourceforge.net/viewvc/jgeocoder/jgeocoder-import/src/main/groovy/}}
+
++---------------------------------------------------------------------------------------------------------------+
+#$DATA_HOME_PATH should be the full absolute path to JGeocoder's data files folder
+#for example, C:\Users\jliang\Desktop\jgeocoder\data ,  /usr/local/jgeocoder/data , etc
+export jgeocoder.data.home='$DATA_HOME_PATH' 
+
+#$URL is the JDBC connection url to the database which the Tiger/Line data is loaded
+#for example, if you download
+export jgeocoder.tiger.url='$URL'
++---------------------------------------------------------------------------------------------------------------+  
+
+
 
 Download from Maven2 repository
 

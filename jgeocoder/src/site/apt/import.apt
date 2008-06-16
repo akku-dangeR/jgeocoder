@@ -3,10 +3,11 @@
                                     ------
                                     Jay Liang
                                     ------
-                                     2008/04/25
+                                     2008/06/15
 
 +---------------------------------------------------------------------------------------------------------------+
-Under construction, see groovy scripts in jgeocoder-import module in svn repository for more details.
+Under construction, we are working on this to make data loading more accessible. 
+see groovy scripts in jgeocoder-import module in svn repository for more details.
 http://jgeocoder.svn.sourceforge.net/viewvc/jgeocoder/
 +---------------------------------------------------------------------------------------------------------------+     
 
@@ -15,9 +16,123 @@ Data Import module
 	The primary function of the data import module is to parse the {{{http://www.census.gov/geo/www/tiger/}Tiger/Line}} data files 
 and import them into a relational database of which will be used by geocoder module.
 
-Data base schema
+Primary Data Table
 
-	The following schema is generated using the Tiger/Line files' data dictionary (see TigerDefinition.groovy). 
+	As mentioned in {{{geocoder.html}Geocoder}}, JGeocoder will query against sql tables named TIGER_<STATE> for a particular given
+state. For example, it queries TIGER_PA to geocode addresses in Pennsylvania and it queries TIGER_CA to geocode addresses
+in California. This gives us logical partitions of the Tiger/Line data using states.  
+	
+	All of these primary tables of different states have the same definitions as showed below (only the names are different of courses). 
+
++---------------------------------------------------------------------------------------------------------------+
+	--this is the primary table for PA
+    create table TIGER_PA ( TLID  numeric  not null,
+        FEDIRP  varchar(2)  ,
+        FENAME  varchar(30)  ,
+        FETYPE  varchar(4)  ,
+        FEDIRS  varchar(2)  ,
+        FRADDL  numeric,
+        TOADDL  numeric,
+        FRADDR  numeric,
+        TOADDR  numeric,
+        ZIPL  varchar(5)  ,
+        ZIPR  varchar(5)  ,
+        FRLONG  numeric  not null,
+        FRLAT  numeric  not null,
+        TOLONG  numeric  not null,
+        TOLAT  numeric  not null,
+        LONG1  numeric ,
+        LAT1  numeric ,
+        LONG2  numeric  ,
+        LAT2  numeric  ,
+        LONG3  numeric  ,
+        LAT3  numeric  ,
+        LONG4  numeric  ,
+        LAT4  numeric  ,
+        LONG5  numeric  ,
+        LAT5  numeric  ,
+        LONG6  numeric  ,
+        LAT6  numeric  ,
+        LONG7  numeric  ,
+        LAT7  numeric  ,
+        LONG8  numeric  ,
+        LAT8  numeric  ,
+        LONG9  numeric  ,
+        LAT9  numeric  ,
+        LONG10  numeric  ,
+        LAT10  numeric  );
++---------------------------------------------------------------------------------------------------------------+	
+	
+	This table is a join table of the TIGER_1 and TIGER_2 tables (see blow). You can create this join table by 
+executing the following query.
+
++---------------------------------------------------------------------------------------------------------------+
+create table tiger_main as select 
+t1.TLID, t1.FEDIRP, t1.FENAME, t1.FETYPE,
+t1.FEDIRS, t1.FRADDL, t1.TOADDL,
+t1.FRADDR, t1.TOADDR, t1.ZIPL, t1.ZIPR, 
+t1.FRLONG, t1.FRLAT, t1.TOLONG,t1.TOLAT,
+t2.RTSQ,t2.LONG1,t2.LAT1,t2.LONG2,t2.LAT2,t2.LONG3,t2.LAT3,
+t2.LONG4,t2.LAT4,t2.LONG5,t2.LAT5,t2.LONG6,t2.LAT6,t2.LONG7,
+t2.LAT7,t2.LONG8,t2.LAT8,t2.LONG9,t2.LAT9,t2.LONG10,t2.LAT10  
+from tiger_1 t1 
+left outer join tiger_2 t2 on t1.tlid = t2.tlid
++---------------------------------------------------------------------------------------------------------------+
+
+Where to get the data
+
+	If you are trying to test JGeocoder, you can simply download a pre-populated database from our 
+sourceforge site and point JGeocoder to it.
+Currently this pre-populated database only contains PA addresses data. Therefore, if you are using this database then
+you will only be able to geocode PA addresses. All other addresses will be geocoded using either the ZIP centroid or 
+City State centroid. 
+(see {{{quick.html}Quick Start}} for instructions)
+
+	This pre-populated database is a H2 database ( http://h2database.com/) with only PA data loaded. If you need data
+from other states or if you need to use other RDBMS (such as MySql), you will have to load the load yourself.  
+
+	The Tiger/Line data files are freely availabel at http://www.census.gov/geo/www/tiger/ . To load them, you can either
+
+	* load them manually
+	
++---------------------------------------------------------------------------------------------------------------+
+1. download Tiger/Line data files
+2. load Tiger_1 and Tiger_2 files into a relational database
+3. create some indexes on the TLID column
+4. Create a join table using Tiger_1 and Tiger_2	
+5. you can drop Tiger_1 and Tiger_2 at this point if you want to
++---------------------------------------------------------------------------------------------------------------+
+
+	OR
+
+	* download the raw jgeocoder-data from our sourceforge project site and load them directly. For example, if you want
+to load the PA address data, you need to download jgeocdoer-raw-PA-0.3.7z and load the CSV file TIGER_PA.csv into a table
+named TIGER_PA. 
+
+	Currently only PA raw data is available because I don't need the enitire US data set to do development. I will be
+slowly releasing raw data files for other states but there's no timeline. It's not hard to load them manually if you need
+them. 
+
+	After the data are loaded, you need to create some indexes on it to make querying more efficient. Take a look at 
+the query described in {{{geocoder.html}Geocoder}}. Without knowing the specifics about RDBMS you are using, I recommend 
+that you simply create indexes on all the query column
+
++---------------------------------------------------------------------------------------------------------------+
+create index IDX0_TIGER_PA on TIGER_PA(tlid);
+create index IDX1_TIGER_PA on TIGER_PA(fename);
+create index IDX2_TIGER_PA on TIGER_PA(fraddL);
+create index IDX3_TIGER_PA on TIGER_PA(toaddL);
+create index IDX4_TIGER_PA on TIGER_PA(fraddR);
+create index IDX5_TIGER_PA on TIGER_PA(toaddR);
+create index IDX6_TIGER_PA on TIGER_PA(zipL);
+create index IDX7_TIGER_PA on TIGER_PA(zipR);
++---------------------------------------------------------------------------------------------------------------+
+
+ 
+Tiger/Line Database schema
+
+	The following schema is generated using the Tiger/Line files' data dictionary (see TigerDefinition.groovy and http://www.census.gov/geo/www/tiger/ for details). 
+JGeocoder is using the 2006 Second Edition data files. 
 	 
 +---------------------------------------------------------------------------------------------------------------+
 create table tiger_1 ( TLID  numeric  not null,
@@ -85,6 +200,22 @@ LONG9  numeric  ,
 LAT9  numeric  ,
 LONG10  numeric  ,
 LAT10  numeric  );
+
++---------------------------------------------------------------------------------------------------------------+
+
+Other Tiger/Line Files and TLID
+	
+	<<JGeocoder does not need the data in these files>>
+
+	The Tiger/Line database includes other files which JGeocoder does not need to performance geocoding of addresses.
+However, if your specific application requires information in these files, you can import them to a database and query
+them using TLID. TLID is the permanent ID of address entities in Tiger/Line. For example, the geocoder does not return
+information about ZIP4, but you can query ZIP4 by querying the tiger_z table using the TLID. Since this ID is permanent,
+it will also be useful if you need to update geocoded address entities using future Tiger/Line releases. 
+
+	Please note that the TLID will only be available if the JGeocoder is able to find an address level hit. 
+   
++---------------------------------------------------------------------------------------------------------------+
 
 create table tiger_4 ( TLID  numeric  not null,
 RTSQ  numeric  not null,
