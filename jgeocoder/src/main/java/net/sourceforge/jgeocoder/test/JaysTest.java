@@ -10,7 +10,11 @@ import net.sourceforge.jgeocoder.JGeocodeAddress;
 import net.sourceforge.jgeocoder.tiger.H2DbDataSourceFactory;
 import net.sourceforge.jgeocoder.tiger.JGeocoder;
 import net.sourceforge.jgeocoder.tiger.JGeocoderConfig;
-
+/**
+ * blah blah
+ * @author jliang
+ *
+ */
 public class JaysTest{
   public static void main(String[] args) {
     JGeocoderConfig config = new JGeocoderConfig();
