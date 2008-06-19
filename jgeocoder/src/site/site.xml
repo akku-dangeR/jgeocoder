@@ -24,7 +24,8 @@
       <item name="Data Import"    href="import.html" />
       <item name="Geocoder"    href="geocoder.html" />      
       <item name="Installation"    href="installation.html" />
-      <item name="FAQ"    href="faq.html" />            
+      <item name="FAQ"    href="faq.html" />
+      <item name="Contribute"    href="contribute.html" />                
     </menu>          
     <menu name="Example">
 	  <item name="Quick Start"    href="quick.html" />    
