@@ -17,13 +17,18 @@
 		urchinTracker();
 		</script>
     </head>
-      
-    <menu name="JGeocoder">
+    
+	<menu name="JGeocoder">
 	  <item name="About"    href="index.html" />    
       <item name="Address Parser"    href="parser.html" />
       <item name="Data Import"    href="import.html" />
       <item name="Geocoder"    href="geocoder.html" />      
-      <item name="Installation"    href="installation.html" />            
+      <item name="Installation"    href="installation.html" />
+      <item name="FAQ"    href="faq.html" />            
+    </menu>          
+    <menu name="Example">
+	  <item name="Quick Start"    href="quick.html" />    
+      <item name="API Usage"    href="usage.html" />
     </menu>    
     <menu ref="reports"/>
     <menu name="Links">

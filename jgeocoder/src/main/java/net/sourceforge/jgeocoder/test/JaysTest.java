@@ -16,7 +16,7 @@ import net.sourceforge.jgeocoder.tiger.JGeocoderConfig;
  * @author jliang
  *
  */
-public class JaysTest{
+class JaysTest{
   public static void main(String[] args) {
     JGeocoderConfig config = new JGeocoderConfig();
     config.setJgeocoderDataHome("C:\\Users\\jliang\\Desktop\\jgeocoder\\data");

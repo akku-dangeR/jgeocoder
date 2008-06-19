@@ -8,13 +8,13 @@
 Quick test with command line client
   
   	JGeocoder contains a command line test client you can use to test JGeocoder. Note that it is not meant to be 
-the primary interface of JGeocder. Currently JGeocoder is a set of APIs that allow developers to create a US geocoder.
+the primary interface of JGeocder. Currently JGeocoder is a set of APIs which allow developers to create a geocoder for U.S. addresses.
 
 Step By Step Guide
 	
 	1. Download jgeocoder-data-with-PA-0.3.7z from sourceforge 
 	
-	2. Extract the jgeocoder folder to your harddrive. Here I assume that you are putting it to C:\
+	2. Extract the 'jgeocoder' folder in the .7z file to your harddrive. Here I assume that you are putting it to C:\
 	
 	3. Download the JGeocoder client jgeocoder-0.3-jar-with-dependencies.jar from sourceforge
 	
@@ -24,9 +24,9 @@ Step By Step Guide
 java -jar -Djgeocoder.data.home='C:\jgeocoder\data' -Djgeocoder.tiger.url='jdbc:h2:C:\jgeocoder\tiger\tiger;LOG=0;UNDO_LOG=0' jgeocoder-0.3-SNAPSHOT-jar-with-dependencies.jar 
 +---------------------------------------------------------------------------------------------------------------+	
 
-	5. Start testing by entering addresses. Note that the database jgeocoder-data-with-PA-0.3.7z only contain 
+	5. Start testing by entering addresses. Note that the database jgeocoder-data-with-PA-0.3.7z only contains 
 PA data, so all addresses that are outside of PA will only get a zip level or city state level geocode. Go to 
-map.google.com to get PA addresses if you don't have them (search something like 'pizza' in 'philadelphia pa')
+map.google.com to get PA addresses if you don't have them (search something like 'pizza' in 'philadelphia pa' to get valid addresses)
 	
 
 Test Session
@@ -35,9 +35,11 @@ Test Session
 	
 	* The first input will take longer to geocode because the startup time
 	
-	* Addresses with zip code can be geocoded much faster than ones that do not have zip
+	* Addresses with zip code can be geocoded much faster than ones that do not have zip. 
 	
-	* Missing information such as street direction, street designator, City, State, Zip, etc are automatically populated
+	* If zip is missing, addresses in big cities will take longer to geocode because smaller cities have less zips.
+	
+	* Missing information such as street direction, street designator, City, State, Zip, etc are automatically populated.
 	
 	* Incorrect street designation, city, state, are automatically corrected
 	

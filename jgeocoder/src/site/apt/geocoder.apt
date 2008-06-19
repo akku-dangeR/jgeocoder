@@ -63,6 +63,7 @@ Geocoding with JGeocoder in action
 +---------------------------------------------------------------------------------------------------------------+
 
 	The above outputs
+	
 +---------------------------------------------------------------------------------------------------------------+	
 net.sourceforge.jgeocoder.JGeocodeAddress@4c4975[
   _parsedAddr={NAME=lazaros pizza house, PREDIR=null, TYPE=st, STATE=pa, NUMBER=1743, CITY=philadelphia, STREET=south, ZIP=19146}
