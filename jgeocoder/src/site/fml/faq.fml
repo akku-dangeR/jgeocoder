@@ -19,7 +19,7 @@
        Where do I get more supports?
       </question>
       <answer>
-       It's an opened source project, so only communiti support is available. Use our google groups at http://groups.google.com/group/jgeocoder-users
+       It's an opened source project, so only communiti support is available. Use our user mailing list at <a href="http://groups.google.com/group/jgeocoder-users">jgeocoder-users</a>. 
       </answer>
     </faq>
 
@@ -54,7 +54,7 @@
        The parser is not able to parse addresses 'XXX XXX...'
       </question>
       <answer>
-       No address parsers are perfect, JGeocoder has a very good parser judging my experiences with the parsers in other geocoders.
+       No address parsers are perfect, JGeocoder has a very good parser judging based from my experiences with the parsers in other geocoders.
        If you think your addresses are reasonably formatted and should be parsable, tell us about them. The more feedbacks we receive,
        the better we will be able to adjust the parser to cover more corner cases.
       </answer>
