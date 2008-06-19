@@ -132,7 +132,7 @@ create index IDX7_TIGER_PA on TIGER_PA(zipR);
 Tiger/Line Database schema
 
 	The following schema is generated using the Tiger/Line files' data dictionary (see TigerDefinition.groovy and http://www.census.gov/geo/www/tiger/ for details). 
-JGeocoder is using the 2006 Second Edition data files. 
+JGeocoder is using the 2006 Second Edition data files. Full specifications at {{TGR06SE.pdf}} 
 	 
 +---------------------------------------------------------------------------------------------------------------+
 create table tiger_1 ( TLID  numeric  not null,
