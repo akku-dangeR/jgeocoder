@@ -13,7 +13,7 @@
   <groupId>net.sourceforge.jgeocoder</groupId>
   <artifactId>jgeocoder</artifactId>
   <packaging>jar</packaging>
-  <version>0.3</version>
+  <version>0.4-SNAPSHOT</version>
   <licenses>
   	<license>
   		<name>Apache License 2.0</name>
@@ -52,9 +52,9 @@
     </site>
   </distributionManagement>    
   <scm>
-    <connection>scm:svn:https://jgeocoder.svn.sourceforge.net/svnroot/jgeocoder/tags/jgeocoder-0.3</connection>
-    <developerConnection>scm:svn:https://jgeocoder.svn.sourceforge.net/svnroot/jgeocoder/tags/jgeocoder-0.3</developerConnection>
-    <url>scm:svn:https://jgeocoder.svn.sourceforge.net/svnroot/jgeocoder/tags/jgeocoder-0.3</url>
+    <connection>scm:svn:https://jgeocoder.svn.sourceforge.net/svnroot/jgeocoder/</connection>
+    <developerConnection>scm:svn:https://zl25-drexel@jgeocoder.svn.sourceforge.net/svnroot/jgeocoder/jgeocoder/</developerConnection>
+    <url>scm:svn:https://jgeocoder.svn.sourceforge.net/svnroot/jgeocoder/jgeocoder/</url>
   </scm>      
   <build>
 	<defaultGoal>package</defaultGoal>
