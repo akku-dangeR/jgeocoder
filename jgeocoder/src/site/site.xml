@@ -26,7 +26,8 @@
       <item name="Geocoder"    href="geocoder.html" />      
       <item name="Installation"    href="installation.html" />
       <item name="FAQ"    href="faq.html" />
-      <item name="Contribute"    href="contribute.html" />                
+      <item name="Contribute"    href="contribute.html" />
+      <item name="Known Issues"    href="issues.html" />                
     </menu>          
     <menu name="Example">
 	  <item name="Quick Start"    href="quick.html" />    
