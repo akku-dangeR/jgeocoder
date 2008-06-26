@@ -10,7 +10,7 @@ import java.util.Set;
  *
  */
 class Data{
-
+  
   public static Map<String, String> getDIRECTIONAL_MAP() {
     return DIRECTIONAL_MAP;
   }
@@ -518,7 +518,7 @@ class Data{
     STATE_CODE_MAP.put("ALABAMA", "AL");
     STATE_CODE_MAP.put("ALASKA", "AK");
     STATE_CODE_MAP.put("AMERICAN SAMOA", "AS");
-    STATE_CODE_MAP.put("ARIZONA", "AZ");
+    STATE_CODE_MAP.put("ARIZONA", "AZ"); 
     STATE_CODE_MAP.put("ARKANSAS", "AR");
     STATE_CODE_MAP.put("CALIFORNIA", "CA");
     STATE_CODE_MAP.put("COLORADO", "CO");
@@ -538,6 +538,7 @@ class Data{
     STATE_CODE_MAP.put("KENTUCKY", "KY");
     STATE_CODE_MAP.put("LOUISIANA", "LA");
     STATE_CODE_MAP.put("MAINE", "ME");
+    STATE_CODE_MAP.put("MARSHALL IS", "MH");
     STATE_CODE_MAP.put("MARSHALL ISLANDS", "MH");
     STATE_CODE_MAP.put("MARYLAND", "MD");
     STATE_CODE_MAP.put("MASSACHUSETTS", "MA");
@@ -551,8 +552,14 @@ class Data{
     STATE_CODE_MAP.put("NEW HAMPSHIRE", "NH");
     STATE_CODE_MAP.put("NEW JERSEY", "NJ");
     STATE_CODE_MAP.put("NEW MEXICO", "NM");
+    STATE_CODE_MAP.put("NEWJERSEY", "NJ");
+    STATE_CODE_MAP.put("NEWMEXICO", "NM");
+    STATE_CODE_MAP.put("NEWYORK", "NY");
     STATE_CODE_MAP.put("NEW YORK", "NY");
-    STATE_CODE_MAP.put("NORTH CAROLINA", "NC");
+    STATE_CODE_MAP.put("N CAROLINA", "NC");
+    STATE_CODE_MAP.put("N DAKOTA", "ND");
+    STATE_CODE_MAP.put("NORTHERN MARIANA ISLANDS", "MP");
+    STATE_CODE_MAP.put("N CAROLINA", "NC");
     STATE_CODE_MAP.put("NORTH DAKOTA", "ND");
     STATE_CODE_MAP.put("NORTHERN MARIANA ISLANDS", "MP");
     STATE_CODE_MAP.put("OHIO", "OH");
@@ -561,17 +568,22 @@ class Data{
     STATE_CODE_MAP.put("PALAU", "PW");
     STATE_CODE_MAP.put("PENNSYLVANIA", "PA");
     STATE_CODE_MAP.put("PUERTO RICO", "PR");
+    STATE_CODE_MAP.put("PUERTORICO", "PR");
     STATE_CODE_MAP.put("RHODE ISLAND", "RI");
     STATE_CODE_MAP.put("SOUTH CAROLINA", "SC");
     STATE_CODE_MAP.put("SOUTH DAKOTA", "SD");
+    STATE_CODE_MAP.put("S CAROLINA", "SC");
+    STATE_CODE_MAP.put("S DAKOTA", "SD");
     STATE_CODE_MAP.put("TENNESSEE", "TN");
     STATE_CODE_MAP.put("TEXAS", "TX");
     STATE_CODE_MAP.put("UTAH", "UT");
     STATE_CODE_MAP.put("VERMONT", "VT");
+    STATE_CODE_MAP.put("VIRGIN IS", "VI");
     STATE_CODE_MAP.put("VIRGIN ISLANDS", "VI");
     STATE_CODE_MAP.put("VIRGINIA", "VA");
     STATE_CODE_MAP.put("WASHINGTON", "WA");
     STATE_CODE_MAP.put("WEST VIRGINIA", "WV");
+    STATE_CODE_MAP.put("W VIRGINIA", "WV");
     STATE_CODE_MAP.put("WISCONSIN", "WI");
     STATE_CODE_MAP.put("WYOMING", "WY");
     

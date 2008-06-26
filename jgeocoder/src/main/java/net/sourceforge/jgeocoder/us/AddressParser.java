@@ -39,9 +39,17 @@ public class AddressParser{
   private static String getCleanSttring(String rawAddr){
     return CLEANUP.matcher(rawAddr).replaceAll(" ").replaceAll("\\s+", " ");
   }
-  
-  public static Map<AddressComponent, String> parseAddress(String rawAddr){
+  /**
+   * Parses a raw address string 
+   * @param rawAddr
+   * @param autoCorrectStateSpelling swith on/off auto correction on state mis-spelling
+   * @return a map of parsed address components
+   */
+  public static Map<AddressComponent, String> parseAddress(String rawAddr, boolean autoCorrectStateSpelling){
     rawAddr = getCleanSttring(rawAddr);
+    if(autoCorrectStateSpelling){
+      rawAddr = SpellingCorrector.correctStateSpelling(rawAddr);
+    }
     Matcher m = STREET_ADDRESS.matcher(rawAddr);
     Map<AddressComponent, String> ret = null;
     if(m.matches()){
@@ -71,6 +79,14 @@ public class AddressParser{
       }
     }
     return ret;
+  }
+  /**
+   * Parses a raw address string, this delegates to {@linkplain AddressParser#parseAddress(String, boolean)} with autoCorrectStateSpelling set to false
+   * @param rawAddr
+   * @return a map of parsed address components
+   */
+  public static Map<AddressComponent, String> parseAddress(String rawAddr){
+    return parseAddress(rawAddr, false);
   }
   
   private static void postProcess(Map<AddressComponent, String> m){
