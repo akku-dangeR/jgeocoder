@@ -131,13 +131,18 @@ public class AddressParser{
     Matcher matcher = STREET_DESIGNATOR_CHECK.matcher(street);
     if(matcher.find(start)){ //if the street itself also contains some designator
       String inputUpper = input.toUpperCase();
+      String ret = null;
       for(String s : Data.DESIGNATOR_CONFUSING_CITIES_SET){ 
+        int maxIdx = Integer.MIN_VALUE;
         int idx = -1;
         if((idx =inputUpper.indexOf(s))!=-1){ //and the input has one of the city names that can confuse the parser
-          //this almost guaranteed to break the parser, help the parser by putting a comma separator before the city
-          return input.substring(0, idx)+","+input.substring(idx);
+          if(idx > maxIdx){//this almost guaranteed to break the parser, help the parser by putting a comma separator before the city
+            ret = input.substring(0, idx)+","+input.substring(idx);
+            maxIdx = idx;
+          }
         }
       }
+      return ret;
     }
     
     return null;
