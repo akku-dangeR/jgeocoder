@@ -110,6 +110,7 @@ public class AddressStandardizer{
         default: ret.put(e.getKey(), v); break;
       }
     }
+    ret.put(CITY, resolveCityAlias(ret.get(CITY), ret.get(STATE)));
     return ret;
   }
   //oh man... what had i got myself into...
@@ -171,7 +172,9 @@ public class AddressStandardizer{
     return StringUtils.length(zip) > 5 ? zip.substring(0, 5) : zip;
   }
   
-  
+  private static String resolveCityAlias(String city, String state){
+    return AliasResolver.resolveCityAlias(city, state);
+  }
   
   //TODO: document this craziness  
   private static String saintAbbrExpansion(String city){

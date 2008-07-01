@@ -10,9 +10,8 @@ import net.sourceforge.jgeocoder.CommonUtils;
 
 import org.apache.commons.lang.StringUtils;
 
-public class AliasResolver{
+class AliasResolver{
   private static final Map<String, Map<String, String>> CITY_ALIAS_MAP = new HashMap<String, Map<String,String>>();
-  //FIXME: use berkeleyDb??
   static{
     try {
       BufferedReader br = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("city-alias.txt")));
@@ -20,7 +19,7 @@ public class AliasResolver{
       while((line=br.readLine())!= null){
         String[] items = line.split("\\s*=\\s*");
         String[] cs = items[0].split("<b>")[1].split("\\s*,\\s*");
-        String city = cs[0].replaceAll("\\s+", ""), state = cs[1];
+        String city = cs[0], state = cs[1];
         String[] alias = items[1].split("[|]");
         Map<String, String> aliasMap = CITY_ALIAS_MAP.get(state);
         if(aliasMap == null){
@@ -28,7 +27,7 @@ public class AliasResolver{
           CITY_ALIAS_MAP.put(state, aliasMap);
         }
         for(String a : alias){
-          aliasMap.put(a.split("\\s*,\\s*")[0].intern(), city.intern());
+          aliasMap.put(a.split("\\s*,\\s*")[0].replaceAll("\\s+", "").intern(), city.intern());
         }
       }      
     } catch (IOException e) {

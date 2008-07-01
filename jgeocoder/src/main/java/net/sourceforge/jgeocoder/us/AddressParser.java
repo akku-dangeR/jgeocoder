@@ -86,7 +86,7 @@ public class AddressParser{
    * @return a map of parsed address components
    */
   public static Map<AddressComponent, String> parseAddress(String rawAddr){
-    return parseAddress(rawAddr, false);
+    return parseAddress(rawAddr, true);
   }
   
   private static void postProcess(Map<AddressComponent, String> m){
