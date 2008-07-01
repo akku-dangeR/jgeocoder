@@ -149,7 +149,7 @@ public class AddressStandardizer{
     return nvl(getSTREET_TYPE_MAP().get(type), type);
   }
   
-  private static String normalizeState(String state){
+  public static String normalizeState(String state){
     return nvl(getSTATE_CODE_MAP().get(state), state);
   }
   private static final Pattern LINE2A = Pattern.compile("\\W*(?:"+LINE2A_GROUPED+")\\W*");

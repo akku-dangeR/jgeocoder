@@ -11,11 +11,15 @@ import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_INTERSECTION;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_STREET_ADDRESS;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.jgeocoder.AddressComponent;
+
+import org.apache.commons.lang.StringUtils;
 
 //TODO: support theses
 //123 Avenue of art, philadelphia pa 12345
@@ -119,33 +123,50 @@ public class AddressParser{
     if(v != null)
       m.put(ac, v);
   }
-
   //TODO: document this craziness
   private static Pattern STREET_DESIGNATOR_CHECK = Pattern.compile("\\b(?i:(?:"+RegexLibrary.STREET_DESIGNATOR+"))\\b");
-  private static String designatorConfusingCitiesCorrection(Map<AddressComponent, String> m, String input){
-    String street = m.get(AddressComponent.STREET);
-    String type = m.get(AddressComponent.TYPE);
+  private static String designatorConfusingCitiesCorrection(Map<AddressComponent, String> parsedLocation, String input){
+    String street = parsedLocation.get(AddressComponent.STREET);
+    String type = parsedLocation.get(AddressComponent.TYPE);
     if(street == null || type == null || street.split(" ").length < 2){ return null;}
-    
-    int start = street.indexOf(' ')+1;
-    Matcher matcher = STREET_DESIGNATOR_CHECK.matcher(street);
-    if(matcher.find(start)){ //if the street itself also contains some designator
-      String inputUpper = input.toUpperCase();
-      String ret = null;
-      for(String s : Data.DESIGNATOR_CONFUSING_CITIES_SET){ 
-        int maxIdx = Integer.MIN_VALUE;
-        int idx = -1;
-        if((idx =inputUpper.indexOf(s))!=-1){ //and the input has one of the city names that can confuse the parser
-          if(idx > maxIdx){//this almost guaranteed to break the parser, help the parser by putting a comma separator before the city
-            ret = input.substring(0, idx)+","+input.substring(idx);
-            maxIdx = idx;
-          }
-        }
-      }
-      return ret;
-    }
-    
-    return null;
+	  Matcher m = STREET_DESIGNATOR_CHECK.matcher(street);
+	  if(m.find()){
+		  String parsedstate = parsedLocation.get(AddressComponent.STATE);
+		  if(parsedstate == null){
+			  String parsedcity = parsedLocation.get(AddressComponent.CITY);
+			  if(parsedcity != null && parsedcity.length() == 2){
+				  parsedstate = parsedcity;
+			  }
+		  }
+		  String normalizedState = AddressStandardizer.normalizeState(StringUtils.upperCase(parsedstate));
+		  String inputUpper =  input.toUpperCase();
+		  int maxIdx = Integer.MIN_VALUE;
+		  String ret = null;
+		  Set<String> stateSet = new HashSet<String>();
+		  if(normalizedState != null){
+			  stateSet.add(normalizedState);
+		  }else{ //if no state in put, this needs to work much harder
+			  stateSet.addAll(SpecialData.C_MAP.keySet());
+		  }
+		  int stateIdx = parsedstate == null ? input.length() : input.lastIndexOf(parsedstate);
+		  for(String state : stateSet){
+		      for(String s : SpecialData.C_MAP.get(state)){
+			        int idx = -1;
+			        if((idx =inputUpper.lastIndexOf(s))!=-1){ //and the input has one of the city names that can confuse the parser
+			          //this almost guaranteed to break the parser, help the parser by putting a comma separator before the city
+			        	if(idx > maxIdx){
+			        		ret = input.substring(0, idx)+","+input.substring(idx);
+			        		maxIdx = idx;
+			        	}
+			        	if(maxIdx+s.length() >= stateIdx -2){
+			        		return ret;
+			        	}
+			        }
+			      }
+		  }
+	      return ret;
+	  }			
+  return null;
     
   }  
 }
