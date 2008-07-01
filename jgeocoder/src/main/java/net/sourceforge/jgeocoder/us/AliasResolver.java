@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.jgeocoder.CommonUtils;
 
@@ -16,6 +18,7 @@ class AliasResolver{
     try {
       BufferedReader br = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("city-alias.txt")));
       String line = null;
+      Map<String, Set<String>> allRealCitiesMap = new HashMap<String, Set<String>>();
       while((line=br.readLine())!= null){
         String[] items = line.split("\\s*=\\s*");
         String[] cs = items[0].split("<b>")[1].split("\\s*,\\s*");
@@ -27,9 +30,22 @@ class AliasResolver{
           CITY_ALIAS_MAP.put(state, aliasMap);
         }
         for(String a : alias){
-          aliasMap.put(a.split("\\s*,\\s*")[0].replaceAll("\\s+", "").intern(), city.intern());
+          String aa = a.split("\\s*,\\s*")[0];
+          String realCity = city.intern();
+          Set<String> allRealCities = allRealCitiesMap.get(state);
+          if(allRealCities == null){
+            allRealCities = new HashSet<String>();
+            allRealCitiesMap.put(state, allRealCities);
+          }
+          allRealCities.add(realCity);
+          if(!allRealCities.contains(aa)){
+            aliasMap.put(aa.replaceAll("\\s+", "").intern(), city.intern());
+          }
         }
-      }      
+      }  
+      
+      allRealCitiesMap.clear();
+      allRealCitiesMap = null;
     } catch (IOException e) {
       throw new Error("Unable to initalize City Alias Resolver", e);
     }
