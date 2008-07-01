@@ -87,5 +87,12 @@ public class AddressParserTest
      assertEquals("PARK", m.get(AddressComponent.TYPE));
      assertEquals("UT", m.get(AddressComponent.STATE));
      assertEquals("APT 200", m.get(AddressComponent.LINE2));
+     
+     addr1 = "123 main st cape may court house nj";
+     m = AddressStandardizer.normalizeParsedAddress(AddressParser.parseAddress(addr1));
+     assertEquals("CAPE MAY COURT HOUSE", m.get(AddressComponent.CITY));
+     assertEquals("NJ", m.get(AddressComponent.STATE));
+
    }
+   
 }
