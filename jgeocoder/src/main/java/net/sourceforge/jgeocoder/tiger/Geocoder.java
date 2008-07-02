@@ -102,19 +102,7 @@ class Geocoder {
 //    ---If yes, add the ratio of this distance to the total ratio
 //    ---If no, trim the ratio so that it applies only to this segment and return calculated point.
     float thisLen, thisRatio, useStartLon=frlong, useStartLat=frlat, useEndLon=tolong, useEndLat=tolat, useRatio=ratio;
-    if(lat1 != 0 && !found){
-      thisLen = getLineDistance(long1, lat1, lastLon, lastLat);
-      thisRatio = thisLen / totalLength;
-      if(thisLen + totalTravel >= travelTarget){
-        useStartLat = lastLat; useStartLon = lastLon;
-        useEndLat = lat1; useEndLon = long1;
-        useRatio = thisRatio; found = true;
-      }else{
-        totalRatio = totalRatio + thisRatio;
-        lastLon = long1; lastLat = lat1;
-        totalTravel = totalTravel + thisLen;
-      }
-    }
+
     // 10 freaking times of this
     if(lat1 != 0 && !found){
       thisLen = getLineDistance(long1, lat1, lastLon, lastLat);
