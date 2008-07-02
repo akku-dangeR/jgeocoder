@@ -1,0 +1,21 @@
+<document>
+  <properties>
+    <title>Release Notes</title>
+  </properties>
+  <body>
+  	<release version="0.4" date="7/02/2008">
+  		<action dev="jliang" type="update">
+  		 Parsing logics enhancements
+  		</action>
+  		<action dev="jliang" type="add">
+  		 State name auto correction
+  		</action>
+  		<action dev="jliang" type="add">
+  		 Added city name alias resolver
+  		</action>  		
+		<action dev="jliang" type="update">
+  		 Performance improvement of parser
+  		</action>  		
+  	</release>
+  </body>
+</document>
