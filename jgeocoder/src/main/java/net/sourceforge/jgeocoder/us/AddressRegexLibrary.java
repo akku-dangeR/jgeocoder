@@ -87,7 +87,7 @@ class AddressRegexLibrary{
   private static final String ADDR_NAME =  "\\W*(?:(?P<name>[^,]+)\\W+)??"; 
   
   private static final String STREET_ADDRESS = 
-   ADDR_NAME + LINE1 + "\\W+"+ LINE2 + LASTLINE +"\\W*";
+   ADDR_NAME + LINE1 + "(?P<line12sep>\\W+)"+ LINE2 + LASTLINE +"\\W*";
   
   private static final String CORNER = "(?:\\band\\b|\\bat\\b|&|\\@)";
 

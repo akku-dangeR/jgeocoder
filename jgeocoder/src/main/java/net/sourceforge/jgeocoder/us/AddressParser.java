@@ -60,13 +60,17 @@ public class AddressParser{
       ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
       postProcess(ret);
       String splitRawAddr = null;
-      if((splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr))!=null){
+      String line12sep = ret.get(AddressComponent.TLID);//HACK!
+      if(!line12sep.contains(",") 
+          && (splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr))!=null){
         m = STREET_ADDRESS.matcher(splitRawAddr);
         if(m.matches()){
           ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
+          ret.remove(AddressComponent.TLID);//HACK!
           return ret;
         }
       }
+      ret.remove(AddressComponent.TLID);//HACK!
     }
     m = CORNER.matcher(rawAddr);
     if(ret == null && m.find()){
@@ -111,7 +115,11 @@ public class AddressParser{
   private static Map<AddressComponent, String> getAddrMap(Matcher m, Map<Integer, String> groupMap){
     Map<AddressComponent, String> ret = new HashMap<AddressComponent, String>();
     for(int i=1; i<= m.groupCount(); i++){
-      AddressComponent comp = valueOf(groupMap.get(i));
+      String name = groupMap.get(i);
+      if("LINE12SEP".equals(name)){
+        name = "TLID"; //a hack to put the LINE12SEP data in the map, need to remove later
+      }
+      AddressComponent comp = valueOf(name);
       if(ret.get(comp) == null){
         putIfNotNull(ret, comp, m.group(i));
       }
@@ -128,7 +136,8 @@ public class AddressParser{
   private static String designatorConfusingCitiesCorrection(Map<AddressComponent, String> parsedLocation, String input){
     String street = parsedLocation.get(AddressComponent.STREET);
     String type = parsedLocation.get(AddressComponent.TYPE);
-    if(street == null || type == null || street.split(" ").length < 2){ return null;}
+    String line2 = parsedLocation.get(AddressComponent.LINE2);
+    if(street == null || type == null || line2 != null || street.split(" ").length < 2){ return null;}
 	  Matcher m = STREET_DESIGNATOR_CHECK.matcher(street);
 	  if(m.find()){
 		  String parsedstate = parsedLocation.get(AddressComponent.STATE);
