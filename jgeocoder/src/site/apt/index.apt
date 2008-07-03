@@ -5,14 +5,18 @@
                                     ------
                                     2008/04/24
                                     
+News
+
+	* 07/02/2008 - <<JGeocoder 0.4 released! Address parser now has auto spelling correction and auto city name alias resolution>> 
+	
+	* 07/02/2008 - <<JGeocoder now has a confluence wiki page, new documentations will be added {{{http://docs.codehaus.org/display/JGEOCODER/}there}}>>
+
 About JGeocoder
 
 	Geocoding is the process of estimating a latitude and longitude for a given location. JGeocoder is a free geocoder implemented in Java. This project is loosely modeled after {{{http://search.cpan.org/~sderle/Geo-Coder-US/}Geo::Coder::US}}, a Perl module available for download from the CPAN.
 
 	Keywords: geocoder java, address parser, geocode java, java geocoding API, address standardization
 	
-	<<Major project milestone 0.3 released! Geocoding is now fully working>>  
-
 Project Status
 
 	<<see {{{quick.html}Quick Start}} for a tutorial about how to test JGeocoder>> 
