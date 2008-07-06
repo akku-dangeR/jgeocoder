@@ -146,7 +146,6 @@ public class AddressParser{
 		  }
 		  String normalizedState = AddressStandardizer.normalizeState(StringUtils.upperCase(parsedstate));
 		  String inputUpper =  input.toUpperCase();
-		  int maxIdx = Integer.MIN_VALUE;
 		  String ret = null;
 		  Set<String> stateSet = new HashSet<String>();
 		  if(normalizedState != null){
@@ -160,12 +159,8 @@ public class AddressParser{
 			        int idx = -1;
 			        if((idx =inputUpper.lastIndexOf(s))!=-1){ //and the input has one of the city names that can confuse the parser
 			          //this almost guaranteed to break the parser, help the parser by putting a comma separator before the city
-			        	if(idx > maxIdx){
-			        		ret = input.substring(0, idx)+","+input.substring(idx);
-			        		maxIdx = idx;
-			        	}
-			        	if(maxIdx+s.length() >= stateIdx -2){
-			        		return ret;
+			        	if(idx+s.length() >= stateIdx -2){
+			        		return input.substring(0, idx)+","+input.substring(idx);
 			        	}
 			        }
 			      }
