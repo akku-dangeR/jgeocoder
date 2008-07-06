@@ -4,7 +4,7 @@
 package net.sourceforge.jgeocoder.tiger
 import org.junit.Test
 import org.junit.runner.JUnitCore
-import net.sourceforge.jgeocoder.AddressComponent
+import net.sourceforge.jgeocoder.AddressComponentimport net.sourceforge.jgeocoder.JGeocodeAddress
 
 /**
  * @author jliang
@@ -39,8 +39,8 @@ public class JGeocoderTest{
       JGeocoderConfig config = new JGeocoderConfig(_jgeocoderDataHome:myhome)
       JGeocoder jg = new JGeocoder(config);
       new StringReader(input).eachLine{
-        Map m = jg.geocode(it)
-        assert m
+        JGeocodeAddress ja = jg.geocodeAddress(it)
+        def m = ja.getGeocodedAddr()
         assert m.get(AddressComponent.CITY)
         assert m.get(AddressComponent.STATE)
         assert m.get(AddressComponent.LAT)
