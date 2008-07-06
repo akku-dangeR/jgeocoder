@@ -3,6 +3,14 @@
     <title>Release Notes</title>
   </properties>
   <body>
+  	<release version="0.4.1" date="TBD">
+  		<action dev="jliang" type="update">
+  		Use EnumhMap to store parsed compoents instead of HashMap
+  		</action>
+  		<action dev="jliang" type="fix">
+  		Close a couple of unclosed BufferedReaders 
+  		</action>
+  	</release>
   	<release version="0.4" date="7/02/2008">
   		<action dev="jliang" type="update">
   		 Parsing logics enhancements
