@@ -10,7 +10,7 @@ import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_CSZ;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_INTERSECTION;
 import static net.sourceforge.jgeocoder.us.AddressRegexLibrary.P_STREET_ADDRESS;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -113,12 +113,9 @@ public class AddressParser{
   }
   
   private static Map<AddressComponent, String> getAddrMap(Matcher m, Map<Integer, String> groupMap){
-    Map<AddressComponent, String> ret = new HashMap<AddressComponent, String>();
+    Map<AddressComponent, String> ret = new EnumMap<AddressComponent, String>(AddressComponent.class);
     for(int i=1; i<= m.groupCount(); i++){
       String name = groupMap.get(i);
-      if("LINE12SEP".equals(name)){
-        name = "TLID"; //a hack to put the LINE12SEP data in the map, need to remove later
-      }
       AddressComponent comp = valueOf(name);
       if(ret.get(comp) == null){
         putIfNotNull(ret, comp, m.group(i));

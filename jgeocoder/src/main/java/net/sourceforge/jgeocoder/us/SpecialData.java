@@ -1,6 +1,7 @@
 package net.sourceforge.jgeocoder.us;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,8 +14,9 @@ import java.util.Set;
 class SpecialData{
 	public static final Map<String, List<String>> C_MAP = new HashMap<String, List<String>>();
 	static{
+	  BufferedReader r = null;
 		try {
-			BufferedReader r = new BufferedReader( new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("exception_city.txt")));
+			r = new BufferedReader( new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("exception_city.txt")));
 			String line = null;
 			Map<String, Set<String>> tmp = new HashMap<String, Set<String>>();
 			while((line = r.readLine())!=null){
@@ -42,6 +44,10 @@ class SpecialData{
 			}
 		} catch (Exception e) {
 			throw new Error("Unable to initalize exception_city", e);
+		}finally{
+		  if(r != null){ try {
+        r.close();
+      } catch (IOException e) {} }
 		}
 	}
 }

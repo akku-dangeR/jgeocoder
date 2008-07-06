@@ -15,8 +15,9 @@ import org.apache.commons.lang.StringUtils;
 class AliasResolver{
   private static final Map<String, Map<String, String>> CITY_ALIAS_MAP = new HashMap<String, Map<String,String>>();
   static{
+    BufferedReader br = null;
     try {
-      BufferedReader br = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("city-alias.txt")));
+      br = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("city-alias.txt")));
       String line = null;
       Map<String, Set<String>> allRealCitiesMap = new HashMap<String, Set<String>>();
       while((line=br.readLine())!= null){
@@ -48,6 +49,10 @@ class AliasResolver{
       allRealCitiesMap = null;
     } catch (IOException e) {
       throw new Error("Unable to initalize City Alias Resolver", e);
+    }finally{
+      if(br != null){ try {
+        br.close();
+      } catch (IOException e) {} }
     }
   }
   

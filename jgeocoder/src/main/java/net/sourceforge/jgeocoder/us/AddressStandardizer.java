@@ -23,7 +23,7 @@ import static net.sourceforge.jgeocoder.us.Data.getUNIT_MAP;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_NUM_0_99;
 import static net.sourceforge.jgeocoder.us.Utils.nvl;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -89,7 +89,7 @@ public class AddressStandardizer{
    * @return normalized address in a map
    */
   public static Map<AddressComponent, String>  normalizeParsedAddress(Map<AddressComponent, String> parsedAddr){
-    Map<AddressComponent, String> ret = new HashMap<AddressComponent, String>();
+    Map<AddressComponent, String> ret = new EnumMap<AddressComponent, String>(AddressComponent.class);
     //just take the digits from the number component
     for(Map.Entry<AddressComponent, String> e : parsedAddr.entrySet()){
       String v = StringUtils.upperCase(e.getValue());
