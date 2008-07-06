@@ -1,7 +1,7 @@
 package net.sourceforge.jgeocoder.tiger;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,7 +97,7 @@ public class JGeocoder{
     }
     
     GeocodeAcuracy acuracy = GeocodeAcuracy.STREET;
-    m = new HashMap<AddressComponent, String>(m);
+    m = new EnumMap<AddressComponent, String>(m);
     TigerLineHit hit = null;
     try {
       hit = getTigerLineHit(m);
