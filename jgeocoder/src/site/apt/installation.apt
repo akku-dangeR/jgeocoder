@@ -67,7 +67,13 @@ by constructing a JGeocoderConfig object and pass it to JGeocoder:
 	Alternatively, you can use the -D options when you start the JVM 
 
 +----------------------------------------------------------------------------------------------------+
+Cygwin (with quotes):
+
 -Djgeocoder.data.home='C:\jgeocoder\data' -Djgeocoder.tiger.url='jdbc:h2:C:\jgeocoder\tiger\tiger;LOG=0;UNDO_LOG=0'
+
+Windows (no quotes):
+
+-Djgeocoder.data.home=C:\jgeocoder\data -Djgeocoder.tiger.url=jdbc:h2:C:\jgeocoder\tiger\tiger;LOG=0;UNDO_LOG=0
 +----------------------------------------------------------------------------------------------------+
 	
 	Or you can set the sytem properties as followed
