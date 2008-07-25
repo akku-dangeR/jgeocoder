@@ -16,18 +16,25 @@ Step By Step Guide
 	
 	2. Extract the 'jgeocoder' folder in the .7z file to your harddrive. Here I assume that you are putting it to C:\
 	
-	3. Download the JGeocoder client jgeocoder-0.3-jar-with-dependencies.jar from sourceforge
+	3. Download the JGeocoder client jgeocoder-0.4-jar-with-dependencies.jar from sourceforge
 	
 	4. Start the JGeocoder client with the following command 
 
 +---------------------------------------------------------------------------------------------------------------+
-java -jar -Djgeocoder.data.home='C:\jgeocoder\data' -Djgeocoder.tiger.url='jdbc:h2:C:\jgeocoder\tiger\tiger;LOG=0;UNDO_LOG=0' jgeocoder-0.3-SNAPSHOT-jar-with-dependencies.jar 
+Windows (no quotes):
+
+java -jar -Djgeocoder.data.home=C:\jgeocoder\data -Djgeocoder.tiger.url=jdbc:h2:C:\jgeocoder\tiger\tiger;LOG=0;UNDO_LOG=0 jgeocoder-0.4-SNAPSHOT-jar-with-dependencies.jar
+
+Cygwin (with quote):
+
+java -jar -Djgeocoder.data.home='C:\jgeocoder\data' -Djgeocoder.tiger.url='jdbc:h2:C:\jgeocoder\tiger\tiger;LOG=0;UNDO_LOG=0' jgeocoder-0.4-SNAPSHOT-jar-with-dependencies.jar 
 +---------------------------------------------------------------------------------------------------------------+	
 
 	5. Start testing by entering addresses. Note that the database jgeocoder-data-with-PA-0.3.7z only contains 
 PA data, so all addresses that are outside of PA will only get a zip level or city state level geocode. Go to 
 map.google.com to get PA addresses if you don't have them (search something like 'pizza' in 'philadelphia pa' to get valid addresses)
 	
+	See also this thread on http://groups.google.com/group/jgeocoder-users/browse_thread/thread/802160e98df1f951 if you are having troubles. 
 
 Test Session
 
