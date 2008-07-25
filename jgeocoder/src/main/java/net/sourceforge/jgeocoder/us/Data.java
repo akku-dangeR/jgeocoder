@@ -149,6 +149,28 @@ class Data{
     DIRECTIONAL_MAP.put("WEST", "W");
     DIRECTIONAL_MAP.put("NORTHWEST", "NW");
 
+   
+    //7/25/08
+    STREET_TYPE_MAP.put("PKWAY", "PKY");
+    STREET_TYPE_MAP.put("PKWYS", "PKY");
+    STREET_TYPE_MAP.put("PKWY", "PKY");
+    
+    STREET_TYPE_MAP.put("ROW", "ROW");
+    STREET_TYPE_MAP.put("RAMP", "RAMP");
+    STREET_TYPE_MAP.put("RUN", "RUN");
+    STREET_TYPE_MAP.put("RUE", "RUE");
+    STREET_TYPE_MAP.put("MALL", "MAL");
+    STREET_TYPE_MAP.put("MART", "MART");
+    STREET_TYPE_MAP.put("PASS", "PASS");
+    STREET_TYPE_MAP.put("WALKWAY", "WKWY");
+    
+    //?? What are these the abbrv of?
+    STREET_TYPE_MAP.put("GRD", "GRD"); //XXX:this is not garden is it?
+    STREET_TYPE_MAP.put("THWY", "THWY"); 
+    STREET_TYPE_MAP.put("UNP", "UNP");
+    
+    //7/25/08
+    
     STREET_TYPE_MAP.put("ALLEE", "ALY");
     STREET_TYPE_MAP.put("ALLEY", "ALY");
     STREET_TYPE_MAP.put("ALLY", "ALY");
@@ -386,9 +408,9 @@ class Data{
     STREET_TYPE_MAP.put("PINE", "PNE");
     STREET_TYPE_MAP.put("PINES", "PNES");
     STREET_TYPE_MAP.put("PK", "PARK");
-    STREET_TYPE_MAP.put("PKWAY", "PKWY");
-    STREET_TYPE_MAP.put("PKWYS", "PKWY");
-    STREET_TYPE_MAP.put("PKY", "PKWY");
+//    STREET_TYPE_MAP.put("PKWAY", "PKWY");
+//    STREET_TYPE_MAP.put("PKWYS", "PKWY");
+//    STREET_TYPE_MAP.put("PKY", "PKWY");
     STREET_TYPE_MAP.put("PLACE", "PL");
     STREET_TYPE_MAP.put("PLAIN", "PLN");
     STREET_TYPE_MAP.put("PLAINES", "PLNS");
