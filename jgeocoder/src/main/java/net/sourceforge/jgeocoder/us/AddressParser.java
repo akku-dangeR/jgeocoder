@@ -36,12 +36,12 @@ public class AddressParser{
   private static final Pattern STREET_ADDRESS = Pattern.compile(P_STREET_ADDRESS.getRegex());
   private static final Pattern CSZ = Pattern.compile(P_CSZ.getRegex());
   private static final Pattern INTERSECTION = Pattern.compile(P_INTERSECTION.getRegex());
-  private static final Pattern CLEANUP = Pattern.compile("[\\s\\p{Punct}&&[^\\)\\(#&,:;@'`-]]");
+  private static final Pattern CLEANUP = Pattern.compile("^\\W+|\\W+$|[\\s\\p{Punct}&&[^\\)\\(#&,:;@'`-]]");
   private static final Pattern STREET_TYPES = Pattern.compile(RegexLibrary.STREET_DESIGNATOR);
   private static final Pattern STATES = Pattern.compile(RegexLibrary.US_STATES);
   
   private static String getCleanSttring(String rawAddr){
-    return CLEANUP.matcher(rawAddr).replaceAll(" ").replaceAll("\\s+", " ");
+    return CLEANUP.matcher(rawAddr).replaceAll(" ").replaceAll("\\s+", " ").trim();
   }
   /**
    * Parses a raw address string 

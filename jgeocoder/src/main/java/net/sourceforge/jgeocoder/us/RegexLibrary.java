@@ -30,10 +30,7 @@ class RegexLibrary{
     "zero|one|two|three|four|five|six|seven|eight|nine";
   public static String TXT_NUM_10_19 = 
     "ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen";
-  private static String TXT_NUM_DECADES = 
-    "twenty|thirty|fourty|forty|fifty|sixty|seventy|eighty|ninety|ninty";
-  private static String TXT_NUM_20_99 = 
-    "(?:"+TXT_NUM_DECADES+")(?:[- ](?:"+TXT_NUM_0_9+"))?";
+
   private static final String ORDINAL_0_9 = 
     "0[-]?th|1[-]?st|2[-]?nd|3[-]?rd|[0[4-9]][-]?th|1[0-9][-]?th";
   
@@ -41,31 +38,21 @@ class RegexLibrary{
     "first|second|third|fourth|forth|fifth|sixth|seventh|eighth|ninth|nineth";  
   private static final String TXT_ORDINAL_10_19 = 
     "tenth|eleventh|twelfth|twelveth|twelvth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|enghteenth|nineteenth";
-  private static final String TXT_ORDINAL_DECADES = 
-    "twentieth|thirtieth|fourtieth|fortieth|fiftieth|sixitieth|seventieth|eightieth|ninetieth|nintieth";
-  private static final String TXT_ORDINAL_20_99 =
-    "(?:"+TXT_ORDINAL_DECADES+")"+
-  "|" +
-    "(?:"+TXT_NUM_DECADES+")[- ](?:"+TXT_ORDINAL_1_9+")";
 
-  public static String TXT_NUM_0_99 = 
+  public static String TXT_NUM_0_19 = 
       "(?:"+TXT_NUM_0_9+")" +
     "|" +
-      "(?:"+TXT_NUM_10_19+")" +
-    "|" +
-      "(?:"+TXT_NUM_20_99+")";
+      "(?:"+TXT_NUM_10_19+")";
 
   //XXX not necessary valid english grammar, but it's okay
   public static final String ORDINAL_ALL = "(?:[0-9]*(?:"+ORDINAL_0_9+"))";
 
-  public static final String TXT_ORDINAL_0_99 =
+  public static final String TXT_ORDINAL_0_19 =
     "zeroth" +
   "|" +
     "(?:"+TXT_ORDINAL_1_9+")" +
   "|" +
-    "(?:"+TXT_ORDINAL_10_19+")" +
-  "|" +
-    "(?:"+TXT_ORDINAL_20_99+")";  
+    "(?:"+TXT_ORDINAL_10_19+")";  
   
   /////////////NUMBERS///////////////
 

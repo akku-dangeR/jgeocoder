@@ -5,7 +5,7 @@ import static net.sourceforge.jgeocoder.us.RegexLibrary.ORDINAL_ALL;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.STREET_DESIGNATOR;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_NUM_0_9;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_NUM_10_19;
-import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_ORDINAL_0_99;
+import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_ORDINAL_0_19;
 import static net.sourceforge.jgeocoder.us.RegexLibrary.US_STATES;
 import static net.sourceforge.jgeocoder.us.Utils.compile;
 import net.sourceforge.jgeocoder.us.Utils.NamedGroupPattern;
@@ -74,7 +74,7 @@ class AddressRegexLibrary{
   private static final String NOT_STATE_OR_ZIP = "(?![^,]*\\W+(?:\\b(?:"+US_STATES+")\\b(?:\\W*$|(?:"+ZIP+")\\W*$))|(?:\\b(?:"+ZIP+")\\b\\W*$))";
   private static final String LINE2A = "(?:"+ADDR_UNIT+")[s]?\\W*?(?:"+UNIT_NUMBER+")";
   public static final String LINE2A_GROUPED = "("+ADDR_UNIT+")[s]?\\W*?("+UNIT_NUMBER+")";
-  private static final String LINE2B = "(?:(?:"+TXT_ORDINAL_0_99+"|"+ORDINAL_ALL+")\\W*(?:"+ADDR_UNIT+")[s]?)";
+  private static final String LINE2B = "(?:(?:"+TXT_ORDINAL_0_19+"|"+ORDINAL_ALL+")\\W*(?:"+ADDR_UNIT+")[s]?)";
   private static final String LINE2 = "(?:(?P<line2>"+LINE2A+"|"+LINE2B+"|[^,]*?"+NOT_STATE_OR_ZIP+")\\W+)??";
   
   private static final String LASTLINE = 
@@ -84,7 +84,7 @@ class AddressRegexLibrary{
     ")?" +
     "(?P<zip>"+ZIP+")?";      //zip
 
-  private static final String ADDR_NAME =  "\\W*(?:(?P<name>[^,]+)\\W+)??"; 
+  private static final String ADDR_NAME =  "(?:(?P<name>[^,]+)\\W+)??"; 
   
   private static final String STREET_ADDRESS = 
    ADDR_NAME + LINE1 + "(?P<tlid>\\W+)"+ LINE2 + LASTLINE +"\\W*"; //the group name is a hack

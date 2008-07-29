@@ -20,7 +20,7 @@ import static net.sourceforge.jgeocoder.us.Data.getNUMBER_MAP;
 import static net.sourceforge.jgeocoder.us.Data.getSTATE_CODE_MAP;
 import static net.sourceforge.jgeocoder.us.Data.getSTREET_TYPE_MAP;
 import static net.sourceforge.jgeocoder.us.Data.getUNIT_MAP;
-import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_NUM_0_99;
+import static net.sourceforge.jgeocoder.us.RegexLibrary.TXT_NUM_0_19;
 import static net.sourceforge.jgeocoder.us.Utils.nvl;
 
 import java.util.EnumMap;
@@ -115,7 +115,7 @@ public class AddressStandardizer{
   }
   //oh man... what had i got myself into...
   //XXX this class is tightly coupled with the regex library classes
-  private static final Pattern TXT_NUM = Pattern.compile("^\\W*("+TXT_NUM_0_99+")\\W*");
+  private static final Pattern TXT_NUM = Pattern.compile("^\\W*("+TXT_NUM_0_19+")\\W*");
   private static final Pattern DIGIT = Pattern.compile("(.*?\\d+)\\W*(.+)?");
   private static String normalizeNum(String num){
     if(num == null) return null;
