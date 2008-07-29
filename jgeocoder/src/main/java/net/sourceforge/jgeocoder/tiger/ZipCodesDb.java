@@ -226,11 +226,14 @@ class ZipCodeDAO{
     return _zipCodeByZip;
   }
   
-  public void fillInCSByZip(Map<AddressComponent, String> m, String zip) throws DatabaseException{
-    fillInCSByZip(m, _zipCodeByZip.get(zip));
+  public boolean fillInCSByZip(Map<AddressComponent, String> m, String zip) throws DatabaseException{
+    return fillInCSByZip(m, _zipCodeByZip.get(zip));
   }
   
-  private void fillInCSByZip(Map<AddressComponent, String> m, ZipCode zipcode) throws DatabaseException{
+  private boolean fillInCSByZip(Map<AddressComponent, String> m, ZipCode zipcode) throws DatabaseException{
+      if(zipcode == null){
+          return false;
+      }
     String city = zipcode.getLocation().getCity();
     CityWithSpaces cws = getCityWithSpaceByNoSpace().get(city);
     if(cws != null){
@@ -240,7 +243,7 @@ class ZipCodeDAO{
     }
     m.put(COUNTY, zipcode.getCounty());
     m.put(STATE, zipcode.getLocation().getState());
-
+    return true;
   }
   
   public boolean geocodeByCityState(Map<AddressComponent, String> m){

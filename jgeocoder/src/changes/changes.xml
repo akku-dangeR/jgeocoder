@@ -3,7 +3,15 @@
     <title>Release Notes</title>
   </properties>
   <body>
-  	<release version="0.4.1" date="TBD">
+  	<release version="0.5" date="TBD">
+  		<action dev="jliang" type="update">
+  		Better geocoding support
+  		</action>
+  		<action dev="jliang" type="fix">
+  		fixed NPE when encounter invalid zip code
+  		</action>
+  	</release>
+  	<release version="0.4.1" date="7/25/2008">
   		<action dev="jliang" type="update">
   		Use EnumhMap to store parsed compoents instead of HashMap
   		</action>
