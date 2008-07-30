@@ -10,6 +10,9 @@
   		<action dev="jliang" type="fix">
   		fixed NPE when encounter invalid zip code
   		</action>
+		<action dev="jliang" type="add">
+  		Added support for geocoding counties
+  		</action>  		
   	</release>
   	<release version="0.4.1" date="7/25/2008">
   		<action dev="jliang" type="update">
