@@ -102,6 +102,51 @@ class CityStateGeo{
 }
 
 @Entity
+class County{
+    @PrimaryKey
+    private Location _location;
+    private String[] _zips;
+    private float _lat;
+    private float _lon;
+    public Location getLocation() {
+        return _location;
+    }
+    public void setLocation(Location _location) {
+        this._location = _location;
+    }
+    public String[] getZips() {
+        return _zips;
+    }
+    public void setZips(String[] _zips) {
+        this._zips = _zips;
+    }
+    public float getLat() {
+        return _lat;
+    }
+    public void setLat(float _lat) {
+        this._lat = _lat;
+    }
+    public float getLon() {
+        return _lon;
+    }
+    public void setLon(float _lon) {
+        this._lon = _lon;
+    }
+    @Override
+    public String toString() {
+      return ToStringBuilder.reflectionToString(this);
+    }
+    @Override
+    public int hashCode() {
+      return HashCodeBuilder.reflectionHashCode(this);
+    }
+    @Override
+    public boolean equals(Object obj) {
+      return EqualsBuilder.reflectionEquals(this, obj);
+    }
+}
+
+@Entity
 class ZipCode{
   @PrimaryKey
   private String _zip;
@@ -205,13 +250,19 @@ class ZipCodeDAO{
   private SecondaryIndex<Location, String, ZipCode> _zipCodeByLocation;
   private PrimaryIndex<Location, CityStateGeo> _cityStateGeoByLocation;
   private PrimaryIndex<String, CityWithSpaces> _cityWithSpaceByNoSpace;
+  private PrimaryIndex<Location, County> _countyByLocation;
   public ZipCodeDAO(EntityStore store) throws DatabaseException{
     _zipCodeByZip = store.getPrimaryIndex(String.class, ZipCode.class);
     _zipCodeByLocation = store.getSecondaryIndex(_zipCodeByZip, Location.class, "_location");
     _cityStateGeoByLocation = store.getPrimaryIndex(Location.class, CityStateGeo.class);
     _cityWithSpaceByNoSpace = store.getPrimaryIndex(String.class, CityWithSpaces.class);
+    _countyByLocation = store.getPrimaryIndex(Location.class, County.class);
   }
   
+  public PrimaryIndex<Location, County> getCountyByLocation() {
+    return _countyByLocation;
+  }
+
   public PrimaryIndex<String, CityWithSpaces> getCityWithSpaceByNoSpace() {
     return _cityWithSpaceByNoSpace;
   }
@@ -246,20 +297,53 @@ class ZipCodeDAO{
     return true;
   }
   
+  private County getCounty(Location loc){
+     try {
+          return _countyByLocation.get(loc);
+     } catch (DatabaseException e) {
+          if(LOGGER.isDebugEnabled()){
+              LOGGER.debug("Unable to get county by city state", e);
+          }
+          return null;
+     }
+  }
+  
+  public County getCounty(String city, String state){
+      if(StringUtils.isBlank(city)||StringUtils.isBlank(state)){
+          return null;
+      }
+      city = city.replaceAll("\\s+|\\bCOUNTY$|\\bPARISH$|\\bBOROUGH$", "");
+      Location loc = new Location();
+      loc.setCity(city); loc.setState(state);
+      return getCounty(loc);
+  }
+  
   public boolean geocodeByCityState(Map<AddressComponent, String> m){
     String city = m.get(AddressComponent.CITY), state = m.get(AddressComponent.STATE);
     if(StringUtils.isBlank(city)||StringUtils.isBlank(state)){
       return false;
     }
-    city = city.replaceAll("\\s+", "");
+    boolean onlyCounty = city.endsWith("COUNTY");
+    city = city.replaceAll("\\s+|\\bCOUNTY$|\\bPARISH$|\\bBOROUGH$", "");
     try {
       Location loc = new Location();
       loc.setCity(city); loc.setState(state);
-      CityStateGeo geo = _cityStateGeoByLocation.get(loc);
-      if(geo!= null){
-        m.put(LAT, String.valueOf(geo.getLat()));
-        m.put(LON, String.valueOf(geo.getLon()));
-        return true;
+      CityStateGeo geo = onlyCounty? null : _cityStateGeoByLocation.get(loc);
+      County county = getCounty(loc);
+      if(geo!= null || county != null){
+          if(onlyCounty && county != null){
+              m.put(LAT, String.valueOf(county.getLat()));
+              m.put(LON, String.valueOf(county.getLon()));
+              return true;
+          }else if(geo != null){
+              m.put(LAT, String.valueOf(geo.getLat()));
+              m.put(LON, String.valueOf(geo.getLon()));
+              return true;   
+          }else if(county != null){
+              m.put(LAT, String.valueOf(county.getLat()));
+              m.put(LON, String.valueOf(county.getLon()));
+              return true;
+          }
       }
     } catch (DatabaseException e) {
       if(LOGGER.isDebugEnabled()){

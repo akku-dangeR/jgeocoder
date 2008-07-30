@@ -14,10 +14,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.jgeocoder.AddressComponent;
+import net.sourceforge.jgeocoder.CommonUtils;
 import net.sourceforge.jgeocoder.GeocodeAcuracy;
 import net.sourceforge.jgeocoder.JGeocodeAddress;
 import net.sourceforge.jgeocoder.us.AddressParser;
@@ -77,8 +80,12 @@ public class JGeocoder{
   private TigerLineHit getTigerLineHit(Map<AddressComponent, String> normalizedAddr) throws DatabaseException{
     Map<AddressComponent, String> myMap = new EnumMap<AddressComponent, String>(normalizedAddr);
     TigerLineHit hit = null;
+    Set<String> attemptedZips = new HashSet<String>();
     try { //try the parsed zip
       hit = getTigerLineHitByZip(normalizedAddr, normalizedAddr.get(ZIP));
+      if(normalizedAddr.get(ZIP)!=null){
+          attemptedZips.add(normalizedAddr.get(ZIP));
+      }
       if(hit != null){
           return hit;
       }
@@ -87,16 +94,38 @@ public class JGeocoder{
           myMap.put(STATE, normalizedAddr.get(STATE));
       }
       List<TigerLineHit> zipHits = new ArrayList<TigerLineHit>();
+      
       for(ZipCode zipcode : getZips(myMap.get(CITY), myMap.get(STATE))){
-          hit = getTigerLineHitByZip(myMap, zipcode.getZip());
-          if(hit != null){
-              zipHits.add(hit);
+          if(!attemptedZips.contains(zipcode.getZip())){
+              hit = getTigerLineHitByZip(myMap, zipcode.getZip());
+              if(hit != null){
+                  zipHits.add(hit);
+              }
+              attemptedZips.add(zipcode.getZip());
           }
       }
       if(CollectionUtils.isNotEmpty(zipHits)){
           hit = TigerLineDao.findBest(myMap, zipHits);
+      }else{
+          County county = _zipDao.getCounty(normalizedAddr.get(CITY), normalizedAddr.get(STATE));
+          if(county != null){
+              for(String s : county.getZips()){
+                  if(!attemptedZips.contains(s)){
+                      hit = getTigerLineHitByZip(myMap, s);
+                  }
+                  if(hit != null){
+                      zipHits.add(hit);
+                  }
+                  attemptedZips.add(s); //
+              }
+          }
+          if(CollectionUtils.isNotEmpty(zipHits)){
+              hit = TigerLineDao.findBest(myMap, zipHits);
+          }
       }
       if(hit != null){
+          String zip = CommonUtils.nvl(hit.zipL, hit.zipR);
+          _zipDao.fillInCSByZip(myMap, zip);
           normalizedAddr.putAll(myMap);
           return hit;
       }
