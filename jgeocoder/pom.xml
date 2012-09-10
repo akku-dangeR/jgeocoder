@@ -35,16 +35,6 @@
       <post>jgeocoder-commit@googlegroups.com</post>
     </mailingList>
   </mailingLists>
-  <repositories>
-      <repository>
-      <id>central</id>
-      <url>sftp://tux.cs.drexel.edu/home/zl25/public_html/maven2/repo</url>
-    </repository>
-    <repository>
-      <id>central_public</id>
-      <url>http://repo2.maven.org/maven2</url>
-    </repository>
-  </repositories>
   
   <distributionManagement>
 	<snapshotRepository>
