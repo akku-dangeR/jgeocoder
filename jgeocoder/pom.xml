@@ -207,7 +207,12 @@
 		<groupId>com.h2database</groupId>
 		<artifactId>h2</artifactId>
 		<version>1.0.73</version>
-	</dependency>	  
+	</dependency>
+			<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>11.0.2</version>
+		</dependency>
   </dependencies>
     <developers>
   	<developer>
