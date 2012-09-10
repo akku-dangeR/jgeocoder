@@ -45,7 +45,12 @@
       <id>central</id>
       <uniqueVersion>false</uniqueVersion>
       <url>sftp://tux.cs.drexel.edu/home/zl25/public_html/maven2/repo</url>
-    </repository>  
+    </repository>
+    <repository>
+      <id>central_public</id>
+      <uniqueVersion>false</uniqueVersion>
+      <url>http://repo2.maven.org/maven2</url>
+    </repository>    
     <site>
       <id>website</id>
       <url>scp://zl25-drexel@shell.sf.net/home/groups/j/jg/jgeocoder/htdocs</url>
@@ -208,11 +213,11 @@
 		<artifactId>h2</artifactId>
 		<version>1.0.73</version>
 	</dependency>
-			<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>11.0.2</version>
-		</dependency>
+	<dependency>
+		<groupId>com.google.guava</groupId>
+		<artifactId>guava</artifactId>
+		<version>11.0.2</version>
+	</dependency>
   </dependencies>
     <developers>
   	<developer>
