@@ -113,8 +113,9 @@
         </executions>        
       </plugin>    
       <plugin>
-          <groupId>org.codehaus.mojo.groovy</groupId>
+          <groupId>org.codehaus.mojo</groupId>
           <artifactId>groovy-maven-plugin</artifactId>
+          <version>1.3</version>
           <executions>
               <execution>
                   <goals>
