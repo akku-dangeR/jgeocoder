@@ -1594,55 +1594,56 @@ public class AddressParserTest
 	@Test
 	public void testSplitAddress55()
 	{
-		// CREN -- 656468
-		String originalStreetNumber = null;
-		String originalStreetDir = null;
-		String originalStreetName = "123 Route 29 South";
-		String originalStreetType = null;
-		String originalUnitNumber = null;
-		String city = "city";
-		String state = "ca";
+		String address = "123 Route 29 South, Trenton, new jersey, 12323";
 		
-		Map<String, String> results = parseMultipleFields(originalStreetNumber, originalStreetDir, 
-				originalStreetName, originalStreetType, originalUnitNumber, city, state );
+		Map<AddressComponent, String> results = AddressParser.parseAddress(address);
 		
-		String streetNumber = results.get("streetNumber");
-		String streetDir = results.get("streetDirection");
-		String streetName = results.get("streetName");
-		String streetType = results.get("streetType");
-		String unitNumber = results.get("unitNumber");
+		String name = results.get(AddressComponent.NAME);
+		String streetNumber = results.get(AddressComponent.NUMBER);
+		String streetDir = results.get(AddressComponent.PREDIR);
+		String streetName = results.get(AddressComponent.STREET);
+		String streetType = results.get(AddressComponent.TYPE);
+		String unitNumber = results.get(AddressComponent.LINE2);
+		String city = results.get(AddressComponent.CITY);
+		String state = results.get(AddressComponent.STATE);
+		String zip = results.get(AddressComponent.ZIP);
 		
+		assertEquals(null, name);
 		assertEquals("123", streetNumber);
 		assertEquals(null, streetDir);
 		assertEquals("Route 29 South", streetName);
 		assertEquals(null, streetType);
 		assertEquals(null, unitNumber);
+		assertEquals("Trenton", city);
+		assertEquals("NEW JERSEY", state);
+		assertEquals("12323", zip);
 	}
 	@Test
 	public void testSplitAddress56()
 	{
-		String originalStreetNumber = null;
-		String originalStreetDir = null;
-		String originalStreetName = "123 Avenue of art";
-		String originalStreetType = null;
-		String originalUnitNumber = null;
-		String city = "philadelphia";
-		String state = "pa";
+		String address = "123 Avenue of art, philadelphia pa 12345";
 		
-		Map<String, String> results = parseMultipleFields(originalStreetNumber, originalStreetDir, 
-				originalStreetName, originalStreetType, originalUnitNumber, city, state );
+		Map<AddressComponent, String> results = AddressParser.parseAddress(address);
 		
-		String streetNumber = results.get("streetNumber");
-		String streetDir = results.get("streetDirection");
-		String streetName = results.get("streetName");
-		String streetType = results.get("streetType");
-		String unitNumber = results.get("unitNumber");
+		String name = results.get(AddressComponent.NAME);
+		String streetNumber = results.get(AddressComponent.NUMBER);
+		String streetDir = results.get(AddressComponent.PREDIR);
+		String streetName = results.get(AddressComponent.STREET);
+		String streetType = results.get(AddressComponent.TYPE);
+		String unitNumber = results.get(AddressComponent.LINE2);
+		String city = results.get(AddressComponent.CITY);
+		String state = results.get(AddressComponent.STATE);
+		String zip = results.get(AddressComponent.ZIP);
 		
+		assertEquals(null, name);
 		assertEquals("123", streetNumber);
 		assertEquals(null, streetDir);
 		assertEquals("Avenue of art", streetName);
 		assertEquals(null, streetType);
 		assertEquals(null, unitNumber);
+		assertEquals("philadelphia", city);
+		assertEquals("pa", state);
+		assertEquals("12345", zip);
 	}
 	
 	/**
